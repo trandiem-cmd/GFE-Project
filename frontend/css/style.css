@@ -1,0 +1,20 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Nunito', sans-serif;
+  background-color: #f5f0ff;
+  color: #1a1a1a;
+}
+
+/* Purple theme */
+:root {
+  --primary: #5b21b6;
+  --primary-dark: #3b0764;
+  --primary-light: #f5f0ff;
+  --border: #ede9fe;
+  --text-muted: #a78bfa;
+}
