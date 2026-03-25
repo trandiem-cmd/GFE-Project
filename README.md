@@ -17,9 +17,9 @@ A web platform connecting people who need small local jobs done with trusted, ve
 
 ## Pages
 - Landing page
+- Login / Register
 - Browse gigs
 - Post a gig
-- Login / Register
 - Job seeker profile
 - Client page
 - About us (static)
