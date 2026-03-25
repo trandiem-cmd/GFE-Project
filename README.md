@@ -10,7 +10,7 @@ A web platform connecting people who need small local jobs done with trusted, ve
 - Diem Tran
 
 ## Tech Stack
-- **Frontend:** HTML, CSS, Vanilla JavaScript
+- **Frontend:** HTML, CSS, JavaScript
 - **Backend:** Node.js, Express
 - **Database:** PostgreSQL
 - **Deployment:** Azure/render 
@@ -30,18 +30,57 @@ A web platform connecting people who need small local jobs done with trusted, ve
 gfe-project/
 ├── frontend/
 │   ├── index.html
-│   ├── browse.html
-│   ├── post.html
+│   ├── signup.html
 │   ├── login.html
-│   ├── profile.html
+│   ├── client-profile.html
+│   ├── client-dashboard.html
+│   ├── client-search.html
+│   ├── client-candidate.html
+│   ├── client-inbox.html
+│   ├── client-post.html
+│   ├── jobseeker-profile.html
+│   ├── jobseeker-dashboard.html
+│   ├── jobseeker-search.html
+│   ├── jobseeker-inbox.html
+│   ├── jobseeker-application.html
 │   ├── about.html
+│   ├── contact.html
 │   ├── faq.html
-│   └── css/
-│       └── style.css
+│   ├── css/
+│   │    └── style.css
+│   ├── assets/
+│   │    ├── images/
+│   ├── js/
+│   │    ├── class/
+│   │    │   ├── User.js
+│   │    │   ├── Job.js
+│   │    │   ├── Profile.js
+│   │    │   ├── Application.js
+│   │    ├── register.js
+│   │    ├── login.js
+│   │    ├── logout.js
+│   │    ├── job.js
+│   │    ├── search.js
+│   │    ├── apply.js
+│   │    ├── index.js
 ├── backend/
-│   ├── index.js
+│   ├── models/
+│   │    ├── User.js
+│   │    ├── Profile.js
+│   │    ├── Job.js
+│   │    ├── Application.js
 │   ├── routes/
-│   └── db/
+│   │    ├── user.js
+│   │    ├── job.js
+│   │    ├── profile.js
+│   │    ├── apply.js
+│   │    ├── search.js
+│   ├── helpers/
+│   │    ├── db.js
+│   │    ├── auth.js
+│   ├── index.js
+│   ├── package.json
+│   └── .env
 └── README.md
 ```
 
