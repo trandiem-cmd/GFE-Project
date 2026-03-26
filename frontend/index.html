@@ -11,31 +11,18 @@
   <nav class="navbar bg-body-tertiary fixed-top">
   <div class="container-fluid">
     <img src="GFE logo.png" alt="GFE logo" class="logo">
-    <div class="login-toggler">
-    <button class="login-btn">Log in</button>
-    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+    <div class="login-dropdown ms-auto">
+    <a class="login-btn" href="#">Log in</a>
+  <button class="btn btn-secondary dropdown-toggle login-btn" type="button" data-bs-toggle="dropdown">
+    Our services
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><a class="dropdown-item" href="#">Child Care</a></li>
+    <li><a class="dropdown-item" href="#">Elderly Care</a></li>
+    <li><a class="dropdown-item" href="#">Pet Care</a></li>
+  </ul>
     </div>
-    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
-      <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Our Services</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-      </div>
-      <div class="offcanvas-body">
-        <ul class="navbar-nav justify-content-end">
-          <li class="nav-item">
-            <a class="childcare" href="#">Childcare</a>
-          </li>
-          <li class="nav-item">
-            <a class="Elderlycare" href="#">Elderly Care</a>
-          </li>
-            <li class="nav-item">
-                <a class="Cleaning" href="#">Cleaning</a>
-            </li>
-      </div>
     </div>
-  </div>
 </nav>
 <div class="content">
     <div class="content-poster">
@@ -97,9 +84,9 @@
     </div>
 <div class="footer">
     <div class="footer-links">
-        <p><a href="#">About Us</a></p>
-        <p><a href="#">Contact Us</a></p>
-        <p><a href="#">FAQ</a></p>
+        <p><a class="link" href="#">About Us</a></p>
+        <p><a class="link" href="#">Contact Us</a></p>
+        <p><a class="link" href="#">FAQ</a></p>
     </div>
     <div class="footer-copyright">
         <p>© 2026 GFE. All rights reserved.</p>
