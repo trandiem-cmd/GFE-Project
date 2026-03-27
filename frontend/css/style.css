@@ -155,3 +155,45 @@ li{
 .link{
     color: white;
 }
+
+/* About us page */
+.imgcontent{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.about-us-img{
+    width: 100%;
+    align-items: center;
+}
+.logo-section{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.logoImg{
+    width: 300px;
+    height: auto;
+}
+/* Contact us page */
+.contact-form{
+    font-family: "Adamina";
+    color: #7B53AC;
+}
+.form-last-label{
+    color: #7B53AC;
+    font-size: small;
+    font-family: "Adamina";
+}
+.contact-info{
+    margin-left: 10px;
+    color: #7B53AC;
+    font-family: "Adamina";
+}
+.last-line{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #7B53AC;
+    font-family: "Adamina";
+}
