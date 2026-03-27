@@ -21,9 +21,11 @@ A web platform connecting people who need small local jobs done with trusted, ve
 - Browse gigs
 - Post a gig
 - Job seeker profile
+- Client profile
 - Client page
-- About us (static)
-- FAQ (static)
+- Job seeker page
+- About us
+- FAQ
 
 ## Project Structure
 ```
