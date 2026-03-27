@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=ADLaM+Display&family=Adamina&display=swap');
 body {
     padding-top: 120px;
-    background-image: url('image 14.png');
+    background-image: url('./image 14.png');
     font-family: "ADLaM Display";
 }
 
@@ -14,7 +14,7 @@ li{
 }
 
 .navbar{
-    background-image: url('image 14.png')!important;
+    background-image: url('./image 14.png')!important;
     align-items: center;
     padding: 10px 20px;
 }
@@ -53,7 +53,7 @@ li{
     height: 20px;
 }
 .content-poster{
-     background-image: url('purple Rectangle.png'); 
+     background-image: url('./purple Rectangle.png'); 
     background-size: cover;      /* makes image fill the section */
     background-position: center; /* keeps image centered */
     background-repeat: no-repeat;
