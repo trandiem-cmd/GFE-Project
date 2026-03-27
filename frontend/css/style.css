@@ -48,6 +48,10 @@ li{
     background-color: #7B53AC; /* Darker purple on hover */
     color: white;
 }
+.menu-icon{
+    width: 20px;
+    height: 20px;
+}
 .content-poster{
      background-image: url('purple Rectangle.png'); 
     background-size: cover;      /* makes image fill the section */
