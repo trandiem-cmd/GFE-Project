@@ -1,21 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Register</title>
+  <style>
+  .divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #5e35b1; /* màu chữ tím */
+    margin: 20px 0;
+  }
+  .divider::before,
+  .divider::after {
+    content: "";
+    flex: 1;
+    border-bottom: 1px solid rgba(0,0,0,0.2); /* màu line */
+  }
+  .divider span {
+    padding: 0 10px;
+    font-size: 14px;
+  }
+  .role-btn {
+      background: #6a1b9a;
+      color: white;
+      border: none;
+      width: 48%;
+    }
+
+  .role-btn:hover {
+    background: #8e24aa;
+  }
+  </style>
+  <link rel="stylesheet" href="css/style.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-    <!-- signup.html -->
-<form id="signupForm">
-  <input type="email" id="email" placeholder="Email" required />
-  <input type="password" id="password" placeholder="Password" required />
-  <div id="role">
-    <button value="jobseeker">Jobseeker</button>
-    <button value="client">Client</button>
+
+<body class="bg-light">
+
+<div class="container d-flex justify-content-center align-items-center vh-100">
+  <div class="card p-4 shadow" style="width: 350px;">
+    <h3 class="text-center mb-4">Sign up</h3>
+    <form>
+      <div class="mb-3">
+        <input type="email" class="form-control" id="email" placeholder="Email" required>
+      </div>
+      <div class="mb-3">
+        <input type="password" class="form-control password" id="password" placeholder="Password" required>
+      </div>
+      <div class="divider"><span>I am a :</span></div>
+      
+      <button type="button" class="btn role-btn" data-role="client">Client</button>
+      <button type="button" class="btn role-btn" data-role="jobseeker">Job seeker</button>
+      
+      <input type="hidden" id="role">
+    <button type="submit" class="btn btn-primary w-100" id="signup-btn">Register</button>
+    <div class="text-center mt-3">
+    <span>Already have an account? </span><a href="login.html">Log in</a>
+    </div>
+    </form>
   </div>
-  <button type="submit">Register</button>
+</div>
+
+</body>
+
+  
+  
 </form>
-<script src="js/register.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+<script src="js/register.js" type="module"></script>
 </body>
 </html>
