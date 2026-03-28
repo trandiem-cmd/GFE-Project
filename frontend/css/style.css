@@ -1,20 +1,199 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
+@import url('https://fonts.googleapis.com/css2?family=ADLaM+Display&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=ADLaM+Display&family=Adamina&display=swap');
 body {
-  font-family: 'Nunito', sans-serif;
-  background-color: #f5f0ff;
-  color: #1a1a1a;
+    padding-top: 120px;
+    background-image: url('./image 14.png');
+    font-family: "ADLaM Display";
 }
 
-/* Purple theme */
-:root {
-  --primary: #5b21b6;
-  --primary-dark: #3b0764;
-  --primary-light: #f5f0ff;
-  --border: #ede9fe;
-  --text-muted: #a78bfa;
+p{
+    font-family: "Adamina";
+}
+li{
+    font-family: "Adamina";
+}
+
+.navbar{
+    background-image: url('./image 14.png')!important;
+    align-items: center;
+    padding: 10px 20px;
+}
+.navbar .container-fluid {
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    height: 60px;   
+    width: auto;
+}
+
+.login-btn{
+    background-color: #782CCA; /* Purple color */
+    color: white;
+    padding: 8px 16px;
+    margin: 0;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 10px;
+}
+.login-dropdown{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    position: relative; 
+}
+
+.login-btn:hover {
+    background-color: #7B53AC; /* Darker purple on hover */
+    color: white;
+}
+.menu-icon{
+    width: 20px;
+    height: 20px;
+}
+.content-poster{
+     background-image: url('./purple Rectangle.png'); 
+    background-size: cover;      /* makes image fill the section */
+    background-position: center; /* keeps image centered */
+    background-repeat: no-repeat;
+    margin: 0;
+    color: white; 
+    width: 100%;
+    padding: 60px 20px;
+}
+
+.option-btn{
+    background-color: #782CCA; /* Purple color */
+    color: white;
+    border-color: 4px solid #E6E2EB; 
+    padding: 10px 20px;
+    margin: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+.option-btn1{
+    background-color: #E7D5FA; 
+    color: #5A3AB0;
+    border-color: 4px solid #E6E2EB; 
+    padding: 10px 20px;
+    margin: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+.option-btn2{
+    background-color: #E7D5FA; 
+    color: #5A3AB0;
+    border-color: 4px solid #E6E2EB; 
+    padding: 10px 20px;
+    margin: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+.option-btn1:hover {
+    background-color: #7B53AC; /* Darker purple on hover */
+    color: white;
+}
+.option-btn2:hover {
+    background-color: #7B53AC; /* Darker purple on hover */
+    color: white;
+}
+.img-section{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.what-is-GFE{
+    border-width: 4px;
+    padding: 20px;
+    margin: 20px;
+    border-radius: 10px;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
+}
+.topic{
+    color: #5A3AB0;
+    text-align: center;
+}
+.reason{
+    border-width: 4px;
+    padding: 20px;
+    margin: 20px;
+    border-radius: 10px;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+.footer{
+    background-color: #782CCA; /* Purple color */
+    color: white;
+    border-color: 4px solid #E6E2EB; 
+    padding: 10px 20px;
+    font-size: 16px;
+    
+}
+
+.footer-links{
+    display: flex;
+    justify-content: space-around;
+    gap: 20px;
+    color: white;
+}
+.footer-copyright{
+    text-align: center;
+    margin-top: 10px;
+    color: white;
+}
+.link{
+    color: white;
+}
+
+/* About us page */
+.imgcontent{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.about-us-img{
+    width: 100%;
+    align-items: center;
+}
+.logo-section{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.logoImg{
+    width: 300px;
+    height: auto;
+}
+/* Contact us page */
+.contact-form{
+    font-family: "Adamina";
+    color: #7B53AC;
+}
+.form-last-label{
+    color: #7B53AC;
+    font-size: small;
+    font-family: "Adamina";
+}
+.contact-info{
+    margin-left: 10px;
+    color: #7B53AC;
+    font-family: "Adamina";
+}
+.last-line{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #7B53AC;
+    font-family: "Adamina";
 }
