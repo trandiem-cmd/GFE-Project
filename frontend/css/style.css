@@ -176,6 +176,7 @@ li{
     height: auto;
 }
 /* Contact us page */
+
 .contact-form{
     font-family: "Adamina";
     color: #7B53AC;
@@ -196,4 +197,27 @@ li{
     align-items: center;
     color: #7B53AC;
     font-family: "Adamina";
+}
+
+/* Client-search page */
+h3{
+    color: #7B53AC;
+    font-family: "Adlam Display";
+}
+.buttons{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    margin: 20px;
+    background-color:#9F88DD; /* Purple color */
+    color: white;
+    padding: 10px 10px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 20px;
+}
+.buttons:hover {
+    background-color: #5A3AB0; /* Darker purple on hover */
+    color: white;
 }
