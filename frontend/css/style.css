@@ -53,7 +53,7 @@ li{
     height: 20px;
 }
 .content-poster{
-     background-image: url('./purple Rectangle.png'); 
+    background-image: url('./purple Rectangle.png'); 
     background-size: cover;      /* makes image fill the section */
     background-position: center; /* keeps image centered */
     background-repeat: no-repeat;
@@ -63,10 +63,35 @@ li{
     padding: 60px 20px;
 }
 
+.home-btn {
+  display: inline-block;
+  background-color: #E7D5FA;
+  color: #5A3AB0;
+
+  padding: 10px 20px;
+  margin: 10px;
+
+  border: 2px solid #E6E2EB;
+  border-radius: 10px;
+
+  font-size: 16px;
+  text-decoration: none;
+
+  cursor: pointer;
+}
+.home-btn:hover {
+  background-color: #7B53AC;
+  color: white;
+}
+.home-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
 .option-btn{
     background-color: #782CCA; /* Purple color */
     color: white;
-    border-color: 4px solid #E6E2EB; 
+    border: 4px solid #E6E2EB; 
     padding: 10px 20px;
     margin: 10px;
     cursor: pointer;
@@ -78,7 +103,7 @@ li{
 .option-btn1{
     background-color: #E7D5FA; 
     color: #5A3AB0;
-    border-color: 4px solid #E6E2EB; 
+    border: 4px solid #E6E2EB; 
     padding: 10px 20px;
     margin: 10px;
     cursor: pointer;
@@ -90,7 +115,7 @@ li{
 .option-btn2{
     background-color: #E7D5FA; 
     color: #5A3AB0;
-    border-color: 4px solid #E6E2EB; 
+    border: 4px solid #E6E2EB; 
     padding: 10px 20px;
     margin: 10px;
     cursor: pointer;
@@ -132,30 +157,6 @@ li{
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
     text-align: center;
 }
-.footer{
-    background-color: #782CCA; /* Purple color */
-    color: white;
-    border-color: 4px solid #E6E2EB; 
-    padding: 10px 20px;
-    font-size: 16px;
-    
-}
-
-.footer-links{
-    display: flex;
-    justify-content: space-around;
-    gap: 20px;
-    color: white;
-}
-.footer-copyright{
-    text-align: center;
-    margin-top: 10px;
-    color: white;
-}
-.link{
-    color: white;
-}
-
 /* About us page */
 .imgcontent{
     display: flex;
@@ -199,10 +200,11 @@ li{
     font-family: "Adamina";
 }
 
+
 /* Client-search page */
 h3{
     color: #7B53AC;
-    font-family: "Adlam Display";
+    font-family: "ADLaM Display";
 }
 .buttons{
     display: flex;
@@ -220,4 +222,457 @@ h3{
 .buttons:hover {
     background-color: #5A3AB0; /* Darker purple on hover */
     color: white;
+}
+
+
+
+/* client-search page  */
+.signup-btn {
+  display: inline-block;
+  background: linear-gradient(to right, #7b3fe4, #3B1664);
+  color: white;
+  padding: 4px 15px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 14px;
+
+}
+
+.signup-btn:hover {
+  opacity: 0.9;
+}
+.top-spacing {
+  margin-top: -90px;
+}
+.purple-bar {
+  background-image: url("../css/purple Rectangle.png");
+  background-size: cover;
+  background-position: center;
+  color: white;
+  padding: 20px;
+  border-radius: 10px;
+  margin: 10px;
+}
+.purple-bar p {
+  font-family: 'ADLaM Display', sans-serif;
+}
+.search-wrapper {
+  display: flex;
+  align-items: center;
+  background: white;
+  border-radius: 10px;
+  padding: 6px;
+  margin-left: 10px;
+}
+
+.search-wrapper img {
+  width: 16px;
+  margin-right: 8px;
+}
+
+.search-wrapper input {
+  border: none;
+  outline: none;
+  width: 100%;
+}
+.search-box {
+  margin: 15px;
+  max-width: 350px;
+}
+.dropdown-filters {
+  display: flex;
+  gap: 10px;
+  margin: 10px 21px;
+}
+
+.dropdown-filters select {
+  border-radius: 8px;
+  padding: 6px 10px;
+  border: none;
+  font-size: 12px;
+}
+.dropdown-filters select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+.dropdown-filters select {
+  background-image: url("../Assets/arrow_drop_down@2x.png");
+  background-repeat: no-repeat;
+  background-position: right 1px center;
+  background-size: 30px;
+}
+.dropdown-filters select {
+  padding-right: 25px;
+}
+.custom-line {
+  border: none;
+  height: 2px;
+  background: #1a0202;
+  width: 90%;
+  margin: 20px 20px;
+
+}
+.service-section {
+  margin: 10px 15px;
+}
+
+.service-title {
+  font-size: 14px;
+  margin-bottom: 8px;
+   font-family: 'ADLaM Display', sans-serif;
+   margin-left: 10px;
+}
+
+.service-buttons {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.service-btn {
+  border: none;
+  padding: 6px 12px;
+  border-radius: 20px;
+  background: #EAE3F1;
+  font-size: 12px;
+  font-family: 'ADLaM Display', sans-serif;
+}
+
+.service-btn.active {
+  background: linear-gradient(to right, #7b3fe4, #3B1664);
+  color: white;
+}
+.results-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px 15px;
+}
+
+.results-bar p {
+  margin: 0;
+  font-size: 18px;
+  font-family: 'ADLaM Display', sans-serif;
+  color: #572290;
+  margin-left:7px;
+}
+
+.sort-dropdown {
+  border: none;
+  padding: 5px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  background:linear-gradient(to right, #EAE5F0, #E7D5FA);
+  font-family: 'ADLaM Display', sans-serif;
+
+}
+.candidate-card {
+  display: flex;
+  gap: 10px;
+  background: linear-gradient(to right, #EAE5F0, #E7D5FA);
+  padding: 9px;
+  border-radius: 12px;
+  margin: 10px 15px;
+  margin-top: 25px;
+}
+
+.candidate-img {
+  width: 70px;
+  height: 90px;
+  border-radius: 10px;
+  object-fit: cover;
+  
+}
+
+.candidate-info {
+  flex: 1;
+}
+
+.top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.top-row h4 {
+  font-family: 'ADLaM Display', sans-serif;
+  font-size: 17px;
+  font-weight: 600;
+}
+
+
+.price {
+  font-size: 15px;
+  font-family: 'ADLaM Display', sans-serif;
+}
+
+.details,
+.location,
+.services {
+  font-size: 13px;
+  margin: 2px 0;
+  font-family: 'ADLaM Display', sans-serif;
+}
+
+.desc {
+  font-size: 13px;
+  margin-top: 5px;
+  margin-left: -80px;
+  font-family: 'ADLaM Display', sans-serif;
+}
+
+.message-btn {
+  margin-left: 180px;
+  gap: 6px;
+  background: linear-gradient(to right, #7b3fe4, #3B1664);
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-family: 'ADLaM Display', sans-serif;
+}
+
+.arrow {
+  font-size: 13px;   
+  font-weight: 3px; 
+  line-height: 1;    
+}
+.page-number {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin: 20px 0;
+}
+
+.page-btn {
+  border: none;
+  background:linear-gradient(to right, #EAE5F0, #E7D5FA);
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  
+}
+
+.page-btn.active {
+  background: linear-gradient(to right, #7b3fe4, #3B1664);
+  color: white;
+}
+
+.footer {
+  background: linear-gradient(to right, #7b3fe4, #3B1664);
+  color: white;
+  text-align: center;
+  padding: 20px 10px;
+  margin-top: 20px;
+  font-family: 'ADLaM Display', sans-serif;
+  
+}
+
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 10px;
+}
+
+.footer-links a {
+  color: white;
+  text-decoration: none;
+  font-size: 13px;
+}
+
+.footer-line {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.3);
+  width: 100%;
+  margin: 10px auto;
+}
+
+.footer p {
+  font-size: 12px;
+  margin: 0;
+  font-family: 'ADLaM Display', sans-serif;
+}
+
+
+/* find-jobs-page */
+.find-jobs-page {
+  background: #f3eefe;
+  background-image: url("../css/image 14.png");
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+
+.find-jobs-page .top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 15px;
+}
+
+.find-jobs-page .logo {
+  width: 120px;
+}
+
+.find-jobs-page .right-side {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.find-jobs-page .menu-icon {
+  width: 30px;
+}
+
+.find-jobs-page .purple-bar2 {
+  color:#572290;
+  padding: 20px;
+  border-radius: 12px;
+  margin: 10px 15px;
+  
+}
+
+.find-jobs-page .purple-bar2 h3 {
+  margin: 0;
+  font-size: 27px;
+  position: relative;
+  bottom: 20px;
+  right: 10px;
+}
+
+.find-jobs-page .purple-bar2 p {
+  margin-top: 5px;
+  font-size: 19.6px;
+  position: relative;
+  bottom: 20px;
+  right: 10px;
+}
+
+
+
+.find-jobs-page .service-section {
+  margin: 10px 15px;
+    
+}
+
+.find-jobs-page .service-title {
+  font-size: 20px;
+  margin-bottom: 8px;
+  font-family: 'ADLaM Display', sans-serif;
+  color:#572290;
+   margin-left: 10px;
+   position: relative;
+   bottom: 30px;
+  
+}
+
+.find-jobs-page .service-buttons {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  position: relative;
+  bottom: 25px;
+
+}
+
+.find-jobs-page .service-btn {
+  border: none;
+  padding: 6px 12px;
+  border-radius: 20px;
+  background: #ded0ef;
+  font-size: 12.4px;
+  font-family: 'ADLaM Display', sans-serif;
+}
+
+.find-jobs-page .service-btn.active {
+  background: linear-gradient(to right, #7b3fe4, #3B1664);
+  color: white;
+}
+
+
+.find-jobs-page .job-card {
+  background: linear-gradient(to right, #EAE5F0, #E7D5FA);
+  padding: 12px;
+  border-radius: 12px;
+  margin: 10px 15px;
+}
+
+.find-jobs-page .job-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.find-jobs-page .job-top h4 {
+  margin: 0;
+  font-size: 15px;
+}
+
+.find-jobs-page .heart-icon {
+  width: 18px;
+  cursor: pointer;
+}
+
+.find-jobs-page .job-time,
+.find-jobs-page .job-location,
+.find-jobs-page .job-desc {
+  font-size: 14px;
+  margin: 4px 0;
+}
+
+.find-jobs-page .job-bottom {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.find-jobs-page .details-btn {
+  background: linear-gradient(to right, #7b3fe4, #3B1664);
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-size: 13px;
+}
+
+
+.find-jobs-page .footer {
+  background: linear-gradient(to right, #7b3fe4, #3B1664);
+  color: white;
+  text-align: center;
+  padding: 25px 10px;
+  margin-top: 20px;
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  border-radius: 0;
+}
+
+.find-jobs-page .footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 10px;
+}
+
+.find-jobs-page .footer-links a {
+  color: white;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.find-jobs-page .footer-line {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.3);
+  width: 80%;
+  margin: 10px auto;
+}
+
+.find-jobs-page .footer p {
+  font-size: 15px;
+  margin: 0;
 }
