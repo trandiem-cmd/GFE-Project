@@ -67,75 +67,36 @@ li{
     padding: 60px 20px;
 }
 
-.home-btn {
-  display: inline-block;
-  background-color: #E7D5FA;
-  color: #5A3AB0;
-
-  padding: 10px 20px;
-  margin: 10px;
-
-  border: 2px solid #E6E2EB;
-  border-radius: 10px;
-
-  font-size: 16px;
-  text-decoration: none;
-
-  cursor: pointer;
-}
-.home-btn:hover {
-  background-color: #7B53AC;
-  color: white;
-}
-.home-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-}
-.option-btn{
+.option-btns{
     background-color: #782CCA; /* Purple color */
     color: white;
     border: 4px solid #E6E2EB; 
-    padding: 10px 20px;
+    padding: 10px 10px;
     margin: 10px;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 14px;
     border-radius: 10px;
     display: flex;
     justify-content: space-between;
 }
-.option-btn1{
+.option-btn{
     background-color: #E7D5FA; 
     color: #5A3AB0;
     border: 4px solid #E6E2EB; 
-    padding: 10px 20px;
+    padding: 10px 10px;
     margin: 10px;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 14px;
     border-radius: 10px;
     display: flex;
     justify-content: space-between;
 }
-.option-btn2{
-    background-color: #E7D5FA; 
-    color: #5A3AB0;
-    border: 4px solid #E6E2EB; 
-    padding: 10px 20px;
-    margin: 10px;
-    cursor: pointer;
-    font-size: 16px;
-    border-radius: 10px;
-    display: flex;
-    justify-content: space-between;
-}
-.option-btn1:hover {
+.option-btn:hover {
     background-color: #7B53AC; /* Darker purple on hover */
     color: white;
 }
-.option-btn2:hover {
-    background-color: #7B53AC; /* Darker purple on hover */
-    color: white;
-}
+
+ 
 .img-section{
     width: 100%;
     display: flex;
@@ -213,29 +174,98 @@ h3{
     color: #7B53AC;
     font-family: "ADLaM Display";
 }
-.buttons{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 20px;
-    margin: 20px;
-    background-color:#9F88DD; /* Purple color */
+.find-workers-btn {
+    background-color: #782CCA; /* Purple color */
     color: white;
-    padding: 10px 10px;
+    padding: 10px 20px;
+    margin: 10px;
     cursor: pointer;
     font-size: 16px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    justify-items: center;
+}
+.container {
+    margin: auto;
+    background: #cbb7e5;
+    padding: 20px;
+    border-radius: 12px;
+  }
+.buttons {
+    display: flex;
+    gap: 10px;
+    margin: 15px 0;
+  }
+
+  .buttons button {
+    flex: 1;
+    padding: 10px;
+    border: none;
     border-radius: 20px;
-}
-.buttons:hover {
-    background-color: #5A3AB0; /* Darker purple on hover */
+    background: #a68cd6;
+    cursor: pointer;
     color: white;
+    font-weight: bold;
+  }
+
+  .buttons button.active {
+    background: #6a42c2;
+  }
+
+  .card {
+    background: #e9def7;
+    border-radius: 12px;
+    padding: 15px;
+    margin-top: 20px;
+    transition: 0.3s;
+  }
+
+  .card img {
+    width: 100%;
+    border-radius: 8px;
+  }
+
+  .card h3 {
+    margin-top: 10px;
+  }
+
+  .card p {
+    font-size: 14px;
+  }
+
+  .btn {
+    margin-top: 10px;
+    display: inline-block;
+    padding: 8px 12px;
+    background: #6a42c2;
+    color: white;
+    border-radius: 8px;
+    text-decoration: none;
+  }
+.steps {
+    margin: 30px 15px;
 }
+  .step{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 30px;
+    border-radius: 10px;
+  }
 
-
+  .step-text
+  {
+    background: #e9def7;
+    padding: 15px;
+    border-radius: 12px;
+    flex: 1;
+  }
 
 /* Find-workers page  */
 
-.signup-btn {
+.logout-btn {
   display: inline-block;
   background: linear-gradient(to right, #7b3fe4, #3B1664);
   color: white;
@@ -245,12 +275,10 @@ h3{
   font-size: 14px;
 
 }
-.signup-btn:hover {
+.logout-btn:hover {
   opacity: 0.9;
 }
-.top-spacing {
-  margin-top: -90px;
-}
+
 .purple-bar {
   background-image: url("../css/purple Rectangle.png");
   background-size: cover;
@@ -494,8 +522,9 @@ h3{
   gap: 10px;
 }
 
-.find-jobs-page .menu-icon {
+.find-jobs-page .inbox-icon {
   width: 30px;
+  height: 30px;
 }
 
 .find-jobs-page .purple-bar2 {
