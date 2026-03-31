@@ -1,3 +1,4 @@
+const { query } = require('./helpers/db');
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
@@ -14,6 +15,9 @@ app.get('/',(req,res) => {
   res.json({message: "Hello world"})
 });
 
+query('SELECT NOW()')
+  .then(res => console.log("DB connected:", res.rows))
+  .catch(err => console.error("DB error:", err));
 app.listen(port,() => {
   console.log(`Server is listening on port ${port}`)
 })
