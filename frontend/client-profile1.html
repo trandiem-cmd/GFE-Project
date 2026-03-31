@@ -3,45 +3,54 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login</title>
+  <title>Profile</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body class="bg-light">
-  <nav class="navbar bg-body-tertiary fixed-top">
-      <div class="container-fluid">
+    <nav class="navbar bg-body-tertiary fixed-top">
+        <div class="container-fluid">
         <img src="./Assets/GFE logo.png" alt="GFE logo" class="logo">
         <div class="login-dropdown ms-auto">
-          <button class="btn btn-secondary dropdown-toggle login-btn" type="button" data-bs-toggle="dropdown">
+            <button class="btn btn-secondary dropdown-toggle login-btn" type="button" data-bs-toggle="dropdown">
             <img src="./Assets/menu-icon.png" class="menu-icon" alt="Menu">
-          </button>
-          <ul class="dropdown-menu dropdown-menu-end">
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end">
             <li><a class="dropdown-item" href="./index.html">Home</a></li>
             <li><a class="dropdown-item" href="./about.html">About Us</a></li>
             <li><a class="dropdown-item" href="./contact.html">Contact Us</a></li>
             <li><a class="dropdown-item" href="#">FAQ</a></li>
-          </ul>
+            </ul>
         </div>
-      </div>
-  </nav>
-  <div class="content">
-    <div class="card p-4 shadow" style="width: 400px;">
-      <div class="content-poster" style="padding: 20px;">
-        <h1>Login</h1>
-      </div>
-      <form>
-        <div class="mb-3">
-          <input type="email" class="form-control" id="email" placeholder="Email" required>
         </div>
-        <div class="mb-3">
-          <input type="password" class="form-control" id="password" placeholder="Password" required>
+    </nav>
+    <div class="content">
+        <div class="content-poster">
+            <h1>Complete your profile</h1>
+            <h2>Tell us a bit about yourself to get started</h2>
         </div>
-        <button type="submit" class="btn w-100 role-btn" id="login-btn1" data-role="client">Login as a client</button>
-        <button type="submit" class="btn w-100 role-btn" id="login-btn2" data-role="jobseeker">Login as a jobseeker</button>
-        <input type="hidden" id="role">
+        <h5 class="mt-4">Step 1 of 4</h5>
+        <div class="progress-custom mb-2">
+            <div class="progress-bar-custom1"></div>
+        </div>
+        <div class="mb-4">
+            <span class="dot active"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+        </div>
+          <!-- Form -->
+    <h4 class="fw-bold mt-4">About you</h4>
+      <form id="profileForm">
+          <div class="mb-3">
+          <input type="text" class="form-control" id="name" placeholder="Full name" required>
+          </div>
+          <div class="mb-3">
+          <input type="text" class="form-control" id="location" placeholder="Location" required>
+          </div>
+          <button type="button" class="btn w-100 next-btn" style="margin: 0px;">Next →</button>
       </form>
-    </div>
-    <p style="display: flex; justify-content: center; align-items: center;margin: 10px;">
+    <p class="add-logo">
       <img src="./Assets/GFE logo.png" alt="GFE logo" class="logo">
     </p>
     <div class="footer">
@@ -56,6 +65,6 @@
     </div>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-  <script src="js/login.js" type="module"></script>
+  <script src="js/profile.js" type="module"></script>
 </body>
 </html>
