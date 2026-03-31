@@ -186,7 +186,82 @@ h3{
     justify-content: center;
     justify-items: center;
 }
+.container {
+    margin: auto;
+    background: #cbb7e5;
+    padding: 20px;
+    border-radius: 12px;
+  }
+.buttons {
+    display: flex;
+    gap: 10px;
+    margin: 15px 0;
+  }
 
+  .buttons button {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 20px;
+    background: #a68cd6;
+    cursor: pointer;
+    color: white;
+    font-weight: bold;
+  }
+
+  .buttons button.active {
+    background: #6a42c2;
+  }
+
+  .card {
+    background: #e9def7;
+    border-radius: 12px;
+    padding: 15px;
+    margin-top: 20px;
+    transition: 0.3s;
+  }
+
+  .card img {
+    width: 100%;
+    border-radius: 8px;
+  }
+
+  .card h3 {
+    margin-top: 10px;
+  }
+
+  .card p {
+    font-size: 14px;
+  }
+
+  .btn {
+    margin-top: 10px;
+    display: inline-block;
+    padding: 8px 12px;
+    background: #6a42c2;
+    color: white;
+    border-radius: 8px;
+    text-decoration: none;
+  }
+.steps {
+    margin: 30px 15px;
+}
+  .step{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 30px;
+    border-radius: 10px;
+  }
+
+  .step-text
+  {
+    background: #e9def7;
+    padding: 15px;
+    border-radius: 12px;
+    flex: 1;
+  }
 
 /* Find-workers page  */
 
