@@ -12,7 +12,7 @@
     <div class="container-fluid">
       <img src="./Assets/GFE logo.png" alt="GFE logo" class="logo">
     <div class="login-dropdown ms-auto">
-      <a class="login-btn" href="#">Sign up</a>
+      <a class="login-btn" href="./signup.html">Sign up</a>
       <button class="btn btn-secondary dropdown-toggle login-btn" type="button" data-bs-toggle="dropdown">
           <img src="./Assets/menu-icon.png" class="menu-icon" alt="Menu">
       </button>
@@ -20,7 +20,7 @@
             <li><a class="dropdown-item" href="./index.html">Home</a></li>
             <li><a class="dropdown-item" href="./about.html">About Us</a></li>
             <li><a class="dropdown-item" href="./contact.html">Contact Us</a></li>
-            <li><a class="dropdown-item" href="#">FAQ</a></li>
+            <li><a class="dropdown-item" href="./faq.html">FAQ</a></li>
         </ul>
       </div>
     </div>
@@ -30,10 +30,10 @@
   <h3>Looking for a worker?</h3>
   <h3>GFE helps you find trusted local help!</h3>
 
-  <div class="buttons">
-    <button onclick="showCard('childcare')" class="active">👶 Childcare</button>
-    <button onclick="showCard('cleaning')">🧼 Cleaning</button>
-    <button onclick="showCard('elderly')">👵 Elderly Care</button>
+  <div class="option-btns">
+    <button onclick="showCard('childcare')" class="option-btn">👶 Childcare</button>
+    <button onclick="showCard('cleaning')" class="option-btn">🧼 Cleaning</button>
+    <button onclick="showCard('elderly')" class="option-btn">👵 Elderly Care</button>
   </div>
 
   <!-- Card -->
@@ -67,7 +67,7 @@
       <img src="${data.img}" alt="">
       <h3>${data.title}</h3>
       <p>${data.text}</p>
-      <a href="#" class="btn">Find workers</a>
+      <a href="./signup.html" class="find-workers-btn">Sign up for find workers</a>
     `;
 
     // update active button
@@ -84,9 +84,9 @@
   <footer class="footer">
 
   <div class="footer-links">
-    <a href="#">About us</a>
-    <a href="#">Contact us</a>
-    <a href="#">FAQ</a>
+    <a href="./about.html">About us</a>
+    <a href="./contact.html">Contact us</a>
+    <a href="./faq.html">FAQ</a>
   </div>
 
   <div class="footer-line"></div>
