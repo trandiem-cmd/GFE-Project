@@ -37,8 +37,8 @@ class User {
     return this.#id !== undefined ? true : false
   }
 
-  async login(email,password) {
-    const data = JSON.stringify({email: email,password: password})
+  async login(email,password,role) {
+    const data = JSON.stringify({email: email,password: password,role: role})
     const response = await fetch(BACKEND_URL + '/user/login',{
       method: 'post',
       headers: {'Content-Type':'application/json'},
@@ -48,6 +48,7 @@ class User {
       const json = await response.json()
       this.#id = json.id
       this.#email = json.email
+      this.#role = json.role
       this.#token = json.token
       sessionStorage.setItem('user',JSON.stringify(json))
       return this
