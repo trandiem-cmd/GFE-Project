@@ -7,7 +7,7 @@ class User {
   #token = undefined
 
   constructor() {
-    const userFromStorage = localStorage.getItem('user')
+    const userFromStorage = sessionStorage.getItem('user')
     if (userFromStorage) {
       const userObject = JSON.parse(userFromStorage)
       this.#id = userObject.id
@@ -50,7 +50,7 @@ class User {
       this.#email = json.email
       this.#role = json.role
       this.#token = json.token
-      localStorage.setItem('user',JSON.stringify(json))
+      sessionStorage.setItem('user',JSON.stringify(json))
       return this
     } else {
       throw response.statusText
@@ -69,7 +69,7 @@ class User {
       this.#id = json.id
       this.#email = json.email
       this.#role = json.role
-      localStorage.setItem('user',JSON.stringify(json))
+      sessionStorage.setItem('user',JSON.stringify(json))
       return this
     } else {
       throw response.statusText
@@ -80,7 +80,7 @@ class User {
     this.#id = undefined
     this.#email = undefined
     this.#token = undefined
-    localStorage.removeItem('user')
+    sessionStorage.removeItem('user')
   }
 
 }
