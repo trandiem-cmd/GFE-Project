@@ -166,6 +166,63 @@ p,li,input,span,small,textarea,select,option{
     font-family: "Adamina";
 }
 
+/* FAQ page */
+.faq-text{
+    color: black;
+    text-align: center;
+    font-family: "Adamina";
+    font-size: 16px;
+}
+.accordion-item {
+  margin: 5px;
+  border-bottom: 1px solid #eee;
+  padding: 10px 20px;
+}
+
+.accordion-button {
+  font-weight: 20;
+  font-size: 16px;
+  color:#7B53AC; /* purple */
+  background-color: white;
+  padding: 10px 20px;
+  border-radius: 10px;
+}
+
+.accordion-button:not(.collapsed) {
+  background-color: #f9f5ff;
+  color: #7B53AC;
+  box-shadow: none;
+}
+
+.accordion-body {
+  color:black;
+  font-size: 14px;
+  font-family: "Adamina";
+}
+
+.accordion-button:focus {
+  box-shadow: none;
+}
+
+.custom-accordion-btn {
+  position: relative;/* Add + icon */
+  padding-right: 30px;
+}
+
+.custom-accordion-btn::before {
+  content: "+";
+  position: absolute;
+  right: 15px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #6a0dad;
+  transition: 0.3s;
+}
+
+.custom-accordion-btn:not(.collapsed)::before {
+  content: "−";/* Change to - when open */
+}
+
 /* Client-search page */
 
 h3{
