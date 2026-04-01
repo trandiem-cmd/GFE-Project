@@ -7,8 +7,8 @@ require('dotenv').config();
 const userRouter = express.Router();
 userRouter.post("/login",async(req,res) => {
   try {
-    const sql = "select * from users where email=$1"
-    const result = await query(sql,[req.body.email])
+    const sql = "select * from users where email=$1 and role=$2"
+    const result = await query(sql,[req.body.email, req.body.role])
     if (result.rowCount === 1) {
       bcrypt.compare(req.body.password,result.rows[0].password,(err,bcrypt_res) => {
         if (!err) {
