@@ -46,7 +46,7 @@
         <!-- Time -->
         <div class="mb-3">
           <label>Experience</label>
-          <select class="form-select" required>
+          <select class="form-select" id="experience-years">
             <option value="" disabled selected>Select experience</option>
             <option>0-1 years</option>
             <option>1-3 years</option>
@@ -56,7 +56,7 @@
         </div>
         <div class="mb-3">
           <label>Set your hourly rate</label>  
-          <select class="form-select mb-3" required>
+          <select class="form-select mb-3" id="hourly-rate">
             <option value="" disabled selected>Select your hourly rate</option>
             <option>€10 - €15/hour</option>
             <option>€15 - €20/hour</option>
@@ -66,32 +66,32 @@
         </div>
         <div>
           <label class="mb-2">About your experience</label>
-          <textarea rows="4" type="text" class="form-control mb-2" style="background-color: #f0e9f0"
-          required
+          <textarea rows="4" type="text" class="form-control mb-2" id="about-experience" style="background-color: #f0e9f0"
+          
           placeholder="Describe your experience and the type of help you can offer (e.g. childcare, homework help, cleaning tasks, etc.)"></textarea>
         </div>
         <div>
           <label class="mb-2">Skills</label>
-          <div class="form-actions mb-3 d-flex flex-wrap gap-3">
-            <button type="checkbox" class="skills">Babysitting</button>
-            <button type="checkbox" class="skills">Child supervision</button>
-            <button type="checkbox" class="skills">Meal prepration for kids</button>
-            <button type="checkbox" class="skills">Homework assistance</button>
-            <button type="checkbox" class="skills">Playtime activities</button>
-            <button type="checkbox" class="skills">Personal care assistance</button>
-            <button type="checkbox" class="skills">Medication management</button>
-            <button type="checkbox" class="skills">Mobility assistance</button>
-            <button type="checkbox" class="skills">Meal prepration</button>
-            <button type="checkbox" class="skills">Elder companionship</button>
-            <button type="checkbox" class="skills">House Cleaning</button>
-            <button type="checkbox" class="skills">Surface Cleaning</button>
-            <button type="checkbox" class="skills">Deep Cleaning</button>
-            <button type="checkbox" class="skills">Laundry</button>
+          <div class="form-actions mb-3 d-flex flex-wrap gap-3" id="skills-container">
+            <button type="button" class="skills">Babysitting</button>
+            <button type="button" class="skills">Child supervision</button>
+            <button type="button" class="skills">Meal prepration for kids</button>
+            <button type="button" class="skills">Homework assistance</button>
+            <button type="button" class="skills">Playtime activities</button>
+            <button type="button" class="skills">Personal care assistance</button>
+            <button type="button" class="skills">Medication management</button>
+            <button type="button" class="skills">Mobility assistance</button>
+            <button type="button" class="skills">Meal prepration</button>
+            <button type="button" class="skills">Elder companionship</button>
+            <button type="button" class="skills">House Cleaning</button>
+            <button type="button" class="skills">Surface Cleaning</button>
+            <button type="button" class="skills">Deep Cleaning</button>
+            <button type="button" class="skills">Laundry</button>
           </div>
         </div>
         <div class="form-actions mb-3">
           <button type="button" class="back-btn">Back</button>
-          <button type="submit" class="next-btn">Next →</button>
+          <button type="submit" class="next-btn" id="next3-btn2">Next →</button>
         </div>
       </form>
 
@@ -109,28 +109,7 @@
       </div>
     </div>
   </div>
-  <script>
-  const items = document.querySelectorAll(".service-item");
-  let selectedService = "childcare";
-
-  items.forEach(item => {
-    item.addEventListener("click", () => {
-      items.forEach(i => i.classList.remove("active"));
-      item.classList.add("active");
-      selectedService = item.dataset.value;
-    });
-  });
-</script>
-  <script>
-    const buttons = document.querySelectorAll('.frequency-btn');
-
-    buttons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        buttons.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-      });
-    });
-  </script>
+ 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
   <script src="js/profile.js" type="module"></script>
 </body>
