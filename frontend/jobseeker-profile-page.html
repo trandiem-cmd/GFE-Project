@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GFE - My Profile</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="jobseeker-profile-page">
+
+  <div class="top-bar">
+    <img src="./Assets/GFE logo.png" class="logo">
+
+    <div class="right-side">
+      <a href="index.html" class="logout-btn">Log out</a>
+      <img src="./Assets/menu-icon.png" class="menu-icon" onclick="openMenu()">
+    </div>
+  </div>
+
+  <div id="menuOverlay" class="menu-overlay" style="display: none;">
+
+    <div class="menu-card">
+
+      <div class="menu-top">
+        <img src="./Assets/candidate img2.png" class="menu-profile">
+        <span class="close-btn" onclick="closeMenu()">✕</span>
+      </div>
+
+      <div class="menu-links">
+        <a href="#">Search</a>
+        <a href="jobseeker-profile-page.html">My profile</a>
+        <a href="jobseeker-inbox.html">Messages</a>
+        <a href="jobseeker-application.html">My applications</a>
+      </div>
+
+      <div class="menu-bottom">
+        <a href="contact.html" class="help-btn">Need Help?</a>
+        <a href="index.html" class="logout-small">Log out</a>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="profile-container">
+
+    <div class="profile-header">
+      <img src="./Assets/candidate img2.png" class="profile-img">
+
+      <div class="profile-info">
+        <h4>Alex Johnson 20</h4>
+        <p>Helsinki</p>
+      </div>
+    </div>
+
+    <div class="profile-rating">
+      ⭐ 4.8 (12 reviews) • ✔ Verified
+    </div>
+
+    <div class="profile-section">
+      <h4>About me</h4>
+      <div class="profile-box">
+        <p>
+          Hello! I am Alex, 20 years old. I am looking for cleaning and babysitting jobs.
+          I have experience in cleaning, organizing, and helping with daily tasks.
+          <br><br>
+          I am responsible, active, and hardworking. I like to keep places clean and organized.
+          I can work both alone and in a team and I learn new things quickly.
+          <br><br>
+          In my free time, I enjoy cooking, baking, and spending time with my family and friends.
+        </p>
+      </div>
+    </div>
+
+    <div class="profile-section">
+      <h4>Available services</h4>
+      <div class="tags">
+        <span class="tag">Cleaning</span>
+        <span class="tag">Childcare</span>
+        <span class="tag">Elderly care</span>
+      </div>
+    </div>
+
+    <div class="profile-section">
+      <h4>Achievable tasks</h4>
+      <div class="tasks">
+        <span>Cleaning</span>
+        <span>Washing</span>
+        <span>Ironing</span>
+        <span>Cooking</span>
+      </div>
+    </div>
+
+    <div class="profile-section">
+      <h4>Your experience</h4>
+      <p class="section-sub">Share your experience and your rate</p>
+
+      <div class="profile-box">
+        <div class="exp-row">
+          <label>Experience</label>
+          <div class="exp-value">&lt; 1 year experience</div>
+        </div>
+
+        <div class="exp-row">
+          <label>Hourly rate</label>
+          <div class="exp-value">€15/hour</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="profile-actions">
+      <a href="jobseeker-profile1.html" class="edit-btn">Edit your profile</a>
+      <button class="pause-btn">Pause your application</button>
+      <button class="delete-btn">Delete account</button>
+    </div>
+
+  </div>
+
+  <footer class="footer">
+    <div class="footer-links">
+      <a href="#">About us</a>
+      <a href="#">Contact us</a>
+      <a href="#">FAQ</a>
+    </div>
+
+    <div class="footer-line"></div>
+    <p>© 2026 GFE — All rights reserved</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    const pauseBtn = document.querySelector(".pause-btn");
+
+    if (pauseBtn) {
+      pauseBtn.addEventListener("click", function () {
+        if (this.innerText === "Pause your application") {
+          this.innerText = "Resume application";
+          this.style.background = "#ccc";
+        } else {
+          this.innerText = "Pause your application";
+          this.style.background = "#e4dbe6";
+        }
+      });
+    }
+  </script>
+
+  <script>
+    const deleteBtn = document.querySelector(".delete-btn");
+
+    if (deleteBtn) {
+      deleteBtn.addEventListener("click", () => {
+        if (confirm("Are you sure you want to delete your account?")) {
+          alert("Account deleted");
+        }
+      });
+    }
+  </script>
+
+  <script>
+    function openMenu() {
+      document.getElementById("menuOverlay").style.display = "flex";
+    }
+
+    function closeMenu() {
+      document.getElementById("menuOverlay").style.display = "none";
+    }
+  </script>
+
+</body>
+</html>

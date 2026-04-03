@@ -1,66 +1,51 @@
-const express = require('express');
-const { query } = require('../helpers/db.js');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-require('dotenv').config();
+const BACKEND_URL = "http://localhost:3000";
 
-const userRouter = express.Router();
-userRouter.post("/login",async(req,res) => {
-  try {
-    const sql = "select * from users where email=$1 and role=$2"
-    const result = await query(sql,[req.body.email, req.body.role])
-    if (result.rowCount === 1) {
-      bcrypt.compare(req.body.password,result.rows[0].password,(err,bcrypt_res) => {
-        if (!err) {
-          if (bcrypt_res === true) {
-            const token = jwt.sign({user: req.body.email, role: req.body.role},process.env.JWT_SECRET_KEY)
-            console.log(token)
-            const user = result.rows[0]
-            res.status(200).json(
-              {
-                "id":user.id,
-                "email":user.email,
-                "role": user.role,
-                "token":token
-              }
-            )
-          } else {
-            res.statusMessage = 'Invalid login'
-            res.status(401).json({error: 'Invalid login'})
-          }
-        } else {
-          res.statusMessage = err
-          res.status(500).json({error: err})
-        }
-      })
-    } else {
-      res.statusMessage = 'Invalid login'
-      res.status(401).json({error: 'Invalid login'})
+class User {
+
+  // 🔹 REGISTER
+  async register(email, password, role) {
+    try {
+      const response = await fetch(`${BACKEND_URL}/user/register`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ email, password, role })
+      });
+
+      const data = await response.json();
+      return data;
+
+    } catch (error) {
+      console.error("Register error:", error);
     }
-  } catch (error) {
-    res.statusMessage = error
-    res.status(500).json({error: error})
   }
-})
 
-userRouter.post("/register",async(req,res) => {
-    bcrypt.hash(req.body.password,10,async (err,hash) => {
-      if (!err) {
-        try {
-          const sql = "insert into users (email, password, role) values ($1,$2,$3) returning *"
-          const result = await query(sql,[req.body.email,hash,req.body.role])
-          res.status(200).json({id:result.rows[0].id}) 
-        } catch (error) {
-          res.statusMessage = error
-          res.status(500).json({error: error})
-        }
-      } else {
-        res.statusMessage = err
-        res.status(500).json({error: err})
+  // 🔹 LOGIN
+  async login(email, password, role) {
+    try {
+      const response = await fetch(`${BACKEND_URL}/user/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ email, password, role })
+      });
+
+      const data = await response.json();
+
+      // save token (optional)
+      if (data.token) {
+        localStorage.setItem("token", data.token);
       }
-    })
-})
 
-module.exports = {
-  userRouter
+      return data;
+
+    } catch (error) {
+      console.error("Login error:", error);
+    }
+  }
+
 }
+
+export default new User();
