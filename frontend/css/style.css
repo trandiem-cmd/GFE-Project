@@ -1688,3 +1688,38 @@ label{
   font-size: 13px;
   color: #555;
 }
+#about-you-review {
+  background-color: #f0e9f0;
+  margin: 0px 20px;
+  height: 150px;
+  font-family: "Adamina";
+  font-size: 14px;
+}
+
+.skill-item {
+  margin-left:20px;
+  
+  padding: 10px 10px;
+  border-radius: 20px;
+ 
+  cursor: pointer;
+
+  background: #6f42c1;
+  color: white;
+}
+#skills-review {
+  margin-top: 10px;
+  display: flex;
+  column-gap: normal;
+}
+#about-you-review {
+  margin-top: 10px;
+}
+#experience-review {
+  border: 1px solid #ddd;
+  color: #5A3AB0;
+  border-radius: 15px;
+  padding: 3px;
+  background-color: #fdebfd;
+  margin: 5px 0px;
+}
