@@ -39,7 +39,7 @@
   <div class="message-item active" data-user="emma">
     <img src="./Assets/Group 142 (2).png" class="profile-icon">
     <div>
-      <strong>Emma Watson</strong>
+      <strong>Alexa Johnson</strong>
       <p>Hi! Are you available this weekend?</p>
     </div>
     <span class="badge">1</span>
@@ -48,7 +48,7 @@
   <div class="message-item" data-user="john">
     <img src="./Assets/Group 142 (2).png" class="profile-icon">
     <div>
-      <strong>John Smith</strong>
+      <strong>Zack Nick</strong>
       <p>Thanks! I will confirm soon.</p>
     </div>
   </div>
@@ -56,7 +56,7 @@
   <div class="message-item" data-user="anna">
     <img src="./Assets/Group 142 (2).png" class="profile-icon">
     <div>
-      <strong>Anna Lee</strong>
+      <strong>Annabella Luis</strong>
       <p>Can you work tomorrow?</p>
     </div>
   </div>
@@ -99,61 +99,53 @@
       <p>© 2026 GFE — All rights reserved</p>
     </footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-const chats = {
-  emma: `
-    <div class="chat-message left">Hi! Are you available this weekend? 😊</div>
-    <div class="chat-message right">Yes, I am available! What time works for you?</div>
-    <div class="chat-message left">Saturday morning works 👍</div>
-  `,
+ <script>
+const BACKEND_URL = "http://localhost:3001";
 
-  john: `
-    <div class="chat-message left">Thanks! I will confirm soon.</div>
-    <div class="chat-message right">No problem, let me know anytime 👍</div>
-  `,
+// get logged in user from sessionStorage
+const userFromStorage = sessionStorage.getItem('user');
+const currentUser = JSON.parse(userFromStorage);
 
-  anna: `
-    <div class="chat-message left">Can you work tomorrow?</div>
-    <div class="chat-message right">Yes, I’m available!</div>
-    <div class="chat-message left">Perfect, see you then 😊</div>
-  `
-};
+// load messages from backend
+async function loadMessages() {
+  const response = await fetch(`${BACKEND_URL}/inbox/${currentUser.id}`);
+  const messages = await response.json();
 
+  const chatBox = document.getElementById('chatBox');
+  chatBox.innerHTML = '';
 
-// switch chat
-document.querySelectorAll(".message-item").forEach(item => {
-  item.addEventListener("click", () => {
-    document.querySelectorAll(".message-item").forEach(i => i.classList.remove("active"));
-    item.classList.add("active");
-
-    const user = item.getAttribute("data-user");
-    document.getElementById("chatBox").innerHTML = chats[user];
+  messages.forEach(msg => {
+    const div = document.createElement('div');
+    // if I sent it, show on right. if I received it, show on left
+    div.className = msg.sender_id === currentUser.id ? 'chat-message right' : 'chat-message left';
+    div.textContent = msg.message_text;
+    chatBox.appendChild(div);
   });
-});
+}
 
-// SEND MESSAGE
-document.querySelector(".chat-input button").addEventListener("click", () => {
-  const input = document.querySelector(".chat-input input");
-  const chatBox = document.getElementById("chatBox");
+// send a message
+document.querySelector('.chat-input button').addEventListener('click', async () => {
+  const input = document.querySelector('.chat-input input');
+  const message = input.value.trim();
 
-  if (input.value.trim() !== "") {
-    const msg = document.createElement("div");
-    msg.className = "chat-message right";
-    msg.textContent = input.value;
+  if (message !== '') {
+    await fetch(`${BACKEND_URL}/inbox`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        sender_id: currentUser.id,
+        receiver_id: 1, // hardcoded for now, will fix later
+        message_text: message
+      })
+    });
 
-    chatBox.appendChild(msg);
-
-    input.value = "";
+    input.value = '';
+    loadMessages(); // reload messages after sending
   }
 });
 
-// ENTER KEY
-document.querySelector(".chat-input input").addEventListener("keypress", e => {
-  if (e.key === "Enter") {
-    document.querySelector(".chat-input button").click();
-  }
-});
+// load messages when page opens
+loadMessages();
 </script>
 </body>
 </html>

@@ -33,7 +33,7 @@ document.querySelector('#login-btn2').addEventListener('click',(event) => {
   const role = role_input.value
 
   user.login(email, password, role).then(user => {
-    window.location.href="jobseeker-profile1.html"
+    window.location.href="jobseeker-dashboard.html"
   }).catch(error => {
     alert(error)
   })

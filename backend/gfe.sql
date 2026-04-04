@@ -27,3 +27,25 @@ INSERT INTO profiles (fullname, email, location, services, about_you, experience
 ('John Doe', 'john.doe@example.com', 'New York', 'childcare', 'I am a caring and experienced babysitter.', '1-3 years', '€15 - €20/hour', 'I have experience working with children of various ages and can provide quality childcare.', 'Babysitting, Child supervision, Meal preparation for kids');
 
 DELETE FROM profiles;
+
+
+/* contact us table */
+CREATE TABLE contact_us (
+  id SERIAL PRIMARY KEY,
+  full_name VARCHAR(100),
+  email VARCHAR(100),
+  phone VARCHAR(20),
+  subject VARCHAR(200),
+  message TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- inbox table
+CREATE TABLE inbox (
+  id SERIAL PRIMARY KEY,
+  sender_id INT REFERENCES users(id),
+  receiver_id INT REFERENCES users(id),
+  message_text TEXT NOT NULL,
+  read BOOLEAN DEFAULT FALSE,
+  created_at TIMESTAMP DEFAULT NOW()
+);
