@@ -39,3 +39,13 @@ CREATE TABLE contact_us (
   message TEXT,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+-- inbox table
+CREATE TABLE inbox (
+  id SERIAL PRIMARY KEY,
+  sender_id INT REFERENCES users(id),
+  receiver_id INT REFERENCES users(id),
+  message_text TEXT NOT NULL,
+  read BOOLEAN DEFAULT FALSE,
+  created_at TIMESTAMP DEFAULT NOW()
+);

@@ -23,8 +23,10 @@
 
   <div class="right-side">
 
-    <a href="#" class="signup-btn">log out</a>
-    <img src="./Assets/mark_email_unread.png" class="inbox-icon">
+    <a href="index.html" class="logout-btn">log out</a>
+    <a href="jobseeker-inbox.html">
+      <img src="./Assets/mark_email_unread.png" class="inbox-icon">
+    </a>
 
   </div>
 
@@ -52,10 +54,13 @@
   </div>
 
   <p class="job-time">Occasional cleaning (weekends)</p>
-  <p class="job-location">📍 Helsinki • €15/hour</p>
+   <p class="apply-location">
+  <img src="./Assets/location_on.png" class="location-icon">
+  Oulu • €15/hour
+  </p>
 
   <p class="job-desc">
-    I need a detail-oriented cleaner for occasional apartment cleaning including bathrooms, floors, and general tidying.
+    I need a detail-oriented cleaner for occasional apartment cleaning including bathrooms and general tidying.
   </p>
 
   <div class="job-bottom">
@@ -70,7 +75,10 @@
   </div>
 
   <p class="job-time">Weekday mornings (8am - 10am)</p>
-  <p class="job-location">📍 Espoo • €15/hour</p>
+   <p class="apply-location">
+  <img src="./Assets/location_on.png" class="location-icon">
+  Espoo • €15/hour
+  </p>
 
   <p class="job-desc">
     We need a responsible house cleaner to take care of our home and help with cleaning.
@@ -88,7 +96,10 @@
   </div>
 
   <p class="job-time">Weekday mornings (8am - 10am)</p>
-  <p class="job-location">📍 Vantaa • €18/hour</p>
+  <p class="apply-location">
+  <img src="./Assets/location_on.png" class="location-icon">
+  Helsinki • €15/hour
+  </p>
 
   <p class="job-desc">
     We are looking for a responsible cleaner to maintain office spaces, including desks, floors, and common areas.
@@ -115,4 +126,22 @@
 </footer>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+<script>
+  document.querySelectorAll(".heart-icon").forEach(icon => {
+    icon.addEventListener("click", () => {
+      if (icon.src.includes("Heart@2x")) {
+        icon.src = "./Assets/filled-heart.png";
+      } else {
+        icon.src = "./Assets/Heart@2x.png";
+      }
+    });
+  });
+</script>
+<script>
+document.querySelectorAll(".details-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    window.location.href = "jobseeker-job-details-page.html";
+  });
+});
+</script>
 </html>
