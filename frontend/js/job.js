@@ -21,7 +21,7 @@ function saveJobpostData(newData) {
     const updated = { ...currentData, ...newData };
     localStorage.setItem(JOBPOST_KEY, JSON.stringify(updated)); //lưu vào localStorage dưới dạng chuỗi JSON
 }
-document.querySelector("#next2-btn1").addEventListener("click", (event) => {
+document.querySelector("#next3-btn1").addEventListener("click", (event) => {
     event.preventDefault()
     window.location.href = "client-profile3.html";
 
