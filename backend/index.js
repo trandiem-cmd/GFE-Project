@@ -4,6 +4,7 @@ const express = require('express');
 const cors = require('cors');
 //const fileUpload = require('express-fileupload');
 const { userRouter } = require('./routes/user.js');
+const { jobRouter } = require('./routes/job.js');
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -11,6 +12,7 @@ app.use(express.urlencoded({extended: false}));
 //app.use(fileUpload());
 const port = process.env.PORT;
 app.use('/user',userRouter);
+app.use('/job',jobRouter);
 app.get('/',(req,res) => {
   res.json({message: "Hello world"})
 });

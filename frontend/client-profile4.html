@@ -39,14 +39,35 @@
           <span class="dot"></span>
           <span class="dot active"></span>
       </div>
-      <h4 class="fw-bold mt-4">Review your job post</h4>
-    <form id="profileForm">
-      
+      <div id="profile-review">
+        <h4 class="fw-bold mt-4">Review your job post</h4>
+        <div class="profile-card">
+          <div class="photo-box" style="position: relative">
+                <i class="bi bi-camera camera-icon"></i>
+                <i class="bi bi-person person-icon"></i>
+          </div>
+          <div id="info-review">
+            <h5 id="service-title-review" style="color:#5A3AB0"></h5>
+            <p rows="3" type="text" class="form-control" id="service-description-review" style="width: 250px;padding: 0px"></p>
+          </div>
+        </div>
+        <div style="padding-left: 20px;">
+          <label class="fw-bold">Schedule</label>
+          <p id="service-schedule-review" class="mb-0"></p>
+          <label class="fw-bold">Frequency</label>
+          <p id="frequency-review" class="mb-0"></p>
+          <label class="fw-bold">Location</label>
+          <p id="service-location-review" class="mb-0"></p>
+          <label class="fw-bold">Pay Rate</label> <br>
+          <span id="service-pay-rate-review" class="mb-0"></span><span> €/hour</span>
+        </div> 
+      </div>
+      <p style="padding: 20px;font-weight: 600;">You can chat with your worker and update details after posting.</p>
       <div class="form-actions">
         <button type="button" class="back-btn">Back</button>
-        <button type="button" class="next-btn">Complete Profile →</button>
+        <button type="submit" class="next-btn" id="submit-profile-btn1">Complete Profile →</button>
       </div>
-    </form>
+    
 
     <p class="add-logo">
       <img src="./Assets/GFE logo.png" alt="GFE logo" class="logo">
@@ -66,7 +87,6 @@
 </footer>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-  <script src="js/post.js" type="module"></script>
-  <script src="js/profile.js" type="module"></script>
+  <script src="js/client.js" type="module"></script>
 </body>
 </html>

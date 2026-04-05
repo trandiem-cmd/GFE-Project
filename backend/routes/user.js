@@ -3,6 +3,7 @@ const { query } = require('../helpers/db.js');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
+const { auth } = require("../helpers/auth.js");
 
 const userRouter = express.Router();
 userRouter.post("/login",async(req,res) => {
@@ -13,9 +14,11 @@ userRouter.post("/login",async(req,res) => {
       bcrypt.compare(req.body.password,result.rows[0].password,(err,bcrypt_res) => {
         if (!err) {
           if (bcrypt_res === true) {
-            const token = jwt.sign({user: req.body.email, role: req.body.role},process.env.JWT_SECRET_KEY)
+            const user = result.rows[0];
+            const token = jwt.sign({id: user.id, email: user.email, role: user.role},process.env.JWT_SECRET_KEY)
             console.log(token)
-            const user = result.rows[0]
+            console.log("SIGN SECRET:", process.env.JWT_SECRET_KEY)
+            console.log("TOKEN CREATED:", token)
             res.status(200).json(
               {
                 "id":user.id,
@@ -60,6 +63,17 @@ userRouter.post("/register",async(req,res) => {
       }
     })
 })
+userRouter.put("/profile",auth,async(req,res) => {
+  try {
+    const userId = req.user.id;
+    const sql = "update users set fullname=$1, contact_email=$2, contact_phone=$3, location=$4, services=$5, about_you=$6, experience=$7, hourly_rate=$8, about_experience=$9, skills=$10 where id=$11 returning *"
+    const result = await query(sql,[req.body.fullname, req.body.contact_email, req.body.contact_phone, req.body.location, req.body.services, req.body.about_you, req.body.experience, req.body.hourly_rate, req.body.about_experience, req.body.skills, userId])
+    res.status(200).json(result.rows[0])
+  } catch (error) {
+    res.statusMessage = error
+    res.status(500).json({error: error})
+  }
+});
 
 module.exports = {
   userRouter

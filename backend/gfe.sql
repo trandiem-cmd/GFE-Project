@@ -4,15 +4,9 @@ CREATE TABLE users (
     email VARCHAR(255) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
     role VARCHAR(20) NOT NULL CHECK (role IN ('client', 'jobseeker')),
-    created_at TIMESTAMP DEFAULT NOW(),
-    updated_at TIMESTAMP DEFAULT NOW()
-);
-SELECT * FROM users;
-
-DROP TABLE IF EXISTS profiles;
-CREATE TABLE profiles (
-    id SERIAL PRIMARY KEY,
     fullname VARCHAR(255) NOT NULL,
+    contact_email VARCHAR(255) NOT NULL,
+    contact_phone VARCHAR(20),
     location VARCHAR(255) NOT NULL,
     services VARCHAR(20) NOT NULL CHECK (services IN ('childcare', 'elderly care', 'cleaning')),
     about_you TEXT,
@@ -23,7 +17,22 @@ CREATE TABLE profiles (
     created_at TIMESTAMP DEFAULT NOW(),
     updated_at TIMESTAMP DEFAULT NOW()
 );
-INSERT INTO profiles (fullname, email, location, services, about_you, experience, hourly_rate, about_experience, skills) VALUES
-('John Doe', 'john.doe@example.com', 'New York', 'childcare', 'I am a caring and experienced babysitter.', '1-3 years', '€15 - €20/hour', 'I have experience working with children of various ages and can provide quality childcare.', 'Babysitting, Child supervision, Meal preparation for kids');
+SELECT * FROM users;
+INSERT INTO users (email, password, role) VALUES ('john.doe@example.com', '123', 'jobseeker');
+UPDATE users SET fullname = 'John Doe', contact_email = 'john.doe@example.com', contact_phone = '123-456-7890', location = 'New York', services = 'childcare', about_you = 'I am a caring and experienced babysitter.', experience = '1-3 years', hourly_rate = '€15 - €20/hour', about_experience = 'I have experience working with children of various ages and can provide quality childcare.', skills = 'Babysitting, Child supervision, Meal preparation for kids' WHERE email = 'john.doe@example.com';
 
-DELETE FROM profiles;
+
+DROP TABLE IF EXISTS jobposts;
+CREATE TABLE jobposts (
+    id SERIAL PRIMARY KEY,
+    client_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    service_type VARCHAR(20) NOT NULL CHECK (service_type IN ('childcare', 'elderly care', 'cleaning')),
+    service_title VARCHAR(255) NOT NULL,
+    service_description TEXT,
+    service_schedule TEXT,
+    service_frequency VARCHAR(20) NOT NULL CHECK (service_frequency IN ('regular', 'occasional')),
+    service_location VARCHAR(255) NOT NULL,
+    service_pay_rate VARCHAR(20) NOT NULL,
+    created_at TIMESTAMP DEFAULT NOW(),
+    updated_at TIMESTAMP DEFAULT NOW()
+);

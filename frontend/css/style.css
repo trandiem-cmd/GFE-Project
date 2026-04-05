@@ -817,6 +817,7 @@ font-size: 14px;
 }
 #profileForm{
     padding: 0px 20px;
+    height: 100%;
 }
 .service-item {
     border: 1px solid #ddd;
