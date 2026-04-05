@@ -35,4 +35,17 @@ CREATE TABLE jobposts (
     service_pay_rate VARCHAR(20) NOT NULL,
     created_at TIMESTAMP DEFAULT NOW(),
     updated_at TIMESTAMP DEFAULT NOW()
+)
+DELETE FROM profiles;
+
+
+/* contact us table */
+CREATE TABLE contact_us (
+  id SERIAL PRIMARY KEY,
+  full_name VARCHAR(100),
+  email VARCHAR(100),
+  phone VARCHAR(20),
+  subject VARCHAR(200),
+  message TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

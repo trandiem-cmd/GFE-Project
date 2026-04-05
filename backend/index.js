@@ -6,12 +6,16 @@ const cors = require('cors');
 const { userRouter } = require('./routes/user.js');
 const { jobRouter } = require('./routes/job.js');
 const app = express();
+
+const { contactRouter } = require('./routes/contact');
+
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 //app.use(fileUpload());
 const port = process.env.PORT;
 app.use('/user',userRouter);
+app.use('/contact', contactRouter);
 app.use('/job',jobRouter);
 app.get('/',(req,res) => {
   res.json({message: "Hello world"})
