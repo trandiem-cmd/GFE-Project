@@ -5,6 +5,7 @@ class User {
   #email = undefined
   #role = undefined
   #token = undefined
+  #has_profile = undefined
   #fullname = undefined
   #contact_email = undefined
   #contact_phone = undefined
@@ -24,6 +25,7 @@ class User {
       this.#email = userObject.email
       this.#role = userObject.role
       this.#token = userObject.token
+      this.#has_profile = userObject.has_profile
       this.#fullname = userObject.fullname
       this.#contact_email = userObject.contact_email
       this.#contact_phone = userObject.contact_phone
@@ -51,6 +53,9 @@ class User {
 
   get token() {
     return this.#token
+  }
+  get has_profile() {
+    return this.#has_profile
   }
   get fullname() {
     return this.#fullname
@@ -99,10 +104,13 @@ class User {
       this.#email = json.email
       this.#role = json.role
       this.#token = json.token
+      this.#has_profile = json.has_profile
       sessionStorage.setItem('user',JSON.stringify({
         ...json,            // id, email, role
-        token: json.token    // đảm bảo có token
+        token: json.token,// đảm bảo có token
+        has_profile: json.has_profile
       }))
+        console.log("LOGIN RESPONSE:", json)
       return this
     } else {
       throw response.statusText
@@ -121,6 +129,7 @@ class User {
       this.#id = json.id
       this.#email = json.email
       this.#role = json.role
+      this.#has_profile = json.has_profile
       sessionStorage.setItem('user',JSON.stringify(json))
       return this
     } else {
@@ -164,6 +173,7 @@ class User {
       this.#hourly_rate = json.hourly_rate
       this.#about_experience = json.about_experience
       this.#skills = json.skills
+      this.#has_profile = json.has_profile
       const updatedUser = { ...json, token: this.#token };
       sessionStorage.setItem('user', JSON.stringify(updatedUser))
       return this

@@ -92,6 +92,75 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 // ===== CLIENT STEP 3 =====
+    
+        const serviceLocationInput = document.getElementById("service-location");
+        
+        const dropdown = document.getElementById("locationDropdown");
+        const city = document.getElementById("city");
+        const district = document.getElementById("district");
+        const data = {
+        Helsinki: [
+            "Keskusta", "Kallio", "Pasila", "Itäkeskus", "Kamppi",
+            "Meilahti", "Lauttasaari", "Vuosaari", "Malmi", "Haaga"
+        ],
+
+        Espoo: [
+            "Tapiola", "Leppävaara", "Otaniemi", "Matinkylä", "Espoonlahti",
+            "Olari", "Kivenlahti", "Niittykumpu", "Soukka", "Laajalahti"
+        ],
+
+        Vantaa: [
+            "Tikkurila", "Myyrmäki", "Korso", "Hakunila", "Aviapolis",
+            "Martinlaakso", "Koivukylä", "Pakkala", "Ylästö", "Rekola"
+        ],
+
+        Tampere: [
+            "Keskusta", "Hervanta", "Tammela", "Kaleva", "Lielahti",
+            "Tesoma", "Pyynikki", "Nekala", "Rahola", "Messukylä"
+        ],
+
+        Turku: [
+            "Keskusta", "Varissuo", "Runosmäki", "Skanssi", "Nummi",
+            "Kupittaa", "Pansio", "Hirvensalo", "Raunistula", "Halinen"
+        ],
+
+        Oulu: [
+            "Keskusta", "Kaakkuri", "Linnanmaa", "Tuira", "Rajakylä",
+            "Pateniemi", "Hiukkavaara", "Maikkula", "Haukipudas", "Oulunsalo"
+        ]
+        };
+        if(serviceLocationInput){
+            serviceLocationInput.addEventListener("click", () => {
+            dropdown.classList.toggle("d-none");
+            });
+            city.addEventListener("change", () => {
+            const selectedCity = city.value;
+
+            district.innerHTML = `<option value="">Select district</option>`;
+
+            if (data[selectedCity]) {
+                data[selectedCity].forEach(d => {
+                const option = document.createElement("option");
+                option.value = d;
+                option.textContent = d;
+                district.appendChild(option);
+                });
+            }
+            });
+            district.addEventListener("change", () => {
+            if (city.value && district.value) {
+                serviceLocationInput.value = `${city.value} - ${district.value}`;
+                dropdown.classList.add("d-none");
+            }
+            });
+            document.addEventListener("click", (e) => {
+            if (!document.querySelector(".location-wrapper").contains(e.target)) {
+                dropdown.classList.add("d-none");
+            }
+            });        
+        };
+
+
     const next3Btn1 = document.querySelector("#next3-btn1");
     const frequencyItems = document.querySelectorAll(".frequency-btn");
     let serviceFrequency = jobpost.serviceFrequency || "";
@@ -116,7 +185,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (next3Btn1) {
         const serviceScheduleInput = document.querySelector("#service-schedule");
-        const serviceLocationInput = document.querySelector("#service-location");
         const servicePayRateInput = document.querySelector("#service-pay-rate");
         next3Btn1.addEventListener("click", (e) => {
         e.preventDefault();
@@ -133,7 +201,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     }
     // ===== CLIENT REVIEW PAGE =====
-
+    
     if (document.querySelector("#info-review")) {
         document.getElementById("service-title-review").textContent = jobpost.serviceTitle;
         document.getElementById("service-description-review").textContent = jobpost.serviceDescription || "";

@@ -46,10 +46,28 @@
           <label>My schedule</label>
           <input type="text" class="form-control" id="service-schedule" placeholder="Enter your schedule">
         </div>
-        <div class="mb-3">
-          <label>Location</label>
-          <input type="text" class="form-control" id="service-location" placeholder="Enter location">
+    <div class="mb-3">
+      <div class="location-wrapper">
+        <label>Location</label>
+        <input type="text" id="service-location" class="form-control" placeholder="Select location" readonly>
+
+        <div id="locationDropdown" class="dropdown-box d-none">
+          <select id="city" class="form-select mb-2">
+            <option value="">Select city</option>
+            <option value="Helsinki">Helsinki</option>
+            <option value="Espoo">Espoo</option>
+            <option value="Vantaa">Vantaa</option>
+            <option value="Tampere">Tampere</option>
+            <option value="Turku">Turku</option>
+            <option value="Oulu">Oulu</option>
+          </select>
+
+          <select id="district" class="form-select">
+            <option value="">Select district</option>
+          </select>
         </div>
+      </div>
+    </div>
         <div class="mb-3">
           <label>Pay rate</label>
           <div class="input-group">

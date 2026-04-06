@@ -16,15 +16,14 @@ userRouter.post("/login",async(req,res) => {
           if (bcrypt_res === true) {
             const user = result.rows[0];
             const token = jwt.sign({id: user.id, email: user.email, role: user.role},process.env.JWT_SECRET_KEY)
-            console.log(token)
-            console.log("SIGN SECRET:", process.env.JWT_SECRET_KEY)
-            console.log("TOKEN CREATED:", token)
+            console.log(user)
             res.status(200).json(
               {
                 "id":user.id,
                 "email":user.email,
                 "role": user.role,
-                "token":token
+                "token":token,
+                "has_profile": user.has_profile
               }
             )
           } else {
@@ -50,7 +49,7 @@ userRouter.post("/register",async(req,res) => {
     bcrypt.hash(req.body.password,10,async (err,hash) => {
       if (!err) {
         try {
-          const sql = "insert into users (email, password, role) values ($1,$2,$3) returning *"
+          const sql = "insert into users (email, password, role, has_profile) values ($1,$2,$3,false) returning *"
           const result = await query(sql,[req.body.email,hash,req.body.role])
           res.status(200).json({id:result.rows[0].id}) 
         } catch (error) {
@@ -66,7 +65,7 @@ userRouter.post("/register",async(req,res) => {
 userRouter.put("/profile",auth,async(req,res) => {
   try {
     const userId = req.user.id;
-    const sql = "update users set fullname=$1, contact_email=$2, contact_phone=$3, location=$4, services=$5, about_you=$6, experience=$7, hourly_rate=$8, about_experience=$9, skills=$10 where id=$11 returning *"
+    const sql = "update users set has_profile = true, fullname=$1, contact_email=$2, contact_phone=$3, location=$4, services=$5, about_you=$6, experience=$7, hourly_rate=$8, about_experience=$9, skills=$10 where id=$11 returning *"
     const result = await query(sql,[req.body.fullname, req.body.contact_email, req.body.contact_phone, req.body.location, req.body.services, req.body.about_you, req.body.experience, req.body.hourly_rate, req.body.about_experience, req.body.skills, userId])
     res.status(200).json(result.rows[0])
   } catch (error) {

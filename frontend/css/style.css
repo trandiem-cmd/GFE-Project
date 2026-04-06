@@ -1724,3 +1724,21 @@ label{
   background-color: #fdebfd;
   margin: 5px 0px;
 }
+
+.location-wrapper {
+  position: relative;
+}
+
+.dropdown-box {
+  position: absolute;
+  width: 100%;
+  background: white;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 8px;
+  z-index: 1000;
+}
+
+.d-none {
+  display: none;
+}
