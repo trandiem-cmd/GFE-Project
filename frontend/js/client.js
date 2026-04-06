@@ -32,13 +32,81 @@ document.addEventListener("DOMContentLoaded", () => {
     const profile = getProfileData();
 
     // ===== CLIENT STEP 1 =====
-   
+
+    // == location selection ==
+        const dropdown = document.getElementById("locationDropdown");
+        const city = document.getElementById("city");
+        const district = document.getElementById("district");
+        const data = {
+        Helsinki: [
+            "Keskusta", "Kallio", "Pasila", "Itäkeskus", "Kamppi",
+            "Meilahti", "Lauttasaari", "Vuosaari", "Malmi", "Haaga"
+        ],
+
+        Espoo: [
+            "Tapiola", "Leppävaara", "Otaniemi", "Matinkylä", "Espoonlahti",
+            "Olari", "Kivenlahti", "Niittykumpu", "Soukka", "Laajalahti"
+        ],
+
+        Vantaa: [
+            "Tikkurila", "Myyrmäki", "Korso", "Hakunila", "Aviapolis",
+            "Martinlaakso", "Koivukylä", "Pakkala", "Ylästö", "Rekola"
+        ],
+
+        Tampere: [
+            "Keskusta", "Hervanta", "Tammela", "Kaleva", "Lielahti",
+            "Tesoma", "Pyynikki", "Nekala", "Rahola", "Messukylä"
+        ],
+
+        Turku: [
+            "Keskusta", "Varissuo", "Runosmäki", "Skanssi", "Nummi",
+            "Kupittaa", "Pansio", "Hirvensalo", "Raunistula", "Halinen"
+        ],
+
+        Oulu: [
+            "Keskusta", "Kaakkuri", "Linnanmaa", "Tuira", "Rajakylä",
+            "Pateniemi", "Hiukkavaara", "Maikkula", "Haukipudas", "Oulunsalo"
+        ]
+        };
+    const location = document.getElementById("location");
+        
+
+        if(location){
+            location.addEventListener("click", () => {
+            dropdown.classList.toggle("d-none");
+            });
+            city.addEventListener("change", () => {
+            const selectedCity = city.value;
+
+            district.innerHTML = `<option value="">Select district</option>`;
+
+            if (data[selectedCity]) {
+                data[selectedCity].forEach(d => {
+                const option = document.createElement("option");
+                option.value = d;
+                option.textContent = d;
+                district.appendChild(option);
+                });
+            }
+            });
+            district.addEventListener("change", () => {
+            if (city.value && district.value) {
+                location.value = `${city.value} - ${district.value}`;
+                dropdown.classList.add("d-none");
+            }
+            });
+            document.addEventListener("click", (e) => {
+            if (!document.querySelector(".location-wrapper").contains(e.target)) {
+                dropdown.classList.add("d-none");
+            }
+            });        
+        };
     const next1Btn1 = document.querySelector("#next1-btn1");
 
     if (next1Btn1) {
         const name = document.querySelector("#name");
         const email = document.querySelector("#contact-email");
-        const location = document.querySelector("#location");
+        
         const phone = document.querySelector("#contact-phone");
 
         next1Btn1.addEventListener("click", (event) => {
@@ -95,40 +163,7 @@ document.addEventListener("DOMContentLoaded", () => {
     
         const serviceLocationInput = document.getElementById("service-location");
         
-        const dropdown = document.getElementById("locationDropdown");
-        const city = document.getElementById("city");
-        const district = document.getElementById("district");
-        const data = {
-        Helsinki: [
-            "Keskusta", "Kallio", "Pasila", "Itäkeskus", "Kamppi",
-            "Meilahti", "Lauttasaari", "Vuosaari", "Malmi", "Haaga"
-        ],
 
-        Espoo: [
-            "Tapiola", "Leppävaara", "Otaniemi", "Matinkylä", "Espoonlahti",
-            "Olari", "Kivenlahti", "Niittykumpu", "Soukka", "Laajalahti"
-        ],
-
-        Vantaa: [
-            "Tikkurila", "Myyrmäki", "Korso", "Hakunila", "Aviapolis",
-            "Martinlaakso", "Koivukylä", "Pakkala", "Ylästö", "Rekola"
-        ],
-
-        Tampere: [
-            "Keskusta", "Hervanta", "Tammela", "Kaleva", "Lielahti",
-            "Tesoma", "Pyynikki", "Nekala", "Rahola", "Messukylä"
-        ],
-
-        Turku: [
-            "Keskusta", "Varissuo", "Runosmäki", "Skanssi", "Nummi",
-            "Kupittaa", "Pansio", "Hirvensalo", "Raunistula", "Halinen"
-        ],
-
-        Oulu: [
-            "Keskusta", "Kaakkuri", "Linnanmaa", "Tuira", "Rajakylä",
-            "Pateniemi", "Hiukkavaara", "Maikkula", "Haukipudas", "Oulunsalo"
-        ]
-        };
         if(serviceLocationInput){
             serviceLocationInput.addEventListener("click", () => {
             dropdown.classList.toggle("d-none");

@@ -52,7 +52,26 @@
             <input type="text" class="form-control" id="contact-phone" placeholder="Phone number">
         </div>
         <div class="mb-3">
-            <input type="text" class="form-control" id="location" placeholder="Location">
+          <div class="location-wrapper">
+            
+            <input type="text" id="location" class="form-control" placeholder="Select location" readonly>
+
+            <div id="locationDropdown" class="dropdown-box d-none">
+              <select id="city" class="form-select mb-2">
+                <option value="">Select city</option>
+                <option value="Helsinki">Helsinki</option>
+                <option value="Espoo">Espoo</option>
+                <option value="Vantaa">Vantaa</option>
+                <option value="Tampere">Tampere</option>
+                <option value="Turku">Turku</option>
+                <option value="Oulu">Oulu</option>
+              </select>
+
+              <select id="district" class="form-select">
+                <option value="">Select district</option>
+              </select>
+            </div>
+          </div>
         </div>
           <button type="button"  class="btn w-100 mb-3 next-btn" id="next1-btn1" style="margin: 0px;">Next →</button>
       </form>
