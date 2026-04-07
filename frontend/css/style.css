@@ -738,7 +738,7 @@ h3{
     background: linear-gradient(90deg, #7B53AC, #6f42c1);
     color: white;
 }
-.back-btn:hover,.frequency-btn:hover,.service-item:hover {
+.back-btn:hover,.frequency-btn:hover,.service-item:hover,.find-by-service-btn:hover {
     background: #ddd;
     color: #5A3AB0;
 }
@@ -1741,4 +1741,23 @@ label{
 
 .d-none {
   display: none;
+}
+.find-by-services{
+  display: flex;
+  justify-content: space-around;
+}
+.find-by-service-btn{
+    background: #eee;
+    color: #5A3AB0;
+    border-radius: 10px;
+    padding: 10px 15px;
+    margin: 10px 20px;
+    cursor: pointer;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    border: solid 1px #ddd;
+}
+#submit-profile-btn1{
+  margin: 20px 0px;
 }
