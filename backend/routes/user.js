@@ -23,15 +23,18 @@ userRouter.post('/register', async (req, res) => {
 
 // LOGIN - checks email/password and returns a token + user info
 userRouter.post('/login', async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password, role } = req.body; // added role
   try {
     const result = await query('SELECT * FROM users WHERE email = $1', [email]);
     const user = result.rows[0];
 
-
+    // if no user found, return error
     if (!user) return res.status(401).json({ error: 'Invalid credentials' });
 
-  
+    // check if role matches what user signed up with
+    if (user.role !== role) return res.status(401).json({ error: 'Invalid credentials' });
+
+    // compare entered password with hashed password in DB
     const match = await bcrypt.compare(password, user.password);
     if (!match) return res.status(401).json({ error: 'Invalid credentials' });
 

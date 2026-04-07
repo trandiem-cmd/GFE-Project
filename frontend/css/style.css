@@ -715,16 +715,20 @@ label{
 
 .dashboard-page .welcome h2 {
   color: #572290;
-  font-size: 25px;
+  font-size: 28px;
   margin-bottom: 5px;
   font-family: 'ADLaM Display', sans-serif;
+  position: relative;
+  bottom: 60px;
 }
 
 
 .dashboard-page .welcome p {
-  font-size: 18px;
+  font-size: 20px;
   color: #555;
   font-family: 'ADLaM Display', sans-serif;
+   position: relative;
+  bottom: 40px;
 }
 
 
@@ -735,7 +739,8 @@ label{
   gap: 30px;
   margin: 1px 15px;
   position: relative;
-  bottom:14px;
+  bottom:30px;
+  left: 30px;
 }
 
 .dashboard-page .actions button {
@@ -747,6 +752,7 @@ label{
   color: #572290;
   font-weight: bold;
   cursor: pointer;
+ 
 }
 
 .dashboard-page .actions button:hover {
@@ -1717,10 +1723,10 @@ label{
 .apply-btn {
   background: linear-gradient(to right, #7b3fe4, #3B1664);
   color: white;
-  padding: 10px 11px;
+  padding: 8px 16px;
   border-radius: 10px;
   text-decoration: none;
-  font-size: 12px;
+  font-size: 162px;
 }
 .client-box {
   display: flex;
@@ -1855,13 +1861,16 @@ label{
   font-size: 12px;
 }
 
-.apply-btn {
+ .apply-btn {
   background: linear-gradient(to right, #7b3fe4, #3B1664);
   color: white;
-  padding: 6px 14px;
-  border-radius: 8px;
-  font-size: 12px;
+  padding: -20px 15px;
+  border-radius: 10px;
   text-decoration: none;
+  font-size: 12px;
+  display: inline-block;
+  width: fit-content;
+
 }
 
 
