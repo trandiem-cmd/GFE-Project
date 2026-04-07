@@ -449,6 +449,7 @@ font-size: 14px;
 }
 #profileForm{
     padding: 0px 20px;
+    height: 100%;
 }
 .service-item {
     border: 1px solid #ddd;
@@ -2195,7 +2196,6 @@ label{
   border-radius: 10px;
   background: #f8d7da; 
   color: #842029; 
-
   font-size: 17px;
   font-weight: 500;
   cursor: pointer;
@@ -2239,4 +2239,62 @@ label{
 
 .client-inbox-page .chat-box{
   min-height: 160px;
+ 
+}
+.jobseeker-application-page .applications-header p {
+  font-size: 13px;
+  color: #555;
+}
+#about-you-review {
+  background-color: #f0e9f0;
+  margin: 0px 20px;
+  height: 150px;
+  font-family: "Adamina";
+  font-size: 14px;
+}
+
+.skill-item {
+  margin-left:20px;
+  
+  padding: 10px 10px;
+  border-radius: 20px;
+ 
+  cursor: pointer;
+
+  background: #6f42c1;
+  color: white;
+}
+#skills-review {
+  margin-top: 10px;
+  display: flex;
+  column-gap: normal;
+}
+#about-you-review {
+  margin-top: 10px;
+}
+#experience-review {
+  border: 1px solid #ddd;
+  color: #5A3AB0;
+  border-radius: 15px;
+  padding: 3px;
+  background-color: #fdebfd;
+  margin: 5px 0px;
+}
+
+.location-wrapper {
+  position: relative;
+}
+
+.dropdown-box {
+  position: absolute;
+  width: 100%;
+  background: white;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 8px;
+  z-index: 1000;
+}
+
+.d-none {
+  display: none;
 }

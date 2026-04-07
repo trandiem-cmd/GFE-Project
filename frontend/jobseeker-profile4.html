@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Profile</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body class="bg-light">
@@ -41,22 +42,30 @@
       </div>
       <div id="profile-review">
         <h4 class="fw-bold mt-4">Review your profile</h4>
+        <div class="profile-card">
+          <div class="photo-box" style="position: relative">
+                <i class="bi bi-camera camera-icon"></i>
+                <i class="bi bi-person person-icon"></i>
+          </div>
           <div id="info-review">
-            <h2 id="name-review"></h2>
-            <p id="location-review"></p>
-            <p id="service-review"></p>
+            <h5 id="name-review" style="color:#5A3AB0"></h5>
+            <div style="display: flex; gap: 15px;">
+              <span id="location-review"></span><span id="service-review"></span>
+            </div> 
+            <p id="experience-review"></p>
             <p id="rate-review"></p>
           </div>
+        </div>
           <h5 class="fw-bold mt-4">Skills</h5>
           <div id="skills-review">
           </div>
           <h5 class="fw-bold mt-4">About you</h5>
-          <div id="about-you-review">
+          <div id="about-you-review" rows="4" type="text" class="form-control mb-2" style="background-color: #f0e9f0">
           </div>
       </div>
         <div class="form-actions mb-3">
           <button type="button" class="back-btn">Back</button>
-          <button type="submit" class="next-btn" id="create-profile-btn">Create profile</button>
+          <button type="submit" class="next-btn" id="submit-profile-btn2">Create profile</button>
         </div>
 
 
@@ -76,6 +85,6 @@
   </div>
  
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-  <script src="js/profile.js" type="module"></script>
+  <script src="js/jobseeker.js" type="module"></script>
 </body>
 </html>

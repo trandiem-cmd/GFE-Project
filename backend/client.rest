@@ -6,7 +6,7 @@ POST http://localhost:3001/user/register HTTP/1.1
 Content-Type: application/json
 
 {
-  "email":"test5@foo.com",
+  "email":"test@foo.com",
   "password":"test123",
   "role":"client"
 }
@@ -16,6 +16,38 @@ POST http://localhost:3001/user/login
 Content-Type: application/json
 
 {
-  "email":"test2@foo.com",
-  "password":"test123"
+  "email":"test@foo.com",
+  "password":"test123",
+  "role":"client"
+}
+
+### Update profile
+PUT http://localhost:3001/user/profile HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiZW1haWwiOiJ0ZXN0QGZvby5jb20iLCJyb2xlIjoiY2xpZW50IiwiaWF0IjoxNzc1Mzg4NDMyfQ.c0Z1MyRgRh5yQqE0124nLh9gMkVTdZe8OS4kSg9B6js
+
+{ 
+  "fullname": "John Doe",
+  "contact_email": "john.doe@example.com",
+  "contact_phone": "123-456-7890",
+  "location": "New York, NY"
+}
+
+
+
+### Update profile
+PUT http://localhost:3001/user/profile
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwiZW1haWwiOiJ0ZXN0MUBmb28uY29tIiwicm9sZSI6ImpvYnNlZWtlciIsImlhdCI6MTc3NTM0NTM0Nn0.i5cst6231vXxGixKJINhlc7znHmm0aibRaK0xcYniMs
+{
+  "fullname": "John Doe",
+  "contact_email": "john.doe@example.com",
+  "contact_phone": "123-456-7890",
+  "location": "New York, NY",
+  "services": "childcare",
+  "about_you": "I am a caring and experienced babysitter.",
+  "experience": "1-3 years",
+  "hourly_rate": "€15 - €20/hour",
+  "about_experience": "I have experience working with children of various ages and can provide quality childcare.",
+  "skills": "Babysitting, Child supervision, Meal preparation for kids"
 }
