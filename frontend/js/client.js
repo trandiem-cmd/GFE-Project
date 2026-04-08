@@ -18,12 +18,15 @@ function saveProfileData(newData) {
 }
 
 function getJobpostData() {
-    return JSON.parse(sessionStorage.getItem(JOBPOST_KEY)) || {};
+    return JSON.parse(sessionStorage.getItem(JOBPOST_KEY)) || [];
 }
-function saveJobpostData(newData) {
-    const currentData = getJobpostData(); //object
-    const updated = { ...currentData, ...newData };
-    sessionStorage.setItem(JOBPOST_KEY, JSON.stringify(updated));
+function saveJobpostData(newJob) {
+    const jobs = getJobpostData(); //array
+    jobs.push({
+        ...newJob,
+        id: Date.now() 
+    });
+    sessionStorage.setItem(JOBPOST_KEY, JSON.stringify(jobs));
 };
 
 
@@ -68,11 +71,11 @@ document.addEventListener("DOMContentLoaded", () => {
             "Pateniemi", "Hiukkavaara", "Maikkula", "Haukipudas", "Oulunsalo"
         ]
         };
-    const location = document.getElementById("location");
+    const locationInput = document.getElementById("location");
         
 
-        if(location){
-            location.addEventListener("click", () => {
+        if(locationInput){
+            locationInput.addEventListener("click", () => {
             dropdown.classList.toggle("d-none");
             });
             city.addEventListener("change", () => {
@@ -91,7 +94,7 @@ document.addEventListener("DOMContentLoaded", () => {
             });
             district.addEventListener("change", () => {
             if (city.value && district.value) {
-                location.value = `${city.value} - ${district.value}`;
+                locationInput.value = `${city.value} - ${district.value}`;
                 dropdown.classList.add("d-none");
             }
             });
@@ -101,32 +104,39 @@ document.addEventListener("DOMContentLoaded", () => {
             }
             });        
         };
-    const next1Btn1 = document.querySelector("#next1-btn1");
+    const submit1Btn1 = document.querySelector("#submit-profile-btn1");
 
-    if (next1Btn1) {
-        const name = document.querySelector("#name");
-        const email = document.querySelector("#contact-email");
-        
-        const phone = document.querySelector("#contact-phone");
-
-        next1Btn1.addEventListener("click", (event) => {
+    if (submit1Btn1) {
+        submit1Btn1.addEventListener("click", async(event) => {
             event.preventDefault();
-            if (!name.value || !email.value || !phone.value || !location.value) {
+            const fullname = document.querySelector("#name").value;
+            const contact_email = document.querySelector("#contact-email").value;
+            const contact_phone = document.querySelector("#contact-phone").value;
+            const location = document.querySelector("#location").value;
+            if (!fullname || !contact_email || !contact_phone || !location) {
                 alert("Please fill in all required fields.");
                 return;
             }
-            saveProfileData({ name: name.value, email: email.value, phone: phone.value, location: location.value });
-            window.location.href = "client-profile2.html";
+            saveProfileData({ fullname, contact_email, contact_phone, location });
+            try{
+                await user.updateProfile(fullname, contact_email, contact_phone, location);
+                
+                alert("Profile submitted successfully!");
+                window.location.href = "client-dashboard.html"; 
+            } catch(error) {alert("Error posting job: " + error);
+            }
         });
     }
-    // ===== CLIENT STEP 2 =====
+   
+
+     // ===== CLIENT POST A JOB =====
     const jobpost = getJobpostData();
     const items = document.querySelectorAll(".service-item");
-    let selectedService = jobpost.selectedService || "";
+    let selectedService = jobpost.selectedService || null;
 
     if (items.length) {
         items.forEach(item => {
-            if (item.dataset.value === selectedService.type) {
+            if (item.dataset.value === selectedService?.type) {
                 item.classList.add("active");
             }
 
@@ -141,68 +151,46 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-
-    const next2Btn1 = document.querySelector("#next2-btn1");
-    if (next2Btn1) {
-        next2Btn1.addEventListener("click", (e) => {
-            e.preventDefault();
-            const serviceTitle = document.querySelector("#service-title").value;
-            const serviceDescription = document.querySelector("#service-description").value;
-            if (!serviceTitle || !serviceDescription || !selectedService) {
-                alert("Please fill in all required fields.");
-                return;
-            }
-            saveJobpostData({ selectedService, serviceTitle, serviceDescription });
-            console.log(getJobpostData());
-            window.location.href = "client-profile3.html";  
-        });
-    }
-
-
-// ===== CLIENT STEP 3 =====
+    const serviceLocationInput = document.getElementById("service-location");
     
-        const serviceLocationInput = document.getElementById("service-location");
-        
 
-        if(serviceLocationInput){
-            serviceLocationInput.addEventListener("click", () => {
-            dropdown.classList.toggle("d-none");
+    if(serviceLocationInput){
+        serviceLocationInput.addEventListener("click", () => {
+        dropdown.classList.toggle("d-none");
+        });
+        city.addEventListener("change", () => {
+        const selectedCity = city.value;
+
+        district.innerHTML = `<option value="">Select district</option>`;
+
+        if (data[selectedCity]) {
+            data[selectedCity].forEach(d => {
+            const option = document.createElement("option");
+            option.value = d;
+            option.textContent = d;
+            district.appendChild(option);
             });
-            city.addEventListener("change", () => {
-            const selectedCity = city.value;
+        }
+        });
+        district.addEventListener("change", () => {
+        if (city.value && district.value) {
+            serviceLocationInput.value = `${city.value} - ${district.value}`;
+            dropdown.classList.add("d-none");
+        }
+        });
+        document.addEventListener("click", (e) => {
+        if (!document.querySelector(".location-wrapper").contains(e.target)) {
+            dropdown.classList.add("d-none");
+        }
+        });        
+    };
 
-            district.innerHTML = `<option value="">Select district</option>`;
-
-            if (data[selectedCity]) {
-                data[selectedCity].forEach(d => {
-                const option = document.createElement("option");
-                option.value = d;
-                option.textContent = d;
-                district.appendChild(option);
-                });
-            }
-            });
-            district.addEventListener("change", () => {
-            if (city.value && district.value) {
-                serviceLocationInput.value = `${city.value} - ${district.value}`;
-                dropdown.classList.add("d-none");
-            }
-            });
-            document.addEventListener("click", (e) => {
-            if (!document.querySelector(".location-wrapper").contains(e.target)) {
-                dropdown.classList.add("d-none");
-            }
-            });        
-        };
-
-
-    const next3Btn1 = document.querySelector("#next3-btn1");
     const frequencyItems = document.querySelectorAll(".frequency-btn");
-    let serviceFrequency = jobpost.serviceFrequency || "";
+    let serviceFrequency = jobpost.serviceFrequency || null;
 
     if (frequencyItems.length) {
         frequencyItems.forEach(item => {
-            if (item.dataset.value === serviceFrequency) {
+            if (item.dataset.value === serviceFrequency?.type) {
                 item.classList.add("active");
             }
 
@@ -218,61 +206,148 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     
 
-    if (next3Btn1) {
-        const serviceScheduleInput = document.querySelector("#service-schedule");
-        const servicePayRateInput = document.querySelector("#service-pay-rate");
-        next3Btn1.addEventListener("click", (e) => {
-        e.preventDefault();
-        const serviceSchedule = serviceScheduleInput?.value;
-        const serviceLocation = serviceLocationInput?.value;
-        const servicePayRate = servicePayRateInput?.value;
-        if (!serviceSchedule || !serviceFrequency || !serviceLocation || !servicePayRate) {
+    const jobpostSumitBtn1 = document.querySelector("#jobpost-submit-btn1");
+    if (jobpostSumitBtn1) {
+        jobpostSumitBtn1.addEventListener("click", async(event) => {
+            event.preventDefault();
+
+            const service_type = selectedService?.type;
+            const service_title = document.getElementById("job-title").value;
+            const service_description = document.getElementById("service-description").value;
+            const service_schedule = document.getElementById("service-schedule").value;
+            const service_frequency = serviceFrequency?.type;
+            const service_location = document.getElementById("service-location").value;
+            const service_pay_rate = document.getElementById("service-pay-rate").value;
+            if (!service_type || !service_title || !service_description || !service_schedule|| !service_frequency|| !service_location|| !service_pay_rate) {
             alert("Please fill in all required fields.");
             return;
-        }
-        saveJobpostData({ serviceSchedule, serviceFrequency, serviceLocation, servicePayRate });
-        
-        window.location.href = "client-profile4.html";
-    });
-    }
-    // ===== CLIENT REVIEW PAGE =====
-    
-    if (document.querySelector("#info-review")) {
-        document.getElementById("service-title-review").textContent = jobpost.serviceTitle;
-        document.getElementById("service-description-review").textContent = jobpost.serviceDescription || "";
-        document.getElementById("service-schedule-review").textContent = jobpost.serviceSchedule|| "";
-        document.getElementById("frequency-review").textContent = jobpost.serviceFrequency.title || "";
-        document.getElementById("service-location-review").textContent = jobpost.serviceLocation || "";
-        document.getElementById("service-pay-rate-review").textContent = jobpost.servicePayRate || "";
-    }
-    const submitBtn1 = document.querySelector("#submit-profile-btn1");
-    if (submitBtn1) {
-        submitBtn1.addEventListener("click", async(event) => {
-            event.preventDefault();
-            const fullname = profile.name;
-            const contact_email = profile.email;
-            const contact_phone = profile.phone;
-            const location = profile.location;
-            const service_type = jobpost.selectedService.type;
-            const service_title = jobpost.serviceTitle;
-            const service_description = jobpost.serviceDescription;
-            const service_schedule = jobpost.serviceSchedule;
-            const service_frequency = jobpost.serviceFrequency.type;
-            const service_location = jobpost.serviceLocation;
-            const service_pay_rate = jobpost.servicePayRate;
-
+            }
+            saveJobpostData({ selectedService, service_title, service_description, service_schedule, serviceFrequency, service_location, service_pay_rate});        
             try{
-                await user.updateProfile(fullname, contact_email, contact_phone, location)
-                await job.jobpost(service_type, service_title, service_description, service_schedule, service_frequency, service_location, service_pay_rate);
-                sessionStorage.removeItem(JOBPOST_KEY);
-                sessionStorage.removeItem(PROFILE_KEY);
+                await job.jobpost(service_type, service_title, service_description, service_schedule, service_frequency, service_location, service_pay_rate);   
                 alert("Job posted successfully!");
                 window.location.href = "client-dashboard.html"; 
             } catch(error) {alert("Error posting job: " + error);
             }
-            
 
         });
     };
     
+// ---DASHBOARD--//
+
+
+async function loadDashboard() {
+  const userId = JSON.parse(sessionStorage.getItem("user")).id;
+    
+  if (!userId) {
+    alert("Not logged in");
+    window.location.href = "/login.html";
+    return;
+  }
+  await job.getJob(userId)
+  const jobs =JSON.parse(sessionStorage.getItem('jobList'))
+  console.log(jobs)
+  renderJobs(jobs);
+  await user.getJobSeeker(userId)
+  const jobseekers = JSON.parse(sessionStorage.getItem('jobSeekerList'));
+  renderJobseekers(jobseekers);
+}
+
+loadDashboard();
+
+function renderJobs(jobs) {
+  const container = document.getElementById("job-list");
+  container.innerHTML = "";
+
+  if (jobs.length === 0) {
+    container.innerHTML = "<p>No jobs yet</p>";
+    return;
+  }
+
+  jobs.forEach(job => {
+    const div = document.createElement("div");
+    div.classList.add("job-card");
+
+    div.innerHTML = `
+      <h3>${job.service_title}</h3>
+      <p>${job.service_schedule}</p>
+      <span>${job.service_location}</span><span style="padding: 20px">${job.service_pay_rate} €/hour</span>
+      <p>${job.service_description}</p>
+    `;
+
+    container.appendChild(div);
+  });
+}
+function renderJobseekers(jobseekers) {
+  const container = document.getElementById("jobseeker-list");
+  container.innerHTML = "";
+
+  if (jobseekers.length === 0) {
+    container.innerHTML = "<p>No candidates</p>";
+    return;
+  }
+
+  jobseekers.forEach(jobseeker => {
+    const div = document.createElement("div");
+    div.classList.add("job-card");
+
+    div.innerHTML = `
+      <h3>${jobseeker.fullname}</h3>
+      <p>${jobseeker.experience}</p>
+      <span>📍${jobseeker.location}</span><span style="padding: 20px">${job.service_pay_rate} €/hour</span>
+      <p>${jobseeker.services}</p>
+      <p>${jobseeker.skills}</p>
+    `;
+
+    container.appendChild(div);
+  });
+}
+async function loadServices() {
+let selectedServices = "";
+const serviceItems = document.querySelectorAll(".find-by-service-btn");
+serviceItems.forEach(item => {
+    if (selectedServices.includes(item.dataset.value)) {
+            item.classList.add("active");
+        }
+    item.addEventListener("click", async () => {
+        
+         serviceItems.forEach(i => i.classList.remove("active"));
+                item.classList.add("active");
+    
+        const service = item.dataset.value; // childcare, eldercare,...
+            if (selectedServices.includes(service)) {
+                selectedServices = selectedServices.filter(s => s !== service);
+            } else {
+                selectedServices= service;
+            }
+            if (!selectedServices) {
+                renderJobseekersByServices("");
+                return;
+            }
+            let jobseekersList = await user.getJobSeekerByService(service);
+            
+            renderJobseekersByServices(jobseekersList);
+        
+        
+    });
+});
+};
+loadServices();
+function renderJobseekersByServices(list) {
+    const container = document.getElementById("jobseeker-by-service-list");
+    container.innerHTML = "";
+    
+    list.forEach(user => {
+        const div = document.createElement("div");
+        div.innerHTML = `
+            <h3>${user.fullname}</h3>
+            <p>${user.services}</p>
+            <p>${user.experience}</p>
+            <p>${user.about_you}</p>
+        `;
+        container.appendChild(div);
+    });
+}
+
+
 });
