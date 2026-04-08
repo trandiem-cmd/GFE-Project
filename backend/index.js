@@ -3,9 +3,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const { userRouter } = require('./routes/user.js');
-const { contactRouter } = require('./routes/contact');
-const { inboxRouter } = require('./routes/inbox');
-
+const { jobRouter } = require('./routes/job.js');
 const app = express();
 
 const { contactRouter } = require('./routes/contact');
@@ -18,7 +16,7 @@ const port = process.env.PORT;
 
 app.use('/user',userRouter);
 app.use('/contact', contactRouter);
-app.use('/inbox', inboxRouter);
+app.use('/job',jobRouter);
 app.get('/',(req,res) => {
   res.json({message: "Hello world"})
 });
