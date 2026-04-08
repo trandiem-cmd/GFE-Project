@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>GFE - My Profile</title>
-
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
@@ -13,7 +12,6 @@
 
   <div class="top-bar">
     <img src="./Assets/GFE logo.png" class="logo">
-
     <div class="right-side">
       <a href="index.html" class="logout-btn">Log out</a>
       <img src="./Assets/menu-icon.png" class="menu-icon" onclick="openMenu()">
@@ -21,38 +19,32 @@
   </div>
 
   <div id="menuOverlay" class="menu-overlay" style="display: none;">
-
     <div class="menu-card">
-
       <div class="menu-top">
         <img src="./Assets/candidate img2.png" class="menu-profile">
         <span class="close-btn" onclick="closeMenu()">✕</span>
       </div>
-
       <div class="menu-links">
-        <a href="#">Search</a>
+        <a href="jobseeker-job-offers.html">Search</a>
         <a href="jobseeker-profile-page.html">My profile</a>
         <a href="jobseeker-inbox.html">Messages</a>
         <a href="jobseeker-application.html">My applications</a>
+        <a href="jobseeker-saved-jobs.html">❤️ Saved jobs</a>
       </div>
-
       <div class="menu-bottom">
         <a href="contact.html" class="help-btn">Need Help?</a>
         <a href="index.html" class="logout-small">Log out</a>
       </div>
-
     </div>
-
   </div>
 
   <div class="profile-container">
 
     <div class="profile-header">
       <img src="./Assets/candidate img2.png" class="profile-img">
-
       <div class="profile-info">
         <h4>Alex Johnson 20</h4>
-        <p>Helsinki</p>
+        <p id="profile-location-text">Helsinki</p>
       </div>
     </div>
 
@@ -63,15 +55,7 @@
     <div class="profile-section">
       <h4>About me</h4>
       <div class="profile-box">
-        <p>
-          Hello! I am Alex, 20 years old. I am looking for cleaning and babysitting jobs.
-          I have experience in cleaning, organizing, and helping with daily tasks.
-          <br><br>
-          I am responsible, active, and hardworking. I like to keep places clean and organized.
-          I can work both alone and in a team and I learn new things quickly.
-          <br><br>
-          In my free time, I enjoy cooking, baking, and spending time with my family and friends.
-        </p>
+        <p id="about-text">Hello! I am Alex, 20 years old. I am looking for cleaning and babysitting jobs. I have experience in cleaning, organizing, and helping with daily tasks.<br><br>I am responsible, active, and hardworking. I like to keep places clean and organized. I can work both alone and in a team and I learn new things quickly.<br><br>In my free time, I enjoy cooking, baking, and spending time with my family and friends.</p>
       </div>
     </div>
 
@@ -97,22 +81,68 @@
     <div class="profile-section">
       <h4>Your experience</h4>
       <p class="section-sub">Share your experience and your rate</p>
-
       <div class="profile-box">
         <div class="exp-row">
           <label>Experience</label>
-          <div class="exp-value">&lt; 1 year experience</div>
+          <div class="exp-value" id="experience-text">< 1 year experience</div>
         </div>
-
         <div class="exp-row">
           <label>Hourly rate</label>
-          <div class="exp-value">€15/hour</div>
+          <div class="exp-value" id="rate-text">€15/hour</div>
+        </div>
+        <div class="exp-row">
+          <label>Location</label>
+          <div class="exp-value" id="location-text">Helsinki</div>
         </div>
       </div>
     </div>
 
+    <!-- EDIT FORM - hidden by default -->
+    <div id="editForm" style="display:none;">
+      <div class="profile-section">
+        <h4>Edit About me</h4>
+        <textarea id="edit-about" style="width:100%; border:none; border-radius:8px; padding:8px; background:#e9def5; min-height:120px;"></textarea>
+      </div>
+
+      <div class="profile-section">
+        <h4>Edit Experience</h4>
+        <select id="edit-experience" class="form-select mb-2">
+          <option>0-1 years</option>
+          <option>1-3 years</option>
+          <option>3-5 years</option>
+          <option>5+ years</option>
+        </select>
+      </div>
+
+      <div class="profile-section">
+        <h4>Edit Hourly Rate</h4>
+        <select id="edit-rate" class="form-select mb-2">
+          <option>€10 - €15/hour</option>
+          <option>€15 - €20/hour</option>
+          <option>€20 - €25/hour</option>
+          <option>€25+ /hour</option>
+        </select>
+      </div>
+
+      <div class="profile-section">
+        <h4>Edit Location</h4>
+        <select id="edit-city" class="form-select mb-2">
+          <option value="">Select city</option>
+          <option>Helsinki</option>
+          <option>Espoo</option>
+          <option>Vantaa</option>
+          <option>Tampere</option>
+          <option>Turku</option>
+          <option>Oulu</option>
+        </select>
+        <select id="edit-district" class="form-select">
+          <option value="">Select district</option>
+        </select>
+      </div>
+    </div>
+
     <div class="profile-actions">
-      <a href="jobseeker-profile1.html" class="edit-btn">Edit your profile</a>
+      <button class="edit-btn" id="editBtn">Edit your profile</button>
       <button class="pause-btn">Pause your application</button>
       <button class="delete-btn">Delete account</button>
     </div>
@@ -125,49 +155,101 @@
       <a href="#">Contact us</a>
       <a href="#">FAQ</a>
     </div>
-
     <div class="footer-line"></div>
     <p>© 2026 GFE — All rights reserved</p>
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
-
   <script>
-    const pauseBtn = document.querySelector(".pause-btn");
+  let isEditing = false;
 
-    if (pauseBtn) {
-      pauseBtn.addEventListener("click", function () {
-        if (this.innerText === "Pause your application") {
-          this.innerText = "Resume application";
-          this.style.background = "#ccc";
-        } else {
-          this.innerText = "Pause your application";
-          this.style.background = "#e4dbe6";
-        }
-      });
-    }
-  </script>
+document.getElementById('editBtn').addEventListener('click', function() {
+  if (!isEditing) {
+    isEditing = true;
+    this.textContent = 'Save profile';
 
-  <script>
-    const deleteBtn = document.querySelector(".delete-btn");
+    // about me inline edit
+    const about = document.getElementById('about-text');
+    about.innerHTML = `<textarea id="edit-about" style="width:100%; border:none; border-radius:8px; padding:8px; background:#e9def5; min-height:120px;">${about.innerText}</textarea>`;
 
-    if (deleteBtn) {
-      deleteBtn.addEventListener("click", () => {
-        if (confirm("Are you sure you want to delete your account?")) {
-          alert("Account deleted");
-        }
-      });
-    }
-  </script>
+    // experience inline edit
+    const exp = document.getElementById('experience-text');
+    exp.innerHTML = `<select id="edit-experience" style="border:1px solid #ccc; border-radius:8px; padding:5px; background:#e9def5;">
+      <option>0-1 years</option>
+      <option>1-3 years</option>
+      <option>3-5 years</option>
+      <option>5+ years</option>
+    </select>`;
 
-  <script>
-    function openMenu() {
-      document.getElementById("menuOverlay").style.display = "flex";
-    }
+    // rate inline edit
+    const rate = document.getElementById('rate-text');
+    rate.innerHTML = `<select id="edit-rate" style="border:1px solid #ccc; border-radius:8px; padding:5px; background:#e9def5;">
+      <option>€10 - €15/hour</option>
+      <option>€15 - €20/hour</option>
+      <option>€20 - €25/hour</option>
+      <option>€25+ /hour</option>
+    </select>`;
 
-    function closeMenu() {
-      document.getElementById("menuOverlay").style.display = "none";
-    }
+    // location inline edit
+    const loc = document.getElementById('location-text');
+    loc.innerHTML = `<select id="edit-location" style="border:1px solid #ccc; border-radius:8px; padding:5px; background:#e9def5;">
+      <option>Helsinki</option>
+      <option>Espoo</option>
+      <option>Vantaa</option>
+      <option>Tampere</option>
+      <option>Turku</option>
+      <option>Oulu</option>
+    </select>`;
+
+  } else {
+    isEditing = false;
+    this.textContent = 'Edit your profile';
+
+    // save values back
+    const aboutVal = document.getElementById('edit-about').value;
+    document.getElementById('about-text').innerHTML = aboutVal;
+
+    const expVal = document.getElementById('edit-experience').value;
+    document.getElementById('experience-text').textContent = expVal;
+
+    const rateVal = document.getElementById('edit-rate').value;
+    document.getElementById('rate-text').textContent = rateVal;
+
+    const locVal = document.getElementById('edit-location').value;
+    document.getElementById('location-text').textContent = locVal;
+    document.getElementById('profile-location-text').textContent = locVal;
+
+    alert('Profile saved! ✅');
+  }
+});
+
+// pause button
+document.querySelector(".pause-btn").addEventListener("click", function() {
+  if (this.innerText === "Pause your application") {
+    this.innerText = "Resume application";
+    this.style.background = "#ccc";
+  } else {
+    this.innerText = "Pause your application";
+    this.style.background = "#e4dbe6";
+  }
+});
+
+// delete button
+document.querySelector(".delete-btn").addEventListener("click", () => {
+  if (confirm("Are you sure you want to delete your account?")) {
+    alert("Account deleted");
+  }
+});
+
+// toggle tags
+document.querySelectorAll('.tag, .tasks span').forEach(tag => {
+  tag.addEventListener('click', () => {
+    tag.classList.toggle('active');
+  });
+});
+
+function openMenu() { document.getElementById("menuOverlay").style.display = "flex"; }
+function closeMenu() { document.getElementById("menuOverlay").style.display = "none"; }
   </script>
 
 </body>

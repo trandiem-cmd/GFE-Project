@@ -1447,9 +1447,11 @@ label{
   border-radius: 10px;
 }
 
-.footer{
+
+.jobseeker-inbox-page .footer {
   position: relative;
-  top: 124px;
+  top: 0;
+  margin-top: 377px;
 }
 
 
@@ -1895,25 +1897,25 @@ label{
   display: flex;
   justify-content: center;
   align-items: center;
-  
-  min-height: 100vh; /
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.3);
+  z-index: 1000;
+  min-height: 100vh;
 }
-
 .menu-card {
   width: 85%;
   max-width: 390px;
-  height: 80vh; 
-  position: relative;
-  bottom: 120px;
-  
+  height: 80vh;
   background: #e9def5;
   border-radius: 16px;
   padding: 20px;
-  
   display: flex;
   flex-direction: column;
-  justify-content: space-between; 
-  
+  justify-content: space-between;
   box-shadow: 0 6px 18px rgba(0,0,0,0.1);
 }
 
@@ -2026,6 +2028,36 @@ label{
   margin-top: 10px;
 }
 
+
+.tag {
+  background: #e4dbe6;
+  padding: 6px 10px;
+  border-radius: 10px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.tag.active {
+  background: #7b3fe4;
+  color: white;
+}
+
+.tasks span {
+  background: #e4dbe6;
+  padding: 6px 10px;
+  border-radius: 10px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.tasks span.active {
+  background: #7b3fe4;
+  color: white;
+}
+
+.jobseeker-profile-page .profile-box {
+  background: #e9def5;
+}
 
 .profile-header {
   display: flex;
@@ -2237,9 +2269,22 @@ label{
  margin-top: 20px;
 }
 
+.client-inbox-page .footer {
+  position: relative;
+  top: 0;
+  margin-top: 377px;
+}
+
+
 .client-inbox-page .chat-box{
   min-height: 160px;
  
+}
+.profile-icon {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  object-fit: cover;
 }
 .jobseeker-application-page .applications-header p {
   font-size: 13px;

@@ -68,4 +68,33 @@ userRouter.put("/profile", auth, async (req, res) => {
   }
 });
 
+// GET all jobseekers (for client inbox)
+userRouter.get('/jobseekers', async (req, res) => {
+  try {
+    const result = await query("SELECT id, fullname, services FROM users WHERE role = 'jobseeker'");
+    res.json(result.rows);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to get jobseekers' });
+  }
+});
+
+// GET all clients (for jobseeker inbox)
+userRouter.get('/clients', async (req, res) => {
+  try {
+    const result = await query("SELECT id, fullname FROM users WHERE role = 'client'");
+    res.json(result.rows);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to get clients' });
+  }
+})
+
+userRouter.get('/:id', async (req, res) => {
+  try {
+    const result = await query('SELECT * FROM users WHERE id = $1', [req.params.id]);
+    res.json(result.rows[0]);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to get user' });
+  }
+});
+
 module.exports = { userRouter };
