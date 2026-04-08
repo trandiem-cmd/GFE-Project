@@ -2732,3 +2732,224 @@ label{
 #submit-profile-btn1{
   margin: 20px 0px;
 }
+
+/* client-dashboard-page */
+
+.client-dashboard-page .top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 11px;
+ 
+}
+
+.client-dashboard-page .profile-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  margin-left: 20px;
+}
+
+
+.menu-icon {
+  width: 25px;
+  cursor: pointer;
+}
+
+
+.client-dashboard-page .right-side {
+  display: flex;
+  justify-content: end;
+  gap: 10px;
+}
+
+
+.client-dashboard-page .logout-btn {
+  background: linear-gradient(to right, #7b3fe4, #3B1664);
+  color: white;
+  padding: 6px 14px;
+  border-radius: 10px;
+  font-size: 13px;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: 0.2s ease;
+  margin-bottom: 20px;
+}
+
+.client-dashboard-page .logout-btn:hover {
+  background: #5a2ca0;
+}
+
+.client-dashboard-page .menu-icon {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  position: relative;
+  bottom: 8px;
+}
+
+
+.client-dashboard-page .welcome {
+  padding: 10px 15px;
+}
+
+.client-dashboard-page .welcome h2 {
+  color: #572290;
+  font-size: 28px;
+  margin-bottom: 5px;
+  font-family: 'ADLaM Display', sans-serif;
+  position: relative;
+  bottom: 60px;
+}
+.client-dashboard-page h3 {
+  color: #572290;
+  font-size: 20px;
+  margin-bottom: 5px;
+  font-family: 'ADLaM Display', sans-serif;
+  position: relative;
+  
+}
+
+.client-dashboard-page .welcome p {
+  font-size: 20px;
+  color: #555;
+  font-family: 'ADLaM Display', sans-serif;
+   position: relative;
+  bottom: 40px;
+}
+
+
+
+
+.client-dashboard-page .actions {
+  display: flex;
+  gap: 30px;
+  margin: 1px 15px;
+  position: relative;
+  bottom:30px;
+  left: 30px;
+}
+
+.client-dashboard-page .actions button {
+  flex: 1;
+  padding: 10px;
+  border-radius: 12px;
+  border: none;
+  background: #e7d5fa;
+  color: #572290;
+  font-weight: bold;
+  cursor: pointer;
+ 
+}
+
+.client-dashboard-page .actions button:hover {
+  background: #7b3fe4;
+  color: white;
+}
+
+
+.client-dashboard-page .jobs {
+  margin-top: 10px;
+}
+
+
+.client-dashboard-page .jobs h3 {
+  color: #572290;
+  margin: 10px 15px;
+  font-size: 24px;
+   font-family: 'ADLaM Display', sans-serif;
+}
+
+
+.client-dashboard-page .job-card {
+  background: #dbd1e9;
+  padding: 14px;
+  border-radius: 14px;
+  margin: 12px 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.client-dashboard-page .job-card h4 {
+  margin: 0;
+  font-size: 15px;
+   font-family: 'ADLaM Display', sans-serif;
+}
+
+.client-dashboard-page .job-card p {
+  font-size: 13px;
+  margin: 4px 0;
+   font-family: 'ADLaM Display', sans-serif;
+}
+
+
+.client-dashboard-page .details-btn {
+  background: linear-gradient(to right, #7b3fe4, #3B1664);
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+   font-family: 'ADLaM Display', sans-serif;
+}
+
+
+.client-dashboard-page .job-bottom {
+  display: flex;
+  justify-content: flex-end;
+  position: relative;
+  top: 7px;  
+}
+
+
+
+.client-dashboard-page .activity {
+  margin-top: 10px;
+}
+
+.client-dashboard-page .activity h3 {
+  color: #572290;
+  margin-left: 15px;
+}
+
+
+
+.client-dashboard-page .stats {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 15px;
+  gap: 8px;
+}
+
+.client-dashboard-page .stats div {
+  flex: 1;
+  background: #ded5ea;
+  padding: 12px;
+  border-radius: 12px;
+  text-align: center;
+  font-size: 13px;
+   font-family: 'ADLaM Display', sans-serif;
+}
+.client-dashboard-page {
+  background: 
+    linear-gradient(rgba(90, 58, 176, 0.12), rgba(90, 58, 176, 0.12)),
+    url('../css/image 14.png');
+
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh;
+   display: flex;
+  flex-direction: column;
+}
+.client-menu-overlay {
+  position: fixed;
+  top: 8;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.3);
+  z-index: 999;
+}
+.client-dashboard-page .footer {
+  margin-top: auto;
+}
