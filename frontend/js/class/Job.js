@@ -90,5 +90,22 @@ class Job {
         throw response.statusText
        }
     }
+    async getJob (){
+        const user = JSON.parse(sessionStorage.getItem('user'));   
+        const token = user.token;
+        const response = await fetch(BACKEND_URL + '/job/dashboard', {
+        method: 'get',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`},
+       })
+       if (response.ok === true) {
+        const json = await response.json();
+        sessionStorage.setItem('jobList',JSON.stringify(json))
+        return json;
+       }else {
+        throw response.statusText
+       }
+    }
 };
 export { Job };

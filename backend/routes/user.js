@@ -73,6 +73,28 @@ userRouter.put("/profile",auth,async(req,res) => {
     res.status(500).json({error: error})
   }
 });
+userRouter.get("/jobseeker",auth,async(req,res)=>{
+    try{
+        
+        const sql = "SELECT * FROM users WHERE role=$1"
+        const result = await query(sql,['jobseeker'])
+        res.status(200).json(result.rows) 
+    } catch (error) {
+        res.statusMessage = error
+        res.status(500).json({error: error})
+    }
+})
+userRouter.get("/jobseeker/:service",auth,async(req,res)=>{
+    try{
+        const service = req.params.service;
+        const sql = "SELECT * FROM users WHERE role=$1 AND services=$2"
+        const result = await query(sql,['jobseeker',service])
+        res.status(200).json(result.rows) 
+    } catch (error) {
+        res.statusMessage = error
+        res.status(500).json({error: error})
+    }
+})
 
 module.exports = {
   userRouter

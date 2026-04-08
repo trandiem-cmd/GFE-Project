@@ -33,52 +33,18 @@
 
   
   <section class="actions">
-    <button id="jobpost-btn"><a href="client-post.html">Post a job</a></button>
-    <button id="jobview-btn">View your jobs</button>
+    <button id="jobpost-btn"><a href="client-post.html">Post a new job</a></button>
   </section>
-
+  <h3>View your posts</h3>
   <div class="job-card" id="job-list">
     
   </div>
 
   <h3>Recommend candidates</h3>
-  <div class="job-card">
-     <div class="job-card">
-      <div class="job-top">
-        <h4>Apartment Cleaner</h4>
-        <img src="./Assets/Heart@2x.png" class="heart-icon">
-      </div>
-
-      <p class="job-time">Occasional cleaning (weekends)</p>
-      <p class="job-location">📍 Helsinki • €15/hour</p>
-
-      <p class="job-desc">
-        I need a detail-oriented cleaner for occasional apartment cleaning including bathrooms, floors, and general tidying.
-      </p>
-
-      <div class="job-bottom">
-        <button class="details-btn">View details</button>
-      </div>
+  
+     <div class="job-card" id='jobseeker-list'>
      </div>
-  </div>
-
-  <div class="job-card">
-     <div class="job-card">
-      <div class="job-top">
-        <h4>House Cleaner Needed</h4>
-        <img src="./Assets/Heart@2x.png" class="heart-icon">
-      </div>
-
-      <p class="job-time">Weekday mornings (8pm - 10pm)</p>
-      <p class="job-location">📍 Vantaa • €15/hour</p>
-
-      <p class="job-desc">
-     We need a responsible house cleaner to take care of our house and help with cleaning.
-      </p>
-
-      <div class="job-bottom">
-        <button class="details-btn">View details</button>
-      </div>
+     
     
   </div>
   </div>
@@ -90,12 +56,13 @@
 
   <section class="find-candidates">
     <h3>Find candidates by service</h3>
-
+    <div id="jobseeker-by-service"></div>
     <div class="find-by-services">
-        <button type="button" class="find-by-service-btn">🧼 Cleaning</button>
-        <button type="button" class="find-by-service-btn">🧸 Childcare</button>
-        <button type="button" class="find-by-service-btn">👴🏻 Eldercare</button>
+        <button type="button" class="find-by-service-btn" data-value="cleaning">🧼 Cleaning <span id="test"></span></button>
+        <button type="button" class="find-by-service-btn" data-value="childcare">🧸 Childcare</button>
+        <button type="button" class="find-by-service-btn" data-value="eldercare">👴🏻 Eldercare</button>
     </div>
+    <div id="jobseeker-by-service-list"></div>
   </section>
 
   

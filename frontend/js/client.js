@@ -233,6 +233,121 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     };
     
+// ---DASHBOARD--//
+
+
+async function loadDashboard() {
+  const userId = JSON.parse(sessionStorage.getItem("user")).id;
+    
+  if (!userId) {
+    alert("Not logged in");
+    window.location.href = "/login.html";
+    return;
+  }
+  await job.getJob(userId)
+  const jobs =JSON.parse(sessionStorage.getItem('jobList'))
+  console.log(jobs)
+  renderJobs(jobs);
+  await user.getJobSeeker(userId)
+  const jobseekers = JSON.parse(sessionStorage.getItem('jobSeekerList'));
+  renderJobseekers(jobseekers);
+}
+
+loadDashboard();
+
+function renderJobs(jobs) {
+  const container = document.getElementById("job-list");
+  container.innerHTML = "";
+
+  if (jobs.length === 0) {
+    container.innerHTML = "<p>No jobs yet</p>";
+    return;
+  }
+
+  jobs.forEach(job => {
+    const div = document.createElement("div");
+    div.classList.add("job-card");
+
+    div.innerHTML = `
+      <h3>${job.service_title}</h3>
+      <p>${job.service_schedule}</p>
+      <span>${job.service_location}</span><span style="padding: 20px">${job.service_pay_rate} €/hour</span>
+      <p>${job.service_description}</p>
+    `;
+
+    container.appendChild(div);
+  });
+}
+function renderJobseekers(jobseekers) {
+  const container = document.getElementById("jobseeker-list");
+  container.innerHTML = "";
+
+  if (jobseekers.length === 0) {
+    container.innerHTML = "<p>No candidates</p>";
+    return;
+  }
+
+  jobseekers.forEach(jobseeker => {
+    const div = document.createElement("div");
+    div.classList.add("job-card");
+
+    div.innerHTML = `
+      <h3>${jobseeker.fullname}</h3>
+      <p>${jobseeker.experience}</p>
+      <span>📍${jobseeker.location}</span><span style="padding: 20px">${job.service_pay_rate} €/hour</span>
+      <p>${jobseeker.services}</p>
+      <p>${jobseeker.skills}</p>
+    `;
+
+    container.appendChild(div);
+  });
+}
+async function loadServices() {
+let selectedServices = "";
+const serviceItems = document.querySelectorAll(".find-by-service-btn");
+serviceItems.forEach(item => {
+    if (selectedServices.includes(item.dataset.value)) {
+            item.classList.add("active");
+        }
+    item.addEventListener("click", async () => {
+        
+         serviceItems.forEach(i => i.classList.remove("active"));
+                item.classList.add("active");
+    
+        const service = item.dataset.value; // childcare, eldercare,...
+            if (selectedServices.includes(service)) {
+                selectedServices = selectedServices.filter(s => s !== service);
+            } else {
+                selectedServices= service;
+            }
+            if (!selectedServices) {
+                renderJobseekersByServices("");
+                return;
+            }
+            let jobseekersList = await user.getJobSeekerByService(service);
+            
+            renderJobseekersByServices(jobseekersList);
+        
+        
+    });
+});
+};
+loadServices();
+function renderJobseekersByServices(list) {
+    const container = document.getElementById("jobseeker-by-service-list");
+    container.innerHTML = "";
+    
+    list.forEach(user => {
+        const div = document.createElement("div");
+        div.innerHTML = `
+            <h3>${user.fullname}</h3>
+            <p>${user.services}</p>
+            <p>${user.experience}</p>
+            <p>${user.about_you}</p>
+        `;
+        container.appendChild(div);
+    });
+}
 
 
 });

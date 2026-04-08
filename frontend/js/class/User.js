@@ -182,14 +182,52 @@ class User {
     }
   }
 
+  async getJobSeeker (userId){
+    const user = JSON.parse(sessionStorage.getItem('user'));
+    
+    const token = user.token;
+    
+    const response = await fetch(BACKEND_URL + '/user/jobseeker', {
+    method: 'get',
+    headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`},
+    })
+    if (response.ok === true) {
+    const json = await response.json();
+    sessionStorage.setItem('jobSeekerList',JSON.stringify(json))
+    return json;
+    }else {
+    throw response.statusText
+    }
+  }
 
+     async getJobSeekerByService (service){
+    const user = JSON.parse(sessionStorage.getItem('user'));
+    const token = user.token;
+    
+    const response = await fetch(BACKEND_URL + `/user/jobseeker/${service}`, {
+    method: 'get',
+    headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`},
+    })
+    if (response.ok === true) {
+    const json = await response.json();
+    sessionStorage.setItem('jobSeekerListByService',JSON.stringify(json))
+    return json;
+    }else {
+    throw response.statusText
+    } 
+  }
   logout() {
     this.#id = undefined
     this.#email = undefined
     this.#token = undefined
     sessionStorage.removeItem('user')
   }
-
 }
+
+
 
 export { User }
