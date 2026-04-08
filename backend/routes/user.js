@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const { auth } = require("../helpers/auth.js");
+const userRouter = express.Router();
 
 // LOGIN
 userRouter.post('/login', async (req, res) => {
