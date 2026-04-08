@@ -10,72 +10,55 @@
 </head>
 
 <body class="client-dashboard-page">
-    <div class="top-bar">
-
+  <div class="top-bar">
+    <img src="./Assets/GFE logo.png" class="logo">
     <div class="right-side">
-      <a href="index.html" class="logout-btn">Log out</a>
-
-      
-      <img src="./Assets/menu-icon.png" class="menu-icon" onclick="openMenu()">
+      <a href="index.html" class="logout-btn">log out</a>
+          <img src="./Assets/menu-icon.png" class="menu-icon" onclick="openMenu()">
+      </a>
     </div>
   </div>
-
   <div id="menuOverlay" class="menu-overlay" style="display: none;">
-
     <div class="menu-card">
-
       <div class="menu-top">
         <img src="./Assets/candidate img2.png" class="menu-profile">
         <span class="close-btn" onclick="closeMenu()">✕</span>
       </div>
-
       <div class="menu-links">
-       <a href="jobseeker-job-offers.html">Search</a>
+      <a href="jobseeker-job-offers.html">Search</a>
         <a href="jobseeker-profile-page.html">My profile</a>
         <a href="jobseeker-inbox.html">Messages</a>
         <a href="jobseeker-application.html">My applications</a>
         <a href="jobseeker-saved-jobs.html">❤️ Saved jobs</a>
       </div>
-
       <div class="menu-bottom">
         <a href="contact.html" class="help-btn">Need Help?</a>
         <a href="index.html" class="logout-small">Log out</a>
       </div>
-
     </div>
-
   </div>
-
+  
   <section class="welcome">
     <h2>Hello, Elena 👋</h2>
     <p>Welcome back! Find jobs and manage your applications.</p>
   </section>
 
-  <section class="actions">
+  <section class="job-post" style="margin-left: 20px;">
     <a href="client-post.html" class="btn btn">Post a new job</a>
   </section>
 
   <section class="jobs">
-    <h3>View your posts</h3>
-    <div class="job-card" id="job-list"></div>
+    <h3 class="mt-4">View your posts</h3>
+    <div id="job-list"></div>
   </section>
 
   <section class="jobs">
-    <h3>Recommend candidates</h3>
-    <div class="job-card" id='jobseeker-list'>
-    </div>
+    <h3 class="mt-4">Recommend candidates</h3>
+    <div id='jobseeker-list'></div>
   </section> 
-    
-  </div>
-  </div>
-     
-
-</section>
-
-
 
   <section class="find-candidates">
-    <h3>Find candidates by service</h3>
+    <h3 class="mt-4">Find candidates by service</h3>
     <div id="jobseeker-by-service"></div>
     <div class="find-by-services">
         <button type="button" class="find-by-service-btn" data-value="cleaning">🧼 Cleaning <span id="test"></span></button>
@@ -101,6 +84,14 @@
 </body>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
   <script src="js/client.js" type="module"></script>
+  <script>
+    function openMenu() {
+      document.getElementById("menuOverlay").style.display = "flex";
+    }
+    function closeMenu() {
+      document.getElementById("menuOverlay").style.display = "none";
+    }
+</script>
 </body>
 </html>
 

@@ -266,7 +266,7 @@ function renderJobs(jobs) {
 
   jobs.forEach(job => {
     const div = document.createElement("div");
-    div.classList.add("job-card");
+    div.classList.add("jobs-card");
 
     div.innerHTML = `
       <h3>${job.service_title}</h3>
@@ -288,14 +288,19 @@ function renderJobseekers(jobseekers) {
   }
 
   jobseekers.forEach(jobseeker => {
+    
+    let serviceTitle = jobseeker.services
+    if (serviceTitle == 'cleaning'){serviceTitle='🧼 Cleaning'}
+    else if (serviceTitle == 'childcare'){serviceTitle='🧸 Childcare'}
+    else {serviceTitle='👴🏻 Eldercare'};
     const div = document.createElement("div");
-    div.classList.add("job-card");
+    div.classList.add("jobs-card");
 
     div.innerHTML = `
       <h3>${jobseeker.fullname}</h3>
       <p>${jobseeker.experience}</p>
-      <span>📍${jobseeker.location}</span><span style="padding: 20px">${job.service_pay_rate} €/hour</span>
-      <p>${jobseeker.services}</p>
+      <span>📍${jobseeker.location}</span><span style="padding: 20px">${jobseeker.hourly_rate}</span>
+      <p>${serviceTitle}</p>
       <p>${jobseeker.skills}</p>
     `;
 
@@ -311,8 +316,8 @@ serviceItems.forEach(item => {
         }
     item.addEventListener("click", async () => {
         
-         serviceItems.forEach(i => i.classList.remove("active"));
-                item.classList.add("active");
+        serviceItems.forEach(i => i.classList.remove("active"));
+        item.classList.add("active");
     
         const service = item.dataset.value; // childcare, eldercare,...
             if (selectedServices.includes(service)) {
@@ -338,11 +343,17 @@ function renderJobseekersByServices(list) {
     container.innerHTML = "";
     
     list.forEach(user => {
+        let serviceTitle = user.services
+        if (serviceTitle == 'cleaning'){serviceTitle='🧼 Cleaning'}
+        else if (serviceTitle == 'childcare'){serviceTitle='🧸 Childcare'}
+        else {serviceTitle='👴🏻 Eldercare'};
         const div = document.createElement("div");
+        div.classList.add("jobs-card");
         div.innerHTML = `
             <h3>${user.fullname}</h3>
-            <p>${user.services}</p>
             <p>${user.experience}</p>
+            <p>${serviceTitle}</p>
+            <p>${user.skills}</p>
             <p>${user.about_you}</p>
         `;
         container.appendChild(div);

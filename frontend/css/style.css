@@ -2757,12 +2757,6 @@ label{
 }
 
 
-.client-dashboard-page .right-side {
-  display: flex;
-  justify-content: end;
-  gap: 10px;
-}
-
 
 .client-dashboard-page .logout-btn {
   background: linear-gradient(to right, #7b3fe4, #3B1664);
@@ -2800,14 +2794,13 @@ label{
   margin-bottom: 5px;
   font-family: 'ADLaM Display', sans-serif;
   position: relative;
-  bottom: 60px;
+  bottom: 10px;
 }
 .client-dashboard-page h3 {
   color: #572290;
   font-size: 20px;
   margin-bottom: 5px;
   font-family: 'ADLaM Display', sans-serif;
-  position: relative;
   
 }
 
@@ -2815,17 +2808,13 @@ label{
   font-size: 20px;
   color: #555;
   font-family: 'ADLaM Display', sans-serif;
-   position: relative;
-  bottom: 40px;
+  position: relative;
+  bottom: 10px;
 }
-
-
-
 
 .client-dashboard-page .actions {
   display: flex;
   gap: 30px;
-  margin: 1px 15px;
   position: relative;
   bottom:30px;
   left: 30px;
@@ -2848,21 +2837,11 @@ label{
   color: white;
 }
 
-
 .client-dashboard-page .jobs {
   margin-top: 10px;
 }
 
-
-.client-dashboard-page .jobs h3 {
-  color: #572290;
-  margin: 10px 15px;
-  font-size: 24px;
-   font-family: 'ADLaM Display', sans-serif;
-}
-
-
-.client-dashboard-page .job-card {
+.client-dashboard-page .jobs-card {
   background: #dbd1e9;
   padding: 14px;
   border-radius: 14px;
@@ -2882,7 +2861,6 @@ label{
    font-family: 'ADLaM Display', sans-serif;
 }
 
-
 .client-dashboard-page .details-btn {
   background: linear-gradient(to right, #7b3fe4, #3B1664);
   color: white;
@@ -2893,14 +2871,12 @@ label{
    font-family: 'ADLaM Display', sans-serif;
 }
 
-
 .client-dashboard-page .job-bottom {
   display: flex;
   justify-content: flex-end;
   position: relative;
   top: 7px;  
 }
-
 
 
 .client-dashboard-page .activity {
@@ -2911,7 +2887,6 @@ label{
   color: #572290;
   margin-left: 15px;
 }
-
 
 
 .client-dashboard-page .stats {
@@ -2928,7 +2903,7 @@ label{
   border-radius: 12px;
   text-align: center;
   font-size: 13px;
-   font-family: 'ADLaM Display', sans-serif;
+  font-family: 'ADLaM Display', sans-serif;
 }
 .client-dashboard-page {
   background: 
@@ -2938,7 +2913,7 @@ label{
   background-size: cover;
   background-position: center;
   min-height: 100vh;
-   display: flex;
+  display: flex;
   flex-direction: column;
 }
 .client-menu-overlay {
@@ -2949,6 +2924,9 @@ label{
   height: 100%;
   background: rgba(0,0,0,0.3);
   z-index: 999;
+}
+.client-dashboard-page .body {
+  margin-top: 30px;
 }
 .client-dashboard-page .footer {
   margin-top: auto;
