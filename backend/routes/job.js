@@ -2,6 +2,8 @@ const express = require('express');
 const { query } = require('../helpers/db.js');
 const { auth } = require("../helpers/auth.js");
 const jobRouter = express.Router();
+
+// CLIENT POSTS A JOB 
 jobRouter.post("/post",auth,async(req,res) => {
     try{
         const client_id = req.user.id;
@@ -13,11 +15,37 @@ jobRouter.post("/post",auth,async(req,res) => {
         res.status(500).json({error: error})
     }
 })
+
+// CLIENT GET MY JOB'S POSTS
 jobRouter.get("/dashboard",auth,async(req,res)=>{
     try{
         const client_id = req.user.id;
         const sql = "SELECT service_type, service_title, service_description, service_schedule, service_frequency, service_location, service_pay_rate FROM jobposts WHERE client_id = $1"
         const result = await query(sql,[client_id])
+        res.status(200).json(result.rows) 
+    } catch (error) {
+        res.statusMessage = error
+        res.status(500).json({error: error})
+    }
+})
+
+// JOBSEEKER SEARCH ALL JOBS
+jobRouter.get("/find",auth,async(req,res)=>{
+    try{
+        const sql = "SELECT * FROM jobposts"
+        const result = await query(sql,[])
+        res.status(200).json(result.rows) 
+    } catch (error) {
+        res.statusMessage = error
+        res.status(500).json({error: error})
+    }
+})
+// JOBSEEKER SEARCH JOBS BY SERVICE
+jobRouter.get("/find/:service",auth,async(req,res)=>{
+    try{
+        const service = req.params.service;
+        const sql = "SELECT * FROM jobposts WHERE service_type = $1"
+        const result = await query(sql,[service])
         res.status(200).json(result.rows) 
     } catch (error) {
         res.statusMessage = error

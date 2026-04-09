@@ -68,6 +68,89 @@ VALUES
 UPDATE users set  = 'Babysitting, Child supervision' WHERE id=17;
 UPDATE users SET services = 'eldercare' WHERE id IN(22,23,24,25);
 
+INSERT INTO jobposts 
+(client_id, service_type, service_title, service_description, service_schedule, service_frequency, service_location, service_pay_rate)
+VALUES
+
+(1, 'childcare', 'Babysitter needed for 2 kids',
+'We are looking for a responsible babysitter to take care of our two children in the evenings. Duties include preparing simple meals, helping with homework, and ensuring a safe environment. The ideal candidate should be patient and friendly. Previous experience with children is preferred.',
+'Mon-Fri 17:00-21:00', 'regular', 'Helsinki - Lauttasaari', '€15/hour'),
+
+(2, 'cleaning', 'Apartment cleaning service',
+'We need a reliable cleaner for our 2-bedroom apartment. Tasks include vacuuming, mopping floors, and cleaning the kitchen and bathroom. Attention to detail is important. Cleaning supplies will be provided.',
+'Saturday morning', 'regular', 'Espoo - Otaniemi', '€18/hour'),
+
+(3, 'eldercare', 'Elderly assistance required',
+'Seeking a caregiver to assist an elderly family member with daily activities. Responsibilities include light meal preparation, medication reminders, and companionship. The candidate should be kind and attentive. Experience in elderly care is a plus.',
+'Daily 10:00-14:00', 'regular', 'Tampere - Kaleva', '€20/hour'),
+
+(4, 'cleaning', 'House cleaning',
+'Looking for someone to help with general house cleaning tasks. This includes dusting, vacuuming, and maintaining cleanliness in all rooms. The person should be punctual and organized. Prior cleaning experience is preferred.',
+'Wed & Sun', 'regular', 'Oulu - Linnanmaa', '€17/hour'),
+
+(5, 'childcare', 'Weekend babysitter',
+'We need a babysitter during weekends for our child. Duties include playing, feeding, and putting the child to bed. The candidate should be energetic and caring. Experience with young children is required.',
+'Weekend evenings', 'occasional', 'Turku - Hirvensalo', '€14/hour'),
+
+(7, 'eldercare', 'Senior companion',
+'Looking for a friendly companion for an elderly person. Responsibilities include conversation, light assistance, and ensuring comfort. The role is more about companionship than medical care. A warm personality is essential.',
+'Mon-Wed mornings', 'regular', 'Espoo - Otaniemi', '€19/hour'),
+
+(8, 'cleaning', 'Office cleaning',
+'We require a cleaner for a small office space. Tasks include cleaning desks, floors, and restrooms. The work should be done efficiently and with attention to detail. Evening availability is preferred.',
+'Friday night', 'regular', 'Tampere - Kaleva', '€20/hour'),
+
+(9, 'childcare', 'After school babysitter',
+'Looking for someone to pick up children from school and take care of them until parents return. Duties include preparing snacks and supervising activities. The candidate should be responsible and punctual. A driver license is a plus.',
+'Mon-Fri 15:00-18:00', 'regular', 'Oulu - Rajakylä', '€16/hour'),
+
+(10, 'cleaning', 'Deep cleaning service',
+'We need a cleaner for monthly deep cleaning of our home. Tasks include detailed cleaning of kitchen appliances, bathrooms, and floors. The candidate should be thorough and experienced. Equipment can be provided if needed.',
+'Once a month', 'occasional', 'Turku - Nummi', '€25/hour'),
+
+(21, 'childcare', 'Evening babysitting',
+'Looking for an occasional babysitter in the evenings. Responsibilities include supervising the child, preparing light meals, and bedtime routines. The candidate should be trustworthy and caring. Flexible availability is preferred.',
+'Flexible evenings', 'occasional', 'Helsinki - Kallio', '€15/hour'),
+
+(6, 'childcare', 'Full-time nanny',
+'We are searching for a full-time nanny for our toddler. Duties include feeding, playing, and maintaining daily routines. The nanny should be experienced and patient. Long-term commitment is preferred.',
+'Mon-Fri 09:00-17:00', 'regular', 'New York, NY', '$20/hour'),
+
+(1, 'cleaning', 'Kitchen cleaning',
+'Need help with deep cleaning the kitchen area. Tasks include cleaning appliances, cabinets, and surfaces. The cleaner should be detail-oriented. Experience with kitchen cleaning is a plus.',
+'Sunday afternoon', 'occasional', 'Helsinki - Lauttasaari', '€22/hour'),
+
+(2, 'childcare', 'Babysitter for toddler',
+'Looking for someone to take care of a 2-year-old child. Duties include feeding, playing, and ensuring safety. The candidate should have experience with toddlers. Patience and kindness are important.',
+'Weekdays', 'regular', 'Espoo - Otaniemi', '€16/hour'),
+
+(3, 'cleaning', 'Move-out cleaning',
+'We need a cleaner for a move-out cleaning service. Tasks include full cleaning of all rooms, including kitchen and bathroom. The work should be thorough and efficient. Prior experience is required.',
+'One-time', 'occasional', 'Tampere - Kaleva', '€30/hour'),
+
+(4, 'eldercare', 'Home support for elderly',
+'Looking for someone to assist an elderly person at home. Responsibilities include meal preparation, medication reminders, and light cleaning. The candidate should be caring and dependable. Experience is preferred.',
+'Daily mornings', 'regular', 'Oulu - Linnanmaa', '€21/hour'),
+
+(5, 'cleaning', 'Bathroom cleaning',
+'Need a cleaner to maintain bathroom cleanliness weekly. Tasks include scrubbing, disinfecting, and organizing. The person should be detail-oriented. Cleaning supplies will be provided.',
+'Saturday', 'regular', 'Turku - Hirvensalo', '€18/hour'),
+
+(7, 'childcare', 'Part-time babysitter',
+'Looking for a part-time babysitter for afternoons. Duties include supervising children and preparing snacks. The candidate should be responsible and energetic. Experience is preferred.',
+'Afternoons', 'regular', 'Espoo - Otaniemi', '€15/hour'),
+
+(8, 'eldercare', 'Elder care visits',
+'Seeking someone to visit and assist an elderly person regularly. Tasks include checking health condition and providing companionship. The candidate should be reliable and kind. Experience is a plus.',
+'3 times/week', 'regular', 'Tampere - Kaleva', '€20/hour'),
+
+(9, 'cleaning', 'Housekeeping service',
+'Looking for help with general housekeeping tasks. Duties include cleaning, organizing, and maintaining the home. The candidate should be efficient and trustworthy. Regular schedule preferred.',
+'Twice a week', 'regular', 'Oulu - Rajakylä', '€19/hour'),
+
+(10, 'childcare', 'Night babysitter',
+'We need a babysitter for occasional overnight care. Responsibilities include ensuring the child sleeps safely and attending to any needs during the night. The candidate should be calm and reliable. Prior experience is important.',
+'Occasional nights', 'occasional', 'Turku - Nummi', '€18/hour');
 
 /* contact us table */
 CREATE TABLE contact_us (

@@ -34,46 +34,44 @@ function saveJobpostData(newJob) {
 document.addEventListener("DOMContentLoaded", () => {
     const profile = getProfileData();
 
-    // ===== CLIENT STEP 1 =====
+    // ===== CLIENTS CREATE PROFILE PAGE =====
 
     // == location selection ==
-        const dropdown = document.getElementById("locationDropdown");
-        const city = document.getElementById("city");
-        const district = document.getElementById("district");
-        const data = {
-        Helsinki: [
-            "Keskusta", "Kallio", "Pasila", "Itäkeskus", "Kamppi",
-            "Meilahti", "Lauttasaari", "Vuosaari", "Malmi", "Haaga"
-        ],
+    const dropdown = document.getElementById("locationDropdown");
+    const city = document.getElementById("city");
+    const district = document.getElementById("district");
+    const data = {
+    Helsinki: [
+        "Keskusta", "Kallio", "Pasila", "Itäkeskus", "Kamppi",
+        "Meilahti", "Lauttasaari", "Vuosaari", "Malmi", "Haaga"
+    ],
 
-        Espoo: [
-            "Tapiola", "Leppävaara", "Otaniemi", "Matinkylä", "Espoonlahti",
-            "Olari", "Kivenlahti", "Niittykumpu", "Soukka", "Laajalahti"
-        ],
+    Espoo: [
+        "Tapiola", "Leppävaara", "Otaniemi", "Matinkylä", "Espoonlahti",
+        "Olari", "Kivenlahti", "Niittykumpu", "Soukka", "Laajalahti"
+    ],
 
-        Vantaa: [
-            "Tikkurila", "Myyrmäki", "Korso", "Hakunila", "Aviapolis",
-            "Martinlaakso", "Koivukylä", "Pakkala", "Ylästö", "Rekola"
-        ],
+    Vantaa: [
+        "Tikkurila", "Myyrmäki", "Korso", "Hakunila", "Aviapolis",
+        "Martinlaakso", "Koivukylä", "Pakkala", "Ylästö", "Rekola"
+    ],
 
-        Tampere: [
-            "Keskusta", "Hervanta", "Tammela", "Kaleva", "Lielahti",
-            "Tesoma", "Pyynikki", "Nekala", "Rahola", "Messukylä"
-        ],
+    Tampere: [
+        "Keskusta", "Hervanta", "Tammela", "Kaleva", "Lielahti",
+        "Tesoma", "Pyynikki", "Nekala", "Rahola", "Messukylä"
+    ],
 
-        Turku: [
-            "Keskusta", "Varissuo", "Runosmäki", "Skanssi", "Nummi",
-            "Kupittaa", "Pansio", "Hirvensalo", "Raunistula", "Halinen"
-        ],
+    Turku: [
+        "Keskusta", "Varissuo", "Runosmäki", "Skanssi", "Nummi",
+        "Kupittaa", "Pansio", "Hirvensalo", "Raunistula", "Halinen"
+    ],
 
-        Oulu: [
-            "Keskusta", "Kaakkuri", "Linnanmaa", "Tuira", "Rajakylä",
-            "Pateniemi", "Hiukkavaara", "Maikkula", "Haukipudas", "Oulunsalo"
-        ]
-        };
+    Oulu: [
+        "Keskusta", "Kaakkuri", "Linnanmaa", "Tuira", "Rajakylä",
+        "Pateniemi", "Hiukkavaara", "Maikkula", "Haukipudas", "Oulunsalo"
+    ]
+    };
     const locationInput = document.getElementById("location");
-        
-
         if(locationInput){
             locationInput.addEventListener("click", () => {
             dropdown.classList.toggle("d-none");
@@ -129,7 +127,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
    
 
-     // ===== CLIENT POST A JOB =====
+    // ===== CLIENT POST A JOB =====
     const jobpost = getJobpostData();
     const items = document.querySelectorAll(".service-item");
     let selectedService = jobpost.selectedService || null;
@@ -152,8 +150,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const serviceLocationInput = document.getElementById("service-location");
-    
-
     if(serviceLocationInput){
         serviceLocationInput.addEventListener("click", () => {
         dropdown.classList.toggle("d-none");
@@ -205,7 +201,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
     
-
     const jobpostSumitBtn1 = document.querySelector("#jobpost-submit-btn1");
     if (jobpostSumitBtn1) {
         jobpostSumitBtn1.addEventListener("click", async(event) => {
@@ -233,32 +228,28 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     };
     
-// ---DASHBOARD--//
-
-
+// ===== CLIENT'S DASHBOARD ===== //
+    // ===== CLIENT'S JOB POSTS AND RECOMMENDS CANDIDATES ===== //
 async function loadDashboard() {
-  const userId = JSON.parse(sessionStorage.getItem("user")).id;
-    
-  if (!userId) {
+    const userId = JSON.parse(sessionStorage.getItem("user")).id; 
+    if (!userId) {
     alert("Not logged in");
     window.location.href = "/login.html";
     return;
-  }
-  await job.getJob(userId)
-  const jobs =JSON.parse(sessionStorage.getItem('jobList'))
-  console.log(jobs)
-  renderJobs(jobs);
-  await user.getJobSeeker(userId)
-  const jobseekers = JSON.parse(sessionStorage.getItem('jobSeekerList'));
-  renderJobseekers(jobseekers);
+    }
+    await job.getJob(userId)
+    const jobs =JSON.parse(sessionStorage.getItem('jobList'))
+    console.log(jobs)
+    renderJobs(jobs);
+    await user.getJobSeeker(userId)
+    const jobseekers = JSON.parse(sessionStorage.getItem('jobSeekerList'));
+    renderJobseekers(jobseekers);
 }
-
 loadDashboard();
 
 function renderJobs(jobs) {
   const container = document.getElementById("job-list");
   container.innerHTML = "";
-
   if (jobs.length === 0) {
     container.innerHTML = "<p>No jobs yet</p>";
     return;
@@ -278,24 +269,21 @@ function renderJobs(jobs) {
     container.appendChild(div);
   });
 }
+
 function renderJobseekers(jobseekers) {
   const container = document.getElementById("jobseeker-list");
   container.innerHTML = "";
-
   if (jobseekers.length === 0) {
     container.innerHTML = "<p>No candidates</p>";
     return;
   }
-
   jobseekers.forEach(jobseeker => {
-    
     let serviceTitle = jobseeker.services
     if (serviceTitle == 'cleaning'){serviceTitle='🧼 Cleaning'}
     else if (serviceTitle == 'childcare'){serviceTitle='🧸 Childcare'}
     else {serviceTitle='👴🏻 Eldercare'};
     const div = document.createElement("div");
     div.classList.add("jobs-card");
-
     div.innerHTML = `
       <h3>${jobseeker.fullname}</h3>
       <p>${jobseeker.experience}</p>
@@ -303,45 +291,28 @@ function renderJobseekers(jobseekers) {
       <p>${serviceTitle}</p>
       <p>${jobseeker.skills}</p>
     `;
-
     container.appendChild(div);
   });
 }
+    // ===== CLIENT'S SEARCH CANDIDATES BY SERVICE ===== //
 async function loadServices() {
-let selectedServices = "";
-const serviceItems = document.querySelectorAll(".find-by-service-btn");
-serviceItems.forEach(item => {
-    if (selectedServices.includes(item.dataset.value)) {
+    const serviceItems = document.querySelectorAll(".find-by-service-btn");
+    serviceItems.forEach(item => {
+        item.addEventListener("click", async () => {
+            const service = item.dataset.value; // childcare, eldercare,...
+            serviceItems.forEach(i => i.classList.remove("active"));
             item.classList.add("active");
-        }
-    item.addEventListener("click", async () => {
-        
-        serviceItems.forEach(i => i.classList.remove("active"));
-        item.classList.add("active");
-    
-        const service = item.dataset.value; // childcare, eldercare,...
-            if (selectedServices.includes(service)) {
-                selectedServices = selectedServices.filter(s => s !== service);
-            } else {
-                selectedServices= service;
-            }
-            if (!selectedServices) {
-                renderJobseekersByServices("");
-                return;
-            }
-            let jobseekersList = await user.getJobSeekerByService(service);
-            
-            renderJobseekersByServices(jobseekersList);
-        
-        
+            let jobseekersList = await user.getJobSeekerByService(service); 
+            renderJobseekersByServices(jobseekersList); 
+        });
     });
-});
 };
+
 loadServices();
+
 function renderJobseekersByServices(list) {
     const container = document.getElementById("jobseeker-by-service-list");
     container.innerHTML = "";
-    
     list.forEach(user => {
         let serviceTitle = user.services
         if (serviceTitle == 'cleaning'){serviceTitle='🧼 Cleaning'}
@@ -359,6 +330,5 @@ function renderJobseekersByServices(list) {
         container.appendChild(div);
     });
 }
-
 
 });

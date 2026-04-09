@@ -46,140 +46,14 @@
   <div class="service-section">
     <p class="service-title">Browse by service</p>
     <div class="service-buttons">
-      <button class="service-btn" data-filter="childcare">👶 Childcare (12)</button>
-      <button class="service-btn" data-filter="eldercare">👵 Eldercare (10)</button>
-      <button class="service-btn" data-filter="cleaning">🧹 Cleaning (18)</button>
+      <button class="service-btn" data-filter="childcare">👶 Childcare</button>
+      <button class="service-btn" data-filter="eldercare">👵 Eldercare</button>
+      <button class="service-btn" data-filter="cleaning">🧹 Cleaning</button>
     </div>
   </div>
-
-
-  <div class="job-card" data-category="cleaning">
-    <div class="job-top">
-      <h4>Apartment Cleaner</h4>
-      <img src="./Assets/Heart@2x.png" class="heart-icon">
-    </div>
-    <p class="job-time">Occasional cleaning (weekends)</p>
-    <p class="apply-location">
-      <img src="./Assets/location_on.png" class="location-icon">
-      Oulu • €15/hour
-    </p>
-    <p class="job-desc">
-      I need a detail-oriented cleaner for occasional apartment cleaning including bathrooms and general tidying.
-    </p>
-    <div class="job-bottom">
-      <button class="details-btn">View details</button>
-    </div>
+  <div id="job-list">
   </div>
-
-  <div class="job-card" data-category="cleaning">
-    <div class="job-top">
-      <h4>House Cleaner Needed</h4>
-      <img src="./Assets/Heart@2x.png" class="heart-icon">
-    </div>
-    <p class="job-time">Weekday mornings (8am - 10am)</p>
-    <p class="apply-location">
-      <img src="./Assets/location_on.png" class="location-icon">
-      Espoo • €15/hour
-    </p>
-    <p class="job-desc">
-      We need a responsible house cleaner to take care of our home and help with cleaning.
-    </p>
-    <div class="job-bottom">
-      <button class="details-btn">View details</button>
-    </div>
-  </div>
-
-  <div class="job-card" data-category="cleaning">
-    <div class="job-top">
-      <h4>Office Cleaner</h4>
-      <img src="./Assets/Heart@2x.png" class="heart-icon">
-    </div>
-    <p class="job-time">Weekday mornings (8am - 10am)</p>
-    <p class="apply-location">
-      <img src="./Assets/location_on.png" class="location-icon">
-      Helsinki • €15/hour
-    </p>
-    <p class="job-desc">
-      We are looking for a responsible cleaner to maintain office spaces, including desks, floors, and common areas.
-    </p>
-    <div class="job-bottom">
-      <button class="details-btn">View details</button>
-    </div>
-  </div>
-
-  <div class="job-card" data-category="childcare">
-    <div class="job-top">
-      <h4>Babysitter Needed</h4>
-      <img src="./Assets/Heart@2x.png" class="heart-icon">
-    </div>
-    <p class="job-time">Evenings (5pm - 9pm)</p>
-    <p class="apply-location">
-      <img src="./Assets/location_on.png" class="location-icon">
-      Oulu • €12/hour
-    </p>
-    <p class="job-desc">
-      Looking for a responsible babysitter to take care of two children in the evenings.
-    </p>
-    <div class="job-bottom">
-      <button class="details-btn">View details</button>
-    </div>
-  </div>
-
-  <div class="job-card" data-category="childcare">
-    <div class="job-top">
-      <h4>Nanny Needed</h4>
-      <img src="./Assets/Heart@2x.png" class="heart-icon">
-    </div>
-    <p class="job-time">Weekday mornings (8am - 12pm)</p>
-    <p class="apply-location">
-      <img src="./Assets/location_on.png" class="location-icon">
-      Helsinki • €14/hour
-    </p>
-    <p class="job-desc">
-      Looking for an experienced nanny to care for a toddler during weekday mornings.
-    </p>
-    <div class="job-bottom">
-      <button class="details-btn">View details</button>
-    </div>
-  </div>
-
- 
-  <div class="job-card" data-category="eldercare">
-    <div class="job-top">
-      <h4>Elderly Companion</h4>
-      <img src="./Assets/Heart@2x.png" class="heart-icon">
-    </div>
-    <p class="job-time">Weekends (10am - 2pm)</p>
-    <p class="apply-location">
-      <img src="./Assets/location_on.png" class="location-icon">
-      Tampere • €13/hour
-    </p>
-    <p class="job-desc">
-      Looking for a kind and patient companion for an elderly person on weekends.
-    </p>
-    <div class="job-bottom">
-      <button class="details-btn">View details</button>
-    </div>
-  </div>
-
-  <div class="job-card" data-category="eldercare">
-    <div class="job-top">
-      <h4>Home Care Assistant</h4>
-      <img src="./Assets/Heart@2x.png" class="heart-icon">
-    </div>
-    <p class="job-time">Daily (9am - 1pm)</p>
-    <p class="apply-location">
-      <img src="./Assets/location_on.png" class="location-icon">
-      Espoo • €15/hour
-    </p>
-    <p class="job-desc">
-      Need a caring assistant to help an elderly person with daily activities at home.
-    </p>
-    <div class="job-bottom">
-      <button class="details-btn">View details</button>
-    </div>
-  </div>
-
+  
   <footer class="footer">
     <div class="footer-links">
       <a href="#">About us</a>
@@ -191,69 +65,14 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
-
   <script>
-
-  document.querySelectorAll(".service-btn").forEach(btn => {
-    btn.addEventListener("click", () => {
-  
-      document.querySelectorAll(".service-btn").forEach(b => b.classList.remove("active"));
-      btn.classList.add("active");
-
-      const filter = btn.dataset.filter;
-
-      document.querySelectorAll(".job-card").forEach(card => {
-        if (filter === "all" || card.dataset.category === filter) {
-          card.style.display = "block";
-        } else {
-          card.style.display = "none";
-        }
-      });
-    });
-  });
-
-
-  
-  document.querySelectorAll(".heart-icon").forEach(icon => {
-    const jobCard = icon.closest(".job-card");
-    const jobTitle = jobCard.querySelector("h4").textContent;
-    const jobTime = jobCard.querySelector(".job-time").textContent;
-    const jobLocation = jobCard.querySelector(".apply-location").textContent.trim();
-    const jobDesc = jobCard.querySelector(".job-desc").textContent.trim();
-
-    let savedJobs = JSON.parse(localStorage.getItem("savedJobs")) || [];
-    if (savedJobs.find(j => j.title === jobTitle)) {
-      icon.src = "./Assets/filled-heart.png";
+    function openMenu() {
+      document.getElementById("menuOverlay").style.display = "flex";
     }
-
-    icon.addEventListener("click", () => {
-      let savedJobs = JSON.parse(localStorage.getItem("savedJobs")) || [];
-      if (icon.src.includes("Heart@2x")) {
-        icon.src = "./Assets/filled-heart.png";
-        savedJobs.push({ title: jobTitle, time: jobTime, location: jobLocation, desc: jobDesc });
-      } else {
-        icon.src = "./Assets/Heart@2x.png";
-        savedJobs = savedJobs.filter(j => j.title !== jobTitle);
-      }
-      localStorage.setItem("savedJobs", JSON.stringify(savedJobs));
-    });
-  });
-
-  
-  document.querySelectorAll(".details-btn").forEach(btn => {
-    btn.addEventListener("click", () => {
-      window.location.href = "jobseeker-job-details-page.html";
-    });
-  });
-  </script>
-  <script>
-function openMenu() {
-  document.getElementById("menuOverlay").style.display = "flex";
-}
-function closeMenu() {
-  document.getElementById("menuOverlay").style.display = "none";
-}
+    function closeMenu() {
+      document.getElementById("menuOverlay").style.display = "none";
+    }
 </script>
-
+<script src="js/jobseeker.js" type="module"></script>
 </body>
 </html>

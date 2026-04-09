@@ -16,7 +16,7 @@ POST http://localhost:3001/user/login
 Content-Type: application/json
 
 {
-  "email":"anna.korhonen@espoo.fi",
+  "email":"ville.hamalainen@oulu.fi",
   "password":"Password123!",
   "role":"jobseeker"
 }
@@ -39,6 +39,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywiZW1haWwiO
 PUT http://localhost:3001/user/profile
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwiZW1haWwiOiJ0ZXN0MUBmb28uY29tIiwicm9sZSI6ImpvYnNlZWtlciIsImlhdCI6MTc3NTM0NTM0Nn0.i5cst6231vXxGixKJINhlc7znHmm0aibRaK0xcYniMs
+
 {
   "fullname": "John Doe",
   "contact_email": "john.doe@example.com",
@@ -71,3 +72,13 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTgsImVtYWlsI
 GET http://localhost:3001/user/dashboard/childcare
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTgsImVtYWlsIjoiYW5uYS5rb3Job25lbkBlc3Bvby5maSIsInJvbGUiOiJqb2JzZWVrZXIiLCJpYXQiOjE3NzU2MzQ2NDF9.b6BVmYtCKQ8ylZ9s3oDbnxhlnRY3w5XhRxKkPj4wfVI
+
+### Jobseeker search all jobs
+GET http://localhost:3001/job/find
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTEsImVtYWlsIjoidmlsbGUuaGFtYWxhaW5lbkBvdWx1LmZpIiwicm9sZSI6ImpvYnNlZWtlciIsImlhdCI6MTc3NTcyNDk2MX0.84W10Q2n__uP_yj7rERM9J5peV9avSzahLrhLgpHBFk
+
+### Jobseeker search jobs by service
+GET http://localhost:3001/job/find/eldercare
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTEsImVtYWlsIjoidmlsbGUuaGFtYWxhaW5lbkBvdWx1LmZpIiwicm9sZSI6ImpvYnNlZWtlciIsImlhdCI6MTc3NTcyNDk2MX0.84W10Q2n__uP_yj7rERM9J5peV9avSzahLrhLgpHBFk

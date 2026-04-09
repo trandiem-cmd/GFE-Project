@@ -107,5 +107,39 @@ class Job {
         throw response.statusText
        }
     }
+    async getAllJob (){
+        const user = JSON.parse(sessionStorage.getItem('user'));   
+        const token = user.token;
+        const response = await fetch(BACKEND_URL + '/job/find', {
+        method: 'get',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`},
+       })
+       if (response.ok === true) {
+        const json = await response.json();
+        sessionStorage.setItem('allJobList',JSON.stringify(json))
+        return json;
+       }else {
+        throw response.statusText
+       }
+    }
+    async getJobByService (service){
+        const user = JSON.parse(sessionStorage.getItem('user'));   
+        const token = user.token;
+        const response = await fetch(BACKEND_URL + `/job/find/${service}`, {
+        method: 'get',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`},
+       })
+       if (response.ok === true) {
+        const json = await response.json();
+        sessionStorage.setItem('jobByServiceList',JSON.stringify(json))
+        return json;
+       }else {
+        throw response.statusText
+       }
+    }        
 };
 export { Job };

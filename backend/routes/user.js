@@ -38,9 +38,9 @@ userRouter.post('/login', async (req, res) => {
     res.status(500).json({ error: error })
   }
 });
+// CLIENT SEARCH ALL JOBSEEKERS
 userRouter.get("/jobseeker",auth,async(req,res)=>{
     try{
-        
         const sql = "SELECT * FROM users WHERE role=$1"
         const result = await query(sql,['jobseeker'])
         res.status(200).json(result.rows) 
@@ -49,6 +49,7 @@ userRouter.get("/jobseeker",auth,async(req,res)=>{
         res.status(500).json({error: error})
     }
 })
+// CLIENT SEARCH ALL JOBSEEKERS BY SERVICE
 userRouter.get("/jobseeker/:service",auth,async(req,res)=>{
     try{
         const service = req.params.service;
