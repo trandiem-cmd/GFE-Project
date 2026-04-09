@@ -251,7 +251,7 @@ function renderJobs(jobs) {
   const container = document.getElementById("job-list");
   container.innerHTML = "";
   if (jobs.length === 0) {
-    container.innerHTML = "<p>No jobs yet</p>";
+    container.innerHTML = "<p style='padding-left: 20px'>No jobs yet</p>";
     return;
   }
 
