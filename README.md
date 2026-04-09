@@ -56,13 +56,12 @@ gfe-project/
 │   │    ├── class/
 │   │    │   ├── User.js
 │   │    │   ├── Job.js
-│   │    │   ├── Profile.js
 │   │    │   ├── Application.js
 │   │    ├── register.js
 │   │    ├── login.js
 │   │    ├── logout.js
-│   │    ├── job.js
-│   │    ├── search.js
+│   │    ├── client.js
+│   │    ├── jobseeker.js
 │   │    ├── apply.js
 │   │    ├── index.js
 ├── backend/
@@ -74,12 +73,13 @@ gfe-project/
 │   ├── routes/
 │   │    ├── user.js
 │   │    ├── job.js
-│   │    ├── profile.js
+│   │    ├── contact.js
+│   │    ├── inbox.js
 │   │    ├── apply.js
-│   │    ├── search.js
 │   ├── helpers/
 │   │    ├── db.js
 │   │    ├── auth.js
+│   │    ├── hash.js
 │   ├── index.js
 │   ├── er-diagram.png
 │   ├── gfe.sql            
