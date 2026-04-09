@@ -81,11 +81,15 @@ gfe-project/
 │   │    ├── db.js
 │   │    ├── auth.js
 │   ├── index.js
+│   ├── er-diagram.png
+│   ├── gfe.sql            
 │   ├── package.json
 │   └── .env
 └── README.md
 ```
+## Database ER Diagram
 
+![ER Diagram](./backend/er-diagram.png)
 ## Course
 Web Programming Project — ID00DW07-3003  
 Oulu University of Applied Sciences (Oamk)  
