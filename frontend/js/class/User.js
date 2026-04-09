@@ -220,12 +220,13 @@ class User {
     throw response.statusText
     } 
   }
-  logout() {
+  async logout() {
     this.#id = undefined
     this.#email = undefined
     this.#token = undefined
-    sessionStorage.removeItem('user')
+    sessionStorage.clear();
   }
+  
 }
 
 

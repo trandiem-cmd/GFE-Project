@@ -1272,7 +1272,9 @@ label{
   min-height: 100vh;
  
 }
-
+.jobseeker-job-offers-page #job-list{
+  height: 100%;
+}
 
 .jobseeker-job-offers-page .top-bar {
   display: flex;

@@ -1,6 +1,7 @@
 import { User } from "./class/User.js";
-
+import { Job } from "./class/Job.js";
 const user = new User();
+const job = new Job();
 const PROFILE_KEY = "PROFILE_DATA";
 
 // ===== STORAGE =====
@@ -14,12 +15,10 @@ function saveProfileData(newData) {
     sessionStorage.setItem(PROFILE_KEY, JSON.stringify(updated));
 }
 
-// ===== MAIN =====
 document.addEventListener("DOMContentLoaded", () => {
-
     const profile = getProfileData();
 
-    // ===== JOBSEEKER STEP 1 =====
+    // ===== JOBSEEKER PROFILE STEP 1 =====
     // == location selection ==
         const dropdown = document.getElementById("locationDropdown");
         const city = document.getElementById("city");
@@ -56,38 +55,36 @@ document.addEventListener("DOMContentLoaded", () => {
         ]
         };
     const location = document.getElementById("location");
-        
+    if(location){
+        location.addEventListener("click", () => {
+        dropdown.classList.toggle("d-none");
+        });
+        city.addEventListener("change", () => {
+        const selectedCity = city.value;
 
-        if(location){
-            location.addEventListener("click", () => {
-            dropdown.classList.toggle("d-none");
-            });
-            city.addEventListener("change", () => {
-            const selectedCity = city.value;
+        district.innerHTML = `<option value="">Select district</option>`;
 
-            district.innerHTML = `<option value="">Select district</option>`;
-
-            if (data[selectedCity]) {
-                data[selectedCity].forEach(d => {
-                const option = document.createElement("option");
-                option.value = d;
-                option.textContent = d;
-                district.appendChild(option);
-                });
-            }
+        if (data[selectedCity]) {
+            data[selectedCity].forEach(d => {
+            const option = document.createElement("option");
+            option.value = d;
+            option.textContent = d;
+            district.appendChild(option);
             });
-            district.addEventListener("change", () => {
-            if (city.value && district.value) {
-                location.value = `${city.value} - ${district.value}`;
-                dropdown.classList.add("d-none");
-            }
-            });
-            document.addEventListener("click", (e) => {
-            if (!document.querySelector(".location-wrapper").contains(e.target)) {
-                dropdown.classList.add("d-none");
-            }
-            });        
-        };
+        }
+        });
+        district.addEventListener("change", () => {
+        if (city.value && district.value) {
+            location.value = `${city.value} - ${district.value}`;
+            dropdown.classList.add("d-none");
+        }
+        });
+        document.addEventListener("click", (e) => {
+        if (!document.querySelector(".location-wrapper").contains(e.target)) {
+            dropdown.classList.add("d-none");
+        }
+        });        
+    };
     const next1Btn2 = document.querySelector("#next1-btn2");
 
     if (next1Btn2) {
@@ -107,16 +104,14 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // ===== JOBSEEKER STEP 2 =====
+    // ===== JOBSEEKER PROFILE STEP 2 =====
     const items = document.querySelectorAll(".service-item");
     let selectedService = profile.selectedService || "";
-
     if (items.length) {
         items.forEach(item => {
             if (item.dataset.value === selectedService.type) {
                 item.classList.add("active");
             }
-
             item.addEventListener("click", () => {
                 items.forEach(i => i.classList.remove("active"));
                 item.classList.add("active");
@@ -127,7 +122,6 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         });
     }
-
 
     const next2Btn2 = document.querySelector("#next2-btn2");
     if (next2Btn2) {
@@ -145,7 +139,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // ===== STEP 3 =====
+    // ===== JOBSEEKER PROFILE STEP 2 =====
     const experienceSelect = document.querySelector("#experience-years");
     const hourlyRateSelect = document.querySelector("#hourly-rate");
     const aboutExperienceTextarea = document.querySelector("#about-experience");
@@ -168,21 +162,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
     skillButtons.forEach(btn => {
         const skill = btn.textContent.trim();
-
-        // restore
+    
         if (selectedSkills.includes(skill)) {
             btn.classList.add("active");
         }
 
         btn.addEventListener("click", () => {
             btn.classList.toggle("active");
-
             if (selectedSkills.includes(skill)) {
                 selectedSkills = selectedSkills.filter(s => s !== skill);
             } else {
                 selectedSkills.push(skill);
             }
-
             saveProfileData({ selectedSkills });
         });
     });
@@ -192,24 +183,20 @@ document.addEventListener("DOMContentLoaded", () => {
     if (next3Btn2) {
         next3Btn2.addEventListener("click", (e) => {
             e.preventDefault();
-
             const experience = experienceSelect?.value;
             const hourlyRate = hourlyRateSelect?.value;
             const aboutExperience = aboutExperienceTextarea?.value;
-
             if (!experience || !hourlyRate || !aboutExperience || selectedSkills.length === 0) {
                 alert("Please fill in all required fields.");
                 return;
             }
-
             saveProfileData({ experience, hourlyRate, aboutExperience, selectedSkills });
             window.location.href = "jobseeker-profile4.html";
         });
     }
 
-    // ===== JOBSEEKERREVIEW PAGE =====
+    // ===== JOBSEEKERREVIEW PAGE ===== //
     if (document.querySelector("#name-review")) {
-
         document.getElementById("name-review").textContent = profile.name || "";
         document.getElementById("location-review").innerHTML = '<i class="bi bi-geo-alt" style="color: #5A3AB0;"></i> ' + profile.location || "";
         document.getElementById("service-review").textContent = profile.selectedService.title;
@@ -231,7 +218,6 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("about-you-review").textContent =
             profile.aboutYou || "";
     }
-
 
     const submitBtn2 = document.querySelector("#submit-profile-btn2");
     if (submitBtn2) {
@@ -255,5 +241,73 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         });
     }
+    // JOBSEEKER-JOB-OFFERS PAGE
+    async function loadJobs() {
+        document.querySelectorAll(".service-btn").forEach(btn => {
+            btn.addEventListener("click", async () => {
+                document.querySelectorAll(".service-btn").forEach(b => b.classList.remove("active"));
+                btn.classList.add("active");
+                const jobsByService = btn.dataset.filter;
+                let jobpostsList = await job.getJobByService(jobsByService); 
+                renderjobsByService(jobpostsList); 
+            });
+        });
+    };
+    loadJobs();
+    function renderjobsByService(list) {  
+        const container = document.getElementById("job-list");
+        container.innerHTML = "";
+        list.forEach(job => {
+            const div = document.createElement("div");
+            div.classList.add("job-card");     
+            div.innerHTML = `
+                <div class="job-top">
+                    <h4>${job.service_title}</h4>
+                    <img src="./Assets/Heart@2x.png" class="heart-icon">
+                </div>
+                <p class="job-time">${job.service_schedule}</p>
+                <p class="apply-location">
+                    <img src="./Assets/location_on.png" class="location-icon">
+                    ${job.service_location} • ${job.service_pay_rate}
+                </p>
+                <p class="job-desc">${job.service_description}</p>       
+                <div class="job-bottom">
+                    <button class="details-btn">View details</button>
+                </div>
+            `;
+            container.appendChild(div);
+        });
+        document.querySelectorAll(".heart-icon").forEach(icon => {
+            const jobCard = icon.closest(".job-card");
+            const jobTitle = jobCard.querySelector("h4").textContent;
+            const jobTime = jobCard.querySelector(".job-time").textContent;
+            const jobLocation = jobCard.querySelector(".apply-location").textContent.trim();
+            const jobDesc = jobCard.querySelector(".job-desc").textContent.trim();
+
+            let savedJobs = JSON.parse(localStorage.getItem("savedJobs")) || [];
+            if (savedJobs.find(j => j.title === jobTitle)) {
+            icon.src = "./Assets/filled-heart.png";
+            }
+
+            icon.addEventListener("click", () => {
+                let savedJobs = JSON.parse(localStorage.getItem("savedJobs")) || [];
+                if (icon.src.includes("Heart@2x")) {
+                    icon.src = "./Assets/filled-heart.png";
+                    savedJobs.push({ title: jobTitle, time: jobTime, location: jobLocation, desc: jobDesc });
+                } else {
+                    icon.src = "./Assets/Heart@2x.png";
+                    savedJobs = savedJobs.filter(j => j.title !== jobTitle);
+                }
+                localStorage.setItem("savedJobs", JSON.stringify(savedJobs));
+            });
+        });        
+
+        document.querySelectorAll(".details-btn").forEach(btn => {
+            btn.addEventListener("click", () => {
+            window.location.href = "jobseeker-job-details-page.html";
+            });
+        });
+        
+    };
     
 });  
