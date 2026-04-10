@@ -1470,6 +1470,13 @@ label{
   color: white;
 }
 
+.jobseeker-job-offers-page .footer {
+  position: relative;
+  top: 0;
+  margin-top: 480px;
+}
+
+
 /* jobseeker application page */
 .jobseeker-application-page {
   background:

@@ -43,19 +43,29 @@
     <div class="profile-header">
       <img src="./Assets/candidate img2.png" class="profile-img">
       <div class="profile-info">
-        <h4>Alex Johnson 20</h4>
-        <p id="profile-location-text">Helsinki</p>
+        <h4>Alex Johnson </h4>
+        <p id="about-text">Hello! I am Alex, 20 years old. I am looking for cleaning and babysitting jobs. I have experience in cleaning, organizing, and helping with daily tasks.<br><br>I am responsible, active, and hardworking. I like to keep places clean and organized. I can work both alone and in a team and I learn new things quickly.<br><br>In my free time, I enjoy cooking, baking, and spending time with my family and friends.</p>
       </div>
     </div>
 
-    <div class="profile-rating">
-      ⭐ 4.8 (12 reviews) • ✔ Verified
-    </div>
-
     <div class="profile-section">
-      <h4>About me</h4>
       <div class="profile-box">
-        <p id="about-text">Hello! I am Alex, 20 years old. I am looking for cleaning and babysitting jobs. I have experience in cleaning, organizing, and helping with daily tasks.<br><br>I am responsible, active, and hardworking. I like to keep places clean and organized. I can work both alone and in a team and I learn new things quickly.<br><br>In my free time, I enjoy cooking, baking, and spending time with my family and friends.</p>
+        <div class="exp-row">
+          <label>👤 Name</label>
+          <div class="exp-value" id="name-text">Alex Johnson</div>
+        </div>
+        <div class="exp-row">
+          <label>📞 Phone</label>
+          <div class="exp-value" id="phone-text">+358 40 123 4567</div>
+        </div>
+        <div class="exp-row">
+          <label>📧 Email</label>
+          <div class="exp-value" id="email-text">alex@email.com</div>
+        </div>
+        <div class="exp-row">
+          <label>📍 Location</label>
+          <div class="exp-value" id="location-text">Helsinki</div>
+        </div>
       </div>
     </div>
 
@@ -90,54 +100,6 @@
           <label>Hourly rate</label>
           <div class="exp-value" id="rate-text">€15/hour</div>
         </div>
-        <div class="exp-row">
-          <label>Location</label>
-          <div class="exp-value" id="location-text">Helsinki</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- EDIT FORM - hidden by default -->
-    <div id="editForm" style="display:none;">
-      <div class="profile-section">
-        <h4>Edit About me</h4>
-        <textarea id="edit-about" style="width:100%; border:none; border-radius:8px; padding:8px; background:#e9def5; min-height:120px;"></textarea>
-      </div>
-
-      <div class="profile-section">
-        <h4>Edit Experience</h4>
-        <select id="edit-experience" class="form-select mb-2">
-          <option>0-1 years</option>
-          <option>1-3 years</option>
-          <option>3-5 years</option>
-          <option>5+ years</option>
-        </select>
-      </div>
-
-      <div class="profile-section">
-        <h4>Edit Hourly Rate</h4>
-        <select id="edit-rate" class="form-select mb-2">
-          <option>€10 - €15/hour</option>
-          <option>€15 - €20/hour</option>
-          <option>€20 - €25/hour</option>
-          <option>€25+ /hour</option>
-        </select>
-      </div>
-
-      <div class="profile-section">
-        <h4>Edit Location</h4>
-        <select id="edit-city" class="form-select mb-2">
-          <option value="">Select city</option>
-          <option>Helsinki</option>
-          <option>Espoo</option>
-          <option>Vantaa</option>
-          <option>Tampere</option>
-          <option>Turku</option>
-          <option>Oulu</option>
-        </select>
-        <select id="edit-district" class="form-select">
-          <option value="">Select district</option>
-        </select>
       </div>
     </div>
 
@@ -163,93 +125,129 @@
   <script>
   let isEditing = false;
 
-document.getElementById('editBtn').addEventListener('click', function() {
-  if (!isEditing) {
-    isEditing = true;
-    this.textContent = 'Save profile';
+  const districts = {
+    Helsinki: ['Kamppi', 'Kallio', 'Lauttasaari', 'Töölö', 'Pasila', 'Malmi', 'Haaga'],
+    Espoo: ['Matinkylä', 'Otaniemi', 'Tapiola', 'Leppävaara', 'Espoonlahti'],
+    Vantaa: ['Tikkurila', 'Myyrmäki', 'Hakunila', 'Martinlaakso'],
+    Tampere: ['Kaleva', 'Pyynikki', 'Hervanta', 'Tammela'],
+    Turku: ['Hirvensalo', 'Nummi', 'Runosmäki', 'Kupittaa'],
+    Oulu: ['Linnanmaa', 'Rajakylä', 'Keskusta', 'Tuira']
+  };
 
-    // about me inline edit
-    const about = document.getElementById('about-text');
-    about.innerHTML = `<textarea id="edit-about" style="width:100%; border:none; border-radius:8px; padding:8px; background:#e9def5; min-height:120px;">${about.innerText}</textarea>`;
+  document.getElementById('editBtn').addEventListener('click', function() {
+    if (!isEditing) {
+      isEditing = true;
+      this.textContent = 'Save profile';
 
-    // experience inline edit
-    const exp = document.getElementById('experience-text');
-    exp.innerHTML = `<select id="edit-experience" style="border:1px solid #ccc; border-radius:8px; padding:5px; background:#e9def5;">
-      <option>0-1 years</option>
-      <option>1-3 years</option>
-      <option>3-5 years</option>
-      <option>5+ years</option>
-    </select>`;
+      // about me
+      const about = document.getElementById('about-text');
+      about.innerHTML = `<textarea id="edit-about" style="width:100%; border:none; border-radius:8px; padding:8px; background:#e9def5; min-height:120px;">${about.innerText}</textarea>`;
 
-    // rate inline edit
-    const rate = document.getElementById('rate-text');
-    rate.innerHTML = `<select id="edit-rate" style="border:1px solid #ccc; border-radius:8px; padding:5px; background:#e9def5;">
-      <option>€10 - €15/hour</option>
-      <option>€15 - €20/hour</option>
-      <option>€20 - €25/hour</option>
-      <option>€25+ /hour</option>
-    </select>`;
+      // name
+      const name = document.getElementById('name-text');
+      name.innerHTML = `<input id="edit-name" type="text" value="${name.innerText}" style="border:1px solid #ccc; border-radius:8px; padding:5px; background:#e9def5; width:100%;">`;
 
-    // location inline edit
-    const loc = document.getElementById('location-text');
-    loc.innerHTML = `<select id="edit-location" style="border:1px solid #ccc; border-radius:8px; padding:5px; background:#e9def5;">
-      <option>Helsinki</option>
-      <option>Espoo</option>
-      <option>Vantaa</option>
-      <option>Tampere</option>
-      <option>Turku</option>
-      <option>Oulu</option>
-    </select>`;
+      // phone
+      const phone = document.getElementById('phone-text');
+      phone.innerHTML = `<input id="edit-phone" type="text" value="${phone.innerText}" style="border:1px solid #ccc; border-radius:8px; padding:5px; background:#e9def5; width:100%;">`;
 
-  } else {
-    isEditing = false;
-    this.textContent = 'Edit your profile';
+      // email
+      const email = document.getElementById('email-text');
+      email.innerHTML = `<input id="edit-email" type="email" value="${email.innerText}" style="border:1px solid #ccc; border-radius:8px; padding:5px; background:#e9def5; width:100%;">`;
 
-    // save values back
-    const aboutVal = document.getElementById('edit-about').value;
-    document.getElementById('about-text').innerHTML = aboutVal;
+      // location - city + district
+      const loc = document.getElementById('location-text');
+      loc.innerHTML = `
+        <select id="edit-city" class="form-select mb-2" style="background:#e9def5;">
+          <option value="">Select city</option>
+          <option>Helsinki</option>
+          <option>Espoo</option>
+          <option>Vantaa</option>
+          <option>Tampere</option>
+          <option>Turku</option>
+          <option>Oulu</option>
+        </select>
+        <select id="edit-district" class="form-select" style="background:#e9def5;">
+          <option value="">Select district</option>
+        </select>
+      `;
 
-    const expVal = document.getElementById('edit-experience').value;
-    document.getElementById('experience-text').textContent = expVal;
+      document.getElementById('edit-city').addEventListener('change', function() {
+        const districtSelect = document.getElementById('edit-district');
+        districtSelect.innerHTML = '<option value="">Select district</option>';
+        if (districts[this.value]) {
+          districts[this.value].forEach(d => {
+            const opt = document.createElement('option');
+            opt.value = d;
+            opt.textContent = d;
+            districtSelect.appendChild(opt);
+          });
+        }
+      });
 
-    const rateVal = document.getElementById('edit-rate').value;
-    document.getElementById('rate-text').textContent = rateVal;
+      // experience
+      const exp = document.getElementById('experience-text');
+      exp.innerHTML = `<select id="edit-experience" style="border:1px solid #ccc; border-radius:8px; padding:5px; background:#e9def5;">
+        <option>0-1 years</option>
+        <option>1-3 years</option>
+        <option>3-5 years</option>
+        <option>5+ years</option>
+      </select>`;
 
-    const locVal = document.getElementById('edit-location').value;
-    document.getElementById('location-text').textContent = locVal;
-    document.getElementById('profile-location-text').textContent = locVal;
+      // rate
+      const rate = document.getElementById('rate-text');
+      rate.innerHTML = `<select id="edit-rate" style="border:1px solid #ccc; border-radius:8px; padding:5px; background:#e9def5;">
+        <option>€10 - €15/hour</option>
+        <option>€15 - €20/hour</option>
+        <option>€20 - €25/hour</option>
+        <option>€25+ /hour</option>
+      </select>`;
 
-    alert('Profile saved! ✅');
-  }
-});
+    } else {
+      isEditing = false;
+      this.textContent = 'Edit your profile';
 
-// pause button
-document.querySelector(".pause-btn").addEventListener("click", function() {
-  if (this.innerText === "Pause your application") {
-    this.innerText = "Resume application";
-    this.style.background = "#ccc";
-  } else {
-    this.innerText = "Pause your application";
-    this.style.background = "#e4dbe6";
-  }
-});
+      document.getElementById('about-text').innerHTML = document.getElementById('edit-about').value;
+      document.getElementById('name-text').textContent = document.getElementById('edit-name').value;
+      document.getElementById('phone-text').textContent = document.getElementById('edit-phone').value;
+      document.getElementById('email-text').textContent = document.getElementById('edit-email').value;
+      document.getElementById('experience-text').textContent = document.getElementById('edit-experience').value;
+      document.getElementById('rate-text').textContent = document.getElementById('edit-rate').value;
 
-// delete button
-document.querySelector(".delete-btn").addEventListener("click", () => {
-  if (confirm("Are you sure you want to delete your account?")) {
-    alert("Account deleted");
-  }
-});
+      const city = document.getElementById('edit-city').value;
+      const district = document.getElementById('edit-district').value;
+      const locVal = district ? `${city} - ${district}` : city;
+      document.getElementById('location-text').textContent = locVal;
+      document.getElementById('profile-location-text').textContent = city;
 
-// toggle tags
-document.querySelectorAll('.tag, .tasks span').forEach(tag => {
-  tag.addEventListener('click', () => {
-    tag.classList.toggle('active');
+      alert('Profile saved! ✅');
+    }
   });
-});
 
-function openMenu() { document.getElementById("menuOverlay").style.display = "flex"; }
-function closeMenu() { document.getElementById("menuOverlay").style.display = "none"; }
+  document.querySelector(".pause-btn").addEventListener("click", function() {
+    if (this.innerText === "Pause your application") {
+      this.innerText = "Resume application";
+      this.style.background = "#ccc";
+    } else {
+      this.innerText = "Pause your application";
+      this.style.background = "#e4dbe6";
+    }
+  });
+
+  document.querySelector(".delete-btn").addEventListener("click", () => {
+    if (confirm("Are you sure you want to delete your account?")) {
+      alert("Account deleted");
+    }
+  });
+
+  document.querySelectorAll('.tag, .tasks span').forEach(tag => {
+    tag.addEventListener('click', () => {
+      tag.classList.toggle('active');
+    });
+  });
+
+  function openMenu() { document.getElementById("menuOverlay").style.display = "flex"; }
+  function closeMenu() { document.getElementById("menuOverlay").style.display = "none"; }
   </script>
 
 </body>
