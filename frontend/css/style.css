@@ -1140,7 +1140,6 @@ label{
   margin: 1px 15px;
   position: relative;
   bottom:30px;
-  left: 30px;
 }
 
 .dashboard-page .actions button {
@@ -1498,6 +1497,13 @@ label{
   font-family: 'ADLaM Display', sans-serif;
   color: white;
 }
+
+.jobseeker-job-offers-page .footer {
+  position: relative;
+  top: 0;
+  margin-top: 480px;
+}
+
 
 /* jobseeker application page */
 .jobseeker-application-page {
