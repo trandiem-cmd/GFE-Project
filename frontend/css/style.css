@@ -1020,7 +1020,7 @@ label{
   color: white;
   text-align: center;
   padding: 20px 10px;
-  margin-top: 20px;
+  margin-top: auto;
   font-family: 'ADLaM Display', sans-serif;
   
 }
@@ -2296,8 +2296,8 @@ label{
 
 .menu-overlay {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: flex-end;
+  align-items: flex-start;
   position: fixed;
   top: 0;
   left: 0;
