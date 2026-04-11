@@ -5,6 +5,22 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const { auth } = require("../helpers/auth.js");
+const multer = require('multer');
+const path = require('path');
+
+
+// configure where to save photos
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/');
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + path.extname(file.originalname));
+  }
+});
+
+const upload = multer({ storage: storage });
+
 
 // LOGIN
 userRouter.post('/login', async (req, res) => {
@@ -80,14 +96,35 @@ userRouter.post("/register", async (req, res) => {
 });
 
 // UPDATE PROFILE
+// UPDATE PROFILE
 userRouter.put("/profile", auth, async (req, res) => {
   try {
     const userId = req.user.id;
-    const sql = "update users set has_profile = true, fullname=$1, contact_email=$2, contact_phone=$3, location=$4, services=$5, about_you=$6, experience=$7, hourly_rate=$8, about_experience=$9, skills=$10 where id=$11 returning *"
-    const result = await query(sql, [req.body.fullname, req.body.contact_email, req.body.contact_phone, req.body.location, req.body.services, req.body.about_you, req.body.experience, req.body.hourly_rate, req.body.about_experience, req.body.skills, userId])
-    res.status(200).json(result.rows[0])
+    
+    // build dynamic update query based on what fields are sent
+    const fields = [];
+    const values = [];
+    let counter = 1;
+
+    if (req.body.fullname !== undefined) { fields.push(`fullname=$${counter++}`); values.push(req.body.fullname); }
+    if (req.body.contact_email !== undefined) { fields.push(`contact_email=$${counter++}`); values.push(req.body.contact_email); }
+    if (req.body.contact_phone !== undefined) { fields.push(`contact_phone=$${counter++}`); values.push(req.body.contact_phone); }
+    if (req.body.location !== undefined) { fields.push(`location=$${counter++}`); values.push(req.body.location); }
+    if (req.body.services !== undefined) { fields.push(`services=$${counter++}`); values.push(req.body.services); }
+    if (req.body.about_you !== undefined) { fields.push(`about_you=$${counter++}`); values.push(req.body.about_you); }
+    if (req.body.experience !== undefined) { fields.push(`experience=$${counter++}`); values.push(req.body.experience); }
+    if (req.body.hourly_rate !== undefined) { fields.push(`hourly_rate=$${counter++}`); values.push(req.body.hourly_rate); }
+    if (req.body.about_experience !== undefined) { fields.push(`about_experience=$${counter++}`); values.push(req.body.about_experience); }
+    if (req.body.skills !== undefined) { fields.push(`skills=$${counter++}`); values.push(req.body.skills); }
+
+    fields.push(`has_profile=true`);
+    values.push(userId);
+
+    const sql = `UPDATE users SET ${fields.join(', ')} WHERE id=$${counter} RETURNING *`;
+    const result = await query(sql, values);
+    res.status(200).json(result.rows[0]);
   } catch (error) {
-    res.status(500).json({ error: error })
+    res.status(500).json({ error: error });
   }
 });
 
@@ -117,6 +154,68 @@ userRouter.get('/:id', async (req, res) => {
     res.json(result.rows[0]);
   } catch (error) {
     res.status(500).json({ error: 'Failed to get user' });
+  }
+});
+
+// UPLOAD PHOTO
+userRouter.post('/upload-photo', auth, upload.single('photo'), async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const photoPath = req.file.filename;
+    
+    const sql = "UPDATE users SET photo = $1 WHERE id = $2 RETURNING *";
+    const result = await query(sql, [photoPath, userId]);
+    
+    res.status(200).json({ 
+      message: 'Photo uploaded!', 
+      photo: photoPath 
+    });
+  } catch (error) {
+    res.status(500).json({ error: error });
+  }
+});
+// PAUSE/RESUME application
+userRouter.put('/pause', auth, async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const result = await query(
+      'UPDATE users SET is_paused = NOT is_paused WHERE id = $1 RETURNING is_paused',
+      [userId]
+    );
+    res.status(200).json({ is_paused: result.rows[0].is_paused });
+  } catch (error) {
+    res.status(500).json({ error: error });
+  }
+});
+
+// DELETE user
+userRouter.delete('/:id', auth, async (req, res) => {
+  try {
+    const userId = req.user.id;
+    await query('DELETE FROM users WHERE id = $1', [userId]);
+    res.status(200).json({ message: 'Account deleted' });
+  } catch (error) {
+    res.status(500).json({ error: error });
+  }
+});
+// CHANGE PASSWORD
+userRouter.put('/change-password', auth, async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const { currentPassword, newPassword } = req.body;
+
+    const result = await query('SELECT * FROM users WHERE id = $1', [userId]);
+    const user = result.rows[0];
+
+    const match = await bcrypt.compare(currentPassword, user.password);
+    if (!match) return res.status(401).json({ error: 'Current password is wrong!' });
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    await query('UPDATE users SET password = $1 WHERE id = $2', [hashedPassword, userId]);
+
+    res.status(200).json({ message: 'Password changed successfully!' });
+  } catch (error) {
+    res.status(500).json({ error: error });
   }
 });
 

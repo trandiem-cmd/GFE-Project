@@ -10,27 +10,43 @@
 
 <body class="client-inbox-page">
   <div class="inbox-container">
-    <div class="top-bar">
-      <img src="./Assets/GFE logo.png" class="logo">
-      <div class="right-side">
-        <img src="./Assets/mark_email_unread (2).png" class="inbox-icon">
-        <a href="index.html" class="logout-btn">Log out</a>
+
+    <!-- LIST VIEW -->
+    <div id="listView">
+      <div class="top-bar">
+        <img src="./Assets/GFE logo.png" class="logo">
+        <div class="right-side">
+          <img src="./Assets/mark_email_unread (2).png" class="inbox-icon">
+          <a href="index.html" class="logout-btn">Log out</a>
+        </div>
+      </div>
+
+      <div class="inbox-header">
+        <h3 class="inbox-title">Messages</h3>
+        <p class="inbox-sub">Stay connected with candidates and manage your conversations easily.</p>
+      </div>
+
+      <div class="message-list" id="messageList"></div>
+    </div>
+
+    <!-- CHAT VIEW (hidden by default) -->
+    <div id="chatView" style="display:none;">
+      <div class="top-bar">
+        <button onclick="showList()" style="background:none; border:none; color:#572290; font-size:20px; cursor:pointer;">←</button>
+        <strong id="chatPersonName" style="color:#572290; font-size:16px;"></strong>
+        <div class="right-side">
+          <a href="index.html" class="logout-btn">Log out</a>
+        </div>
+      </div>
+
+      <div class="chat-box" id="chatBox" style="height:70vh; overflow-y:auto;"></div>
+
+      <div class="chat-input">
+        <input type="text" placeholder="Type a message...">
+        <button class="send-btn">➤</button>
       </div>
     </div>
 
-    <div class="inbox-header">
-      <h3 class="inbox-title">Messages</h3>
-      <p class="inbox-sub">Stay connected with candidates and manage your conversations easily.</p>
-    </div>
-
-    <div class="message-list" id="messageList"></div>
-    <div class="chat-name" id="chatName"></div>
-    <div class="chat-box" id="chatBox"></div>
-
-    <div class="chat-input">
-      <input type="text" placeholder="Type a message...">
-      <button class="send-btn">➤</button>
-    </div>
   </div>
 
   <footer class="footer">
@@ -46,58 +62,10 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
   <script>
 const BACKEND_URL = "http://localhost:3001";
-const userFromStorage = sessionStorage.getItem('user');
-const currentUser = JSON.parse(userFromStorage);
+const currentUser = JSON.parse(sessionStorage.getItem('user'));
 let selectedReceiverId = null;
 let allMessages = [];
 
-async function loadJobseekers() {
-  const response = await fetch(`${BACKEND_URL}/user/jobseekers`);
-  const jobseekers = await response.json();
-
-  // get all messages first
-  const msgResponse = await fetch(`${BACKEND_URL}/inbox/${currentUser.id}`);
-  allMessages = await msgResponse.json();
-
-  const list = document.getElementById('messageList');
-  list.innerHTML = '';
-
-  jobseekers.forEach((jobseeker, index) => {
-    // count unread messages from this jobseeker
-    const unread = allMessages.filter(m => m.sender_id === jobseeker.id && m.read === false);
-
-    const item = document.createElement('div');
-    item.className = 'message-item' + (index === 0 ? ' active' : '');
-    item.innerHTML = `
-      <img src="${images[index]}" class="profile-icon">
-      <div>
-        <strong>${jobseeker.fullname}</strong>
-        <small class="service-label">${jobseeker.services || ''}</small>
-        <p>Click to view messages</p>
-      </div>
-      ${unread.length > 0 ? `<span class="badge">${unread.length}</span>` : ''}
-    `;
-
-    item.addEventListener('click', () => {
-      document.querySelectorAll('.message-item').forEach(i => i.classList.remove('active'));
-      item.classList.add('active');
-      selectedReceiverId = jobseeker.id;
-      document.getElementById('chatName').textContent = jobseeker.fullname;
-      // remove badge when clicked
-      const badge = item.querySelector('.badge');
-      if (badge) badge.remove();
-      loadMessages(jobseeker.id);
-    });
-
-    list.appendChild(item);
-
-    if (index === 0) {
-      selectedReceiverId = jobseeker.id;
-      document.getElementById('chatName').textContent = jobseeker.fullname;
-      loadMessages(jobseeker.id);
-    }
-  });
-}
 const images = [
   './Assets/candidate pic1 F.jpg',
   './Assets/candidate pic2 F.jpg',
@@ -107,6 +75,57 @@ const images = [
   './Assets/candidate pic6 M.jpg',
   './Assets/candidate pic7 F.jpg'
 ];
+
+function showList() {
+  document.getElementById('listView').style.display = 'block';
+  document.getElementById('chatView').style.display = 'none';
+}
+
+function showChat(name) {
+  document.getElementById('listView').style.display = 'none';
+  document.getElementById('chatView').style.display = 'block';
+  document.getElementById('chatPersonName').textContent = name;
+}
+
+async function loadJobseekers() {
+  const response = await fetch(`${BACKEND_URL}/user/jobseekers`);
+  const jobseekers = await response.json();
+
+  const msgResponse = await fetch(`${BACKEND_URL}/inbox/${currentUser.id}`);
+  allMessages = await msgResponse.json();
+
+  const list = document.getElementById('messageList');
+  list.innerHTML = '';
+
+  jobseekers.forEach((jobseeker, index) => {
+    const unread = allMessages.filter(m => m.sender_id === jobseeker.id && m.read === false);
+    const lastMsg = allMessages.filter(m =>
+      (m.sender_id === jobseeker.id && m.receiver_id === currentUser.id) ||
+      (m.receiver_id === jobseeker.id && m.sender_id === currentUser.id)
+    ).slice(-1)[0];
+
+    const item = document.createElement('div');
+    item.className = 'message-item';
+    item.innerHTML = `
+      <img src="${images[index] || './Assets/candidate img2.png'}" class="profile-icon">
+      <div>
+        <strong>${jobseeker.fullname}</strong>
+        <small class="service-label">${jobseeker.services || ''}</small>
+        <p>${lastMsg ? lastMsg.message_text.substring(0, 30) + '...' : 'No messages yet'}</p>
+      </div>
+      ${unread.length > 0 ? `<span class="badge">${unread.length}</span>` : ''}
+    `;
+
+    item.addEventListener('click', () => {
+      selectedReceiverId = jobseeker.id;
+      showChat(jobseeker.fullname);
+      loadMessages(jobseeker.id);
+    });
+
+    list.appendChild(item);
+  });
+}
+
 async function loadMessages(receiverId) {
   const response = await fetch(`${BACKEND_URL}/inbox/${currentUser.id}`);
   const messages = await response.json();
@@ -124,6 +143,8 @@ async function loadMessages(receiverId) {
     div.textContent = msg.message_text;
     chatBox.appendChild(div);
   });
+
+  chatBox.scrollTop = chatBox.scrollHeight;
 }
 
 document.querySelector('.chat-input button').addEventListener('click', async () => {
@@ -147,12 +168,7 @@ document.querySelector('.chat-input button').addEventListener('click', async () 
 document.querySelector('.chat-input input').addEventListener('keypress', e => {
   if (e.key === 'Enter') document.querySelector('.chat-input button').click();
 });
-function getImage(service) {
-  if (service === 'childcare') return './Assets/candidate img2.png';
-  if (service === 'elderly care') return './Assets/candidate img2.png';
-  if (service === 'cleaning') return './Assets/candidate img3.png';
-  return './Assets/candidate img2.png';
-}
+
 loadJobseekers();
   </script>
 </body>

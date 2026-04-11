@@ -10,47 +10,64 @@
 
 <body class="jobseeker-inbox-page">
   <div class="inbox-container">
-    <div class="top-bar">
-      <img src="./Assets/GFE logo.png" class="logo">
-      <div class="right-side">
-        <img src="./Assets/mark_email_unread (2).png" class="inbox-icon">
-        <a href="index.html" class="logout-btn">Log out</a>
-        <img src="./Assets/menu-icon.png" class="menu-icon" onclick="openMenu()">
+
+    <!-- LIST VIEW -->
+    <div id="listView">
+      <div class="top-bar">
+        <img src="./Assets/GFE logo.png" class="logo">
+        <div class="right-side">
+          <img src="./Assets/mark_email_unread (2).png" class="inbox-icon">
+          <a href="index.html" class="logout-btn">Log out</a>
+          <img src="./Assets/menu-icon.png" class="menu-icon" onclick="openMenu()">
+        </div>
+      </div>
+
+      <div id="menuOverlay" class="menu-overlay" style="display: none;">
+        <div class="menu-card">
+          <div class="menu-top">
+            <span class="close-btn" onclick="closeMenu()">✕</span>
+          </div>
+          <div class="menu-links">
+            <a href="jobseeker-job-offers.html">Search</a>
+            <a href="jobseeker-profile-page.html">My profile</a>
+            <a href="jobseeker-dashboard.html">Dashboard</a>
+            <a href="jobseeker-inbox.html">Messages</a>
+            <a href="jobseeker-application.html">My applications</a>
+            <a href="jobseeker-saved-jobs.html">❤️ Saved jobs</a>
+          </div>
+          <div class="menu-bottom">
+            <a href="contact.html" class="help-btn">Need Help?</a>
+            <a href="index.html" class="logout-small">Log out</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="inbox-header">
+        <h3 class="inbox-title">Messages</h3>
+        <p class="inbox-sub">Stay connected with clients and manage your conversations easily.</p>
+      </div>
+
+      <div class="message-list" id="messageList"></div>
+    </div>
+
+    <!-- CHAT VIEW (hidden by default) -->
+    <div id="chatView" style="display:none;">
+      <div class="top-bar">
+        <button onclick="showList()" style="background:none; border:none; color:#572290; font-size:20px; cursor:pointer;">← </button>
+        <strong id="chatPersonName" style="color:#572290; font-size:16px;"></strong>
+        <div class="right-side">
+          <a href="index.html" class="logout-btn">Log out</a>
+        </div>
+      </div>
+
+      <div class="chat-box" id="chatBox" style="height:70vh; overflow-y:auto;"></div>
+
+      <div class="chat-input">
+        <input type="text" placeholder="Type a message...">
+        <button class="send-btn">➤</button>
       </div>
     </div>
 
-    <div id="menuOverlay" class="menu-overlay" style="display: none;">
-      <div class="menu-card">
-        <div class="menu-top">
-          <img src="./Assets/candidate img2.png" class="menu-profile">
-          <span class="close-btn" onclick="closeMenu()">✕</span>
-        </div>
-        <div class="menu-links">
-          <a href="jobseeker-job-offers.html">Search</a>
-          <a href="jobseeker-profile-page.html">My profile</a>
-          <a href="jobseeker-inbox.html">Messages</a>
-          <a href="jobseeker-application.html">My applications</a>
-          <a href="jobseeker-saved-jobs.html">❤️ Saved jobs</a>
-        </div>
-        <div class="menu-bottom">
-          <a href="contact.html" class="help-btn">Need Help?</a>
-          <a href="index.html" class="logout-small">Log out</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="inbox-header">
-      <h3 class="inbox-title">Messages</h3>
-      <p class="inbox-sub">Stay connected with clients and manage your conversations easily.</p>
-    </div>
-
-    <div class="message-list" id="messageList"></div>
-    <div class="chat-box" id="chatBox"></div>
-
-    <div class="chat-input">
-      <input type="text" placeholder="Type a message...">
-      <button class="send-btn">➤</button>
-    </div>
   </div>
 
   <footer class="footer">
@@ -65,53 +82,56 @@
 
   <script>
 const BACKEND_URL = "http://localhost:3001";
-const userFromStorage = sessionStorage.getItem('user');
-const currentUser = JSON.parse(userFromStorage);
+const currentUser = JSON.parse(sessionStorage.getItem('user'));
 let selectedReceiverId = null;
 let allMessages = [];
+
+function showList() {
+  document.getElementById('listView').style.display = 'block';
+  document.getElementById('chatView').style.display = 'none';
+}
+
+function showChat(name) {
+  document.getElementById('listView').style.display = 'none';
+  document.getElementById('chatView').style.display = 'block';
+  document.getElementById('chatPersonName').textContent = name;
+}
 
 async function loadClients() {
   const response = await fetch(`${BACKEND_URL}/user/clients`);
   const clients = await response.json();
 
-  // get all messages first
   const msgResponse = await fetch(`${BACKEND_URL}/inbox/${currentUser.id}`);
   allMessages = await msgResponse.json();
 
   const list = document.getElementById('messageList');
   list.innerHTML = '';
 
-  clients.forEach((client, index) => {
-    // count unread messages from this client
+  clients.forEach((client) => {
     const unread = allMessages.filter(m => m.sender_id === client.id && m.read === false);
+    const lastMsg = allMessages.filter(m =>
+      (m.sender_id === client.id && m.receiver_id === currentUser.id) ||
+      (m.receiver_id === client.id && m.sender_id === currentUser.id)
+    ).slice(-1)[0];
 
     const item = document.createElement('div');
-    item.className = 'message-item' + (index === 0 ? ' active' : '');
+    item.className = 'message-item';
     item.innerHTML = `
       <img src="./Assets/Group 142 (2).png" class="profile-icon">
       <div>
         <strong>${client.fullname}</strong>
-        <p>Click to view messages</p>
+        <p>${lastMsg ? lastMsg.message_text.substring(0, 30) + '...' : 'No messages yet'}</p>
       </div>
       ${unread.length > 0 ? `<span class="badge">${unread.length}</span>` : ''}
     `;
 
     item.addEventListener('click', () => {
-      document.querySelectorAll('.message-item').forEach(i => i.classList.remove('active'));
-      item.classList.add('active');
       selectedReceiverId = client.id;
-      // remove badge when clicked
-      const badge = item.querySelector('.badge');
-      if (badge) badge.remove();
+      showChat(client.fullname);
       loadMessages(client.id);
     });
 
     list.appendChild(item);
-
-    if (index === 0) {
-      selectedReceiverId = client.id;
-      loadMessages(client.id);
-    }
   });
 }
 
@@ -132,6 +152,9 @@ async function loadMessages(receiverId) {
     div.textContent = msg.message_text;
     chatBox.appendChild(div);
   });
+
+  // scroll to bottom
+  chatBox.scrollTop = chatBox.scrollHeight;
 }
 
 document.querySelector('.chat-input button').addEventListener('click', async () => {
