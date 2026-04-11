@@ -25,10 +25,10 @@
         <span class="close-btn" onclick="closeMenu()">✕</span>
       </div>
       <div class="menu-links">
-        <a href="jobseeker-job-offers.html">Search</a>
-        <a href="jobseeker-profile-page.html">My profile</a>
-        <a href="jobseeker-inbox.html">Messages</a>
-
+        <a href="client-jobdetails.html">Search</a>
+        <a href="client-dashboard.html">My dashboard</a>
+        <a href="client-inbox.html">Messages</a>
+        <a href="client-post.html">Post a new job</a>
       </div>
       <div class="menu-bottom">
         <a href="contact.html" class="help-btn">Need Help?</a>
@@ -42,7 +42,7 @@
     <div class="profile-header">
       <img src="./Assets/candidate img2.png" class="profile-img">
       <div class="profile-info">
-        <h4>Alex Johnson </h4>
+        <h4 id="profile-name">Alex Johnson</h4>
         <p id="about-text">Hello! I am Alex, 20 years old. I am looking for cleaning and babysitting jobs. I have experience in cleaning, organizing, and helping with daily tasks.<br><br>I am responsible, active, and hardworking. I like to keep places clean and organized. I can work both alone and in a team and I learn new things quickly.<br><br>In my free time, I enjoy cooking, baking, and spending time with my family and friends.</p>
       </div>
     </div>
@@ -64,6 +64,7 @@
         <div class="exp-row">
           <label>📍 Location</label>
           <div class="exp-value" id="location-text">Helsinki</div>
+          <span id="profile-location-text"></span>
         </div>
       </div>
     </div>
