@@ -22,7 +22,8 @@ userRouter.post('/login', async (req, res) => {
               email: user.email,
               role: user.role,
               token: token,
-              has_profile: user.has_profile
+              has_profile: user.has_profile,
+              fullname: user.fullname
             })
           } else {
             res.status(401).json({ error: 'Invalid login' })
