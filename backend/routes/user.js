@@ -1,6 +1,5 @@
 const express = require('express');
-const userRouter = express.Router();
-const { query } = require('../helpers/db');
+const { query } = require('../helpers/db.js');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
@@ -21,6 +20,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
+const userRouter = express.Router();
 
 // LOGIN
 userRouter.post('/login', async (req, res) => {
@@ -38,7 +38,8 @@ userRouter.post('/login', async (req, res) => {
               email: user.email,
               role: user.role,
               token: token,
-              has_profile: user.has_profile
+              has_profile: user.has_profile,
+              fullname: user.fullname
             })
           } else {
             res.status(401).json({ error: 'Invalid login' })
@@ -156,6 +157,7 @@ userRouter.get('/:id', async (req, res) => {
     res.status(500).json({ error: 'Failed to get user' });
   }
 });
+
 
 // UPLOAD PHOTO
 userRouter.post('/upload-photo', auth, upload.single('photo'), async (req, res) => {

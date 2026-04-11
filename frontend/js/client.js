@@ -231,18 +231,28 @@ document.addEventListener("DOMContentLoaded", () => {
 // ===== CLIENT'S DASHBOARD ===== //
     // ===== CLIENT'S JOB POSTS AND RECOMMENDS CANDIDATES ===== //
 async function loadDashboard() {
-    const userId = JSON.parse(sessionStorage.getItem("user")).id; 
-    if (!userId) {
-    alert("Not logged in");
-    window.location.href = "/login.html";
-    return;
+    const userData = JSON.parse(sessionStorage.getItem("user"));
+
+    if (!userData || !userData.id) {
+        alert("Not logged in");
+        window.location.href = "/login.html";
+        return;
     }
-    await job.getJob(userId)
-    const jobs =JSON.parse(sessionStorage.getItem('jobList'))
-    console.log(jobs)
+
+    const userId = userData.id; 
+
+    // show name
+    const welcome = document.getElementById("welcomeName");
+    if (welcome) {
+        welcome.innerText = `Hello  ${userData.fullname || "Client"} 👋`;
+    }
+
+    await job.getJob(userId);
+    const jobs = JSON.parse(sessionStorage.getItem('jobList')) || [];
     renderJobs(jobs);
-    await user.getJobSeeker(userId)
-    const jobseekers = JSON.parse(sessionStorage.getItem('jobSeekerList'));
+
+    await user.getJobSeeker(userId);
+    const jobseekers = JSON.parse(sessionStorage.getItem('jobSeekerList')) || [];
     renderJobseekers(jobseekers);
 }
 loadDashboard();
