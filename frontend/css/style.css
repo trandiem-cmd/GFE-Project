@@ -1203,7 +1203,7 @@ label{
   filter: hue-rotate(300deg) saturate(5);
   transform: scale(1.2);
 }
-.profile-container {
+.dashboard-page.profile-container {
   visibility: hidden;
 }
 
