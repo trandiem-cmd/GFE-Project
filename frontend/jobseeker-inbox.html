@@ -11,7 +11,6 @@
 <body class="jobseeker-inbox-page">
   <div class="inbox-container">
 
-    <!-- LIST VIEW -->
     <div id="listView">
       <div class="top-bar">
         <img src="./Assets/GFE logo.png" class="logo">
@@ -50,18 +49,15 @@
       <div class="message-list" id="messageList"></div>
     </div>
 
-    <!-- CHAT VIEW (hidden by default) -->
     <div id="chatView" style="display:none;">
       <div class="top-bar">
-        <button onclick="showList()" style="background:none; border:none; color:#572290; font-size:20px; cursor:pointer;">← </button>
+        <button onclick="showList()" style="background:none; border:none; color:#572290; font-size:20px; cursor:pointer;">←</button>
         <strong id="chatPersonName" style="color:#572290; font-size:16px;"></strong>
         <div class="right-side">
           <a href="index.html" class="logout-btn">Log out</a>
         </div>
       </div>
-
       <div class="chat-box" id="chatBox" style="height:70vh; overflow-y:auto;"></div>
-
       <div class="chat-input">
         <input type="text" placeholder="Type a message...">
         <button class="send-btn">➤</button>
@@ -98,16 +94,27 @@ function showChat(name) {
 }
 
 async function loadClients() {
-  const response = await fetch(`${BACKEND_URL}/user/clients`);
-  const clients = await response.json();
-
   const msgResponse = await fetch(`${BACKEND_URL}/inbox/${currentUser.id}`);
   allMessages = await msgResponse.json();
+
+  // get only users who have messages with current user
+  const userIds = [...new Set(allMessages.map(m =>
+    m.sender_id === currentUser.id ? m.receiver_id : m.sender_id
+  ))];
 
   const list = document.getElementById('messageList');
   list.innerHTML = '';
 
-  clients.forEach((client) => {
+  if (userIds.length === 0) {
+    list.innerHTML = '<p style="padding:20px; color:#572290;">No messages yet</p>';
+    return;
+  }
+
+  const response = await fetch(`${BACKEND_URL}/user/clients`);
+  const clients = await response.json();
+  const filtered = clients.filter(c => userIds.includes(c.id));
+
+  filtered.forEach(client => {
     const unread = allMessages.filter(m => m.sender_id === client.id && m.read === false);
     const lastMsg = allMessages.filter(m =>
       (m.sender_id === client.id && m.receiver_id === currentUser.id) ||
@@ -153,7 +160,6 @@ async function loadMessages(receiverId) {
     chatBox.appendChild(div);
   });
 
-  // scroll to bottom
   chatBox.scrollTop = chatBox.scrollHeight;
 }
 

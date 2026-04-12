@@ -13,6 +13,7 @@
 
   <div class="top-bar">
     <a href="jobseeker-profile-page.html">
+      <img src="./Assets/candidate img2.png" class="profile-icon" id="profilePic">
     </a>
     <div class="right-side">
       <a href="index.html" class="logout-btn">Log out</a>
@@ -41,11 +42,7 @@
   </div>
 
   <section class="welcome">
-<<<<<<< HEAD
-    <h2></h2>
-=======
     <h2 id="welcomeName">Hello 👋</h2>
->>>>>>> f8836911d1f5d6a40683f3694803f455abff3775
     <p>Welcome back! Find jobs and manage your applications.</p>
   </section>
 
@@ -64,8 +61,8 @@
       <div onclick="location.href='jobseeker-application.html'">
         <div>4<br>Applications</div>
       </div>
-      <div onclick="location.href='jobseeker-inbox.html'">
-        <div>7<br>Messages</div>
+      <div onclick="location.href='jobseeker-inbox.html'" id="messages-stat">
+        <div>0<br>Messages</div>
       </div>
       <div onclick="location.href='jobseeker-application.html'">
         <div>1<br>Accepted</div>
@@ -98,14 +95,22 @@
       fetch(`http://localhost:3001/user/${currentUser.id}`)
         .then(res => res.json())
         .then(user => {
-          // show first name
           const firstName = user.fullname ? user.fullname.split(' ')[0] : currentUser.email.split('@')[0];
-          document.querySelector('.welcome h2').textContent = `Hello, ${firstName} 👋`;
+          document.getElementById('welcomeName').textContent = `Hello, ${firstName} 👋`;
 
-          // show photo
           if (user.photo) {
             document.getElementById('profilePic').src = `http://localhost:3001/uploads/${user.photo}`;
           }
+        });
+
+      // count unique conversations
+      fetch(`http://localhost:3001/inbox/${currentUser.id}`)
+        .then(res => res.json())
+        .then(messages => {
+          const uniquePeople = [...new Set(messages.map(m =>
+            m.sender_id === currentUser.id ? m.receiver_id : m.sender_id
+          ))];
+          document.querySelector('#messages-stat div').innerHTML = `${uniquePeople.length}<br>Messages`;
         });
 
       // load real jobs
@@ -146,5 +151,6 @@
         .catch(err => console.error('Failed to load jobs:', err));
     }
   </script>
+
 </body>
 </html>

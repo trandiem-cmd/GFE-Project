@@ -132,7 +132,7 @@ userRouter.put("/profile", auth, async (req, res) => {
 // GET all jobseekers (for client inbox)
 userRouter.get('/jobseekers', async (req, res) => {
   try {
-    const result = await query("SELECT id, fullname, services FROM users WHERE role = 'jobseeker'");
+    const result = await query("SELECT id, fullname, services, photo FROM users WHERE role = 'jobseeker'");
     res.json(result.rows);
   } catch (error) {
     res.status(500).json({ error: 'Failed to get jobseekers' });

@@ -1703,7 +1703,7 @@ label{
 .inbox-container {
   padding: 10px;
   margin: 10px auto;
-  max-width: 420px;
+  max-width: 400px;
   transform: translateY(40px); 
 }
 
@@ -1811,7 +1811,7 @@ label{
   padding: 12px;
   border-radius: 16px;
   margin-top: 10px;
-  min-height: 200px;
+  min-height: 100px;
   display: flex;
   flex-direction: column;
 }
@@ -1837,7 +1837,7 @@ label{
 
 .chat-input {
   display: flex;
-  margin-top: auto;
+  margin-top: 20px;
   gap: 10px;
 }
 
@@ -1941,6 +1941,27 @@ label{
   margin-bottom: 15px;
 }
 
+#search-input {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #e9def5;
+  border-radius: 12px;
+  background: #f0e9f0;
+  color: #572290;
+  font-size: 14px;
+  outline: none;
+  position: relative;
+  bottom: 70px;
+}
+
+#search-input::placeholder {
+  color: #a084c8;
+}
+
+#search-input:focus {
+  border-color: #7b3fe4;
+  background: #e9def5;
+}
 
 .apply-form {
   display: flex;
@@ -2651,6 +2672,7 @@ label{
 
 .client-inbox-page .chat-input{
  margin-top: 20px;
+ 
 }
 
 .client-inbox-page .footer {

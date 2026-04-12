@@ -254,60 +254,63 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     };
     loadJobs();
-    function renderjobsByService(list) {  
-        const container = document.getElementById("job-list");
-        container.innerHTML = "";
-        list.forEach(job => {
-            const div = document.createElement("div");
-            div.classList.add("job-card");     
-            div.innerHTML = `
-                <div class="job-top">
-                    <h4>${job.service_title}</h4>
-                    <img src="./Assets/Heart@2x.png" class="heart-icon">
-                </div>
-                <p class="job-time">${job.service_schedule}</p>
-                <p class="apply-location">
-                    <img src="./Assets/location_on.png" class="location-icon">
-                    ${job.service_location} • ${job.service_pay_rate}
-                </p>
-                <p class="job-desc">${job.service_description}</p>       
-                <div class="job-bottom">
-                    <button class="details-btn">View details</button>
-                </div>
-            `;
-            container.appendChild(div);
-        });
-        document.querySelectorAll(".heart-icon").forEach(icon => {
-            const jobCard = icon.closest(".job-card");
-            const jobTitle = jobCard.querySelector("h4").textContent;
-            const jobTime = jobCard.querySelector(".job-time").textContent;
-            const jobLocation = jobCard.querySelector(".apply-location").textContent.trim();
-            const jobDesc = jobCard.querySelector(".job-desc").textContent.trim();
+   function renderjobsByService(list) {  
+    const container = document.getElementById("job-list");
+    container.innerHTML = "";
+    list.forEach(job => {
+        const div = document.createElement("div");
+        div.classList.add("job-card");
+        div.dataset.id = job.id;  // ← move it here inside forEach
+        div.innerHTML = `
+            <div class="job-top">
+                <h4>${job.service_title}</h4>
+                <img src="./Assets/Heart@2x.png" class="heart-icon">
+            </div>
+            <p class="job-time">${job.service_schedule}</p>
+            <p class="apply-location">
+                <img src="./Assets/location_on.png" class="location-icon">
+                ${job.service_location} • ${job.service_pay_rate}
+            </p>
+            <p class="job-desc">${job.service_description}</p>       
+            <div class="job-bottom">
+                <button class="details-btn">View details</button>
+            </div>
+        `;
+        container.appendChild(div);
+    });
 
-            let savedJobs = JSON.parse(localStorage.getItem("savedJobs")) || [];
-            if (savedJobs.find(j => j.title === jobTitle)) {
+    document.querySelectorAll(".heart-icon").forEach(icon => {
+        const jobCard = icon.closest(".job-card");
+        const jobTitle = jobCard.querySelector("h4").textContent;
+        const jobTime = jobCard.querySelector(".job-time").textContent;
+        const jobLocation = jobCard.querySelector(".apply-location").textContent.trim();
+        const jobDesc = jobCard.querySelector(".job-desc").textContent.trim();
+
+        let savedJobs = JSON.parse(localStorage.getItem("savedJobs")) || [];
+        if (savedJobs.find(j => j.title === jobTitle)) {
             icon.src = "./Assets/filled-heart.png";
+        }
+
+        icon.addEventListener("click", () => {
+            let savedJobs = JSON.parse(localStorage.getItem("savedJobs")) || [];
+            if (icon.src.includes("Heart@2x")) {
+                icon.src = "./Assets/filled-heart.png";
+                savedJobs.push({ title: jobTitle, time: jobTime, location: jobLocation, desc: jobDesc });
+            } else {
+                icon.src = "./Assets/Heart@2x.png";
+                savedJobs = savedJobs.filter(j => j.title !== jobTitle);
             }
-
-            icon.addEventListener("click", () => {
-                let savedJobs = JSON.parse(localStorage.getItem("savedJobs")) || [];
-                if (icon.src.includes("Heart@2x")) {
-                    icon.src = "./Assets/filled-heart.png";
-                    savedJobs.push({ title: jobTitle, time: jobTime, location: jobLocation, desc: jobDesc });
-                } else {
-                    icon.src = "./Assets/Heart@2x.png";
-                    savedJobs = savedJobs.filter(j => j.title !== jobTitle);
-                }
-                localStorage.setItem("savedJobs", JSON.stringify(savedJobs));
-            });
-        });        
-
-        document.querySelectorAll(".details-btn").forEach(btn => {
-            btn.addEventListener("click", () => {
-            window.location.href = "jobseeker-job-details-page.html";
-            });
+            localStorage.setItem("savedJobs", JSON.stringify(savedJobs));
         });
-        
-    };
+    });        
+
+    document.querySelectorAll(".details-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+            const jobCard = btn.closest(".job-card");
+            const jobId = jobCard.dataset.id;
+            window.location.href = `jobseeker-job-details-page.html?id=${jobId}`;
+        });
+    });
+};
     
 });  

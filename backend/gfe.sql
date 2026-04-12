@@ -23,6 +23,9 @@ CREATE TABLE users (
     is_paused BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT NOW(),
     updated_at TIMESTAMP DEFAULT NOW()
+     photo VARCHAR(255),
+    is_paused BOOLEAN DEFAULT FALSE,
+    languages TEXT,
 );
 
 CREATE TABLE contact_us (

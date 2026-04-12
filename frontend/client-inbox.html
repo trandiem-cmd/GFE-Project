@@ -11,7 +11,6 @@
 <body class="client-inbox-page">
   <div class="inbox-container">
 
-    <!-- LIST VIEW -->
     <div id="listView">
       <div class="top-bar">
         <img src="./Assets/GFE logo.png" class="logo">
@@ -20,16 +19,13 @@
           <a href="index.html" class="logout-btn">Log out</a>
         </div>
       </div>
-
       <div class="inbox-header">
         <h3 class="inbox-title">Messages</h3>
         <p class="inbox-sub">Stay connected with candidates and manage your conversations easily.</p>
       </div>
-
       <div class="message-list" id="messageList"></div>
     </div>
 
-    <!-- CHAT VIEW (hidden by default) -->
     <div id="chatView" style="display:none;">
       <div class="top-bar">
         <button onclick="showList()" style="background:none; border:none; color:#572290; font-size:20px; cursor:pointer;">←</button>
@@ -38,9 +34,7 @@
           <a href="index.html" class="logout-btn">Log out</a>
         </div>
       </div>
-
       <div class="chat-box" id="chatBox" style="height:70vh; overflow-y:auto;"></div>
-
       <div class="chat-input">
         <input type="text" placeholder="Type a message...">
         <button class="send-btn">➤</button>
@@ -66,16 +60,6 @@ const currentUser = JSON.parse(sessionStorage.getItem('user'));
 let selectedReceiverId = null;
 let allMessages = [];
 
-const images = [
-  './Assets/candidate pic1 F.jpg',
-  './Assets/candidate pic2 F.jpg',
-  './Assets/candidate pic3 M.jpg',
-  './Assets/candidate pic4 M.jpg',
-  './Assets/candidate pic5 M.jpg',
-  './Assets/candidate pic6 M.jpg',
-  './Assets/candidate pic7 F.jpg'
-];
-
 function showList() {
   document.getElementById('listView').style.display = 'block';
   document.getElementById('chatView').style.display = 'none';
@@ -88,16 +72,27 @@ function showChat(name) {
 }
 
 async function loadJobseekers() {
-  const response = await fetch(`${BACKEND_URL}/user/jobseekers`);
-  const jobseekers = await response.json();
-
   const msgResponse = await fetch(`${BACKEND_URL}/inbox/${currentUser.id}`);
   allMessages = await msgResponse.json();
+
+  // get only users who have messages with current user
+  const userIds = [...new Set(allMessages.map(m =>
+    m.sender_id === currentUser.id ? m.receiver_id : m.sender_id
+  ))];
 
   const list = document.getElementById('messageList');
   list.innerHTML = '';
 
-  jobseekers.forEach((jobseeker, index) => {
+  if (userIds.length === 0) {
+    list.innerHTML = '<p style="padding:20px; color:#572290;">No messages yet</p>';
+    return;
+  }
+
+  const response = await fetch(`${BACKEND_URL}/user/jobseekers`);
+  const jobseekers = await response.json();
+  const filtered = jobseekers.filter(j => userIds.includes(j.id));
+
+  filtered.forEach(jobseeker => {
     const unread = allMessages.filter(m => m.sender_id === jobseeker.id && m.read === false);
     const lastMsg = allMessages.filter(m =>
       (m.sender_id === jobseeker.id && m.receiver_id === currentUser.id) ||
@@ -107,7 +102,7 @@ async function loadJobseekers() {
     const item = document.createElement('div');
     item.className = 'message-item';
     item.innerHTML = `
-      <img src="${images[index] || './Assets/candidate img2.png'}" class="profile-icon">
+      <img src="${jobseeker.photo ? 'http://localhost:3001/uploads/' + jobseeker.photo : './Assets/candidate img2.png'}" class="profile-icon">
       <div>
         <strong>${jobseeker.fullname}</strong>
         <small class="service-label">${jobseeker.services || ''}</small>
