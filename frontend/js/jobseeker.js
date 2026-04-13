@@ -1,7 +1,9 @@
 import { User } from "./class/User.js";
 import { Job } from "./class/Job.js";
+import { Application } from "./class/Application.js";
 const user = new User();
 const job = new Job();
+const application = new Application();
 const PROFILE_KEY = "PROFILE_DATA";
 
 // ===== STORAGE =====
@@ -272,10 +274,20 @@ document.addEventListener("DOMContentLoaded", () => {
                 </p>
                 <p class="job-desc">${job.service_description}</p>       
                 <div class="job-bottom">
-                    <button class="details-btn">View details</button>
+                    <button class = "apply-btn">Apply Now</button>
                 </div>
             `;
             container.appendChild(div);
+            const applyBtn = div.querySelector(".apply-btn");
+            applyBtn.addEventListener("click", (event) => {
+                event.preventDefault();
+
+                window.location.href = "jobseeker-apply-page.html";
+
+                sessionStorage.setItem("selectedJob", JSON.stringify(job));
+            });
+            
+            
         });
         document.querySelectorAll(".heart-icon").forEach(icon => {
             const jobCard = icon.closest(".job-card");
@@ -301,13 +313,91 @@ document.addEventListener("DOMContentLoaded", () => {
                 localStorage.setItem("savedJobs", JSON.stringify(savedJobs));
             });
         });        
-
-        document.querySelectorAll(".details-btn").forEach(btn => {
-            btn.addEventListener("click", () => {
-            window.location.href = "jobseeker-job-details-page.html";
-            });
-        });
         
     };
+    // JOBSEEKER APPLY PAGE
+    const selectedJob = JSON.parse(sessionStorage.getItem("selectedJob"));
+    const userData = JSON.parse(sessionStorage.getItem("user"));
+   
+        document.querySelector(".apply-name").value = userData.fullname;
+        document.querySelector(".apply-email").value = userData.email;
+        document.querySelector(".apply-title").innerHTML = selectedJob.service_title;
+        document.querySelector(".apply-schedule").innerHTML = selectedJob.service_schedule;
+        document.querySelector(".apply-location").innerHTML = `
+        <img src="./Assets/location_on.png" class="location-icon">
+        ${selectedJob.service_location} • ${selectedJob.service_pay_rate}`;
     
+    
+    document.querySelector(".apply-form").addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const form = document.querySelector(".apply-form");
+        const formData = new FormData(form);
+        formData.append("job_id", selectedJob.id);
+        formData.append("jobseeker_id", user.id);
+        await application.applyJob(formData);
+        window.location.href = "jobseeker-application.html";
+        alert("✅ You have successfully applied!");
+    });
+});
+document.addEventListener("DOMContentLoaded", () => {
+
+    // JOBSEEKER APPLICATION PAGE
+    async function loadApplications(status) {
+        try {
+            const data = await application.getApplications(status);
+            renderApplications(data);
+        } catch (err) {
+            console.error(err);
+        }
+    }
+    document.querySelectorAll(".filter-btn").forEach(btn => {
+        btn.addEventListener("click", async () => {
+            console.log("CLICKED");
+
+            document.querySelectorAll(".filter-btn")
+                .forEach(b => b.classList.remove("active"));
+
+            btn.classList.add("active");
+
+            const status = btn.dataset.filter;
+
+            console.log("STATUS:", status);
+
+            loadApplications(status);
+        });
+    });
+   
+    function renderApplications(data) {  
+        const container = document.getElementById("application-list");
+        container.innerHTML = "";
+        data.forEach(app => {
+            const div = document.createElement("div");
+            div.classList.add("job-card");
+            div.classList.add("application-card");     
+            div.innerHTML = `
+                <div class="job-top">
+                <h4>${app.service_title}</h4>
+                <img src="./Assets/Heart@2x.png" class="heart-icon">
+                </div>
+
+                <p class="job-time">${app.service_schedule}</p>
+
+                <p class="apply-location">
+                <img src="./Assets/location_on.png" class="location-icon">
+                ${app.service_location} • ${app.service_pay_rate}
+                </p>
+
+                <p class="job-desc">
+                ${app.service_description}
+                </p>
+
+                <div class="job-bottom">
+                <span class="status ${app.status}">${app.status}</span>
+                </div>
+            `;
+            // toggle details
+            container.appendChild(div);
+
+        });
+    }    
 });  

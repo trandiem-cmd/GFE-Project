@@ -53,78 +53,13 @@
   </section>
 
   <div class="filter-buttons">
-    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn all" data-filter="all">All</button>
     <button class="filter-btn pending" data-filter="pending">Pending</button>
     <button class="filter-btn accepted" data-filter="accepted">Accepted</button>
     <button class="filter-btn rejected" data-filter="rejected">Rejected</button>
   </div>
-
-  <div class="job-card application-card" data-status="pending">
-    <div class="job-top">
-      <h4>Apartment Cleaner</h4>
-      <img src="./Assets/Heart@2x.png" class="heart-icon">
-    </div>
-
-    <p class="job-time">Occasional cleaning (weekends)</p>
-
-    <p class="apply-location">
-      <img src="./Assets/location_on.png" class="location-icon">
-      Helsinki • €15/hour
-    </p>
-
-    <p class="job-desc">
-      I need a detail-oriented cleaner for occasional apartment cleaning including bathrooms and general tidying.
-    </p>
-
-    <div class="job-bottom">
-      <span class="status pending">Pending</span>
-    </div>
-  </div>
-
-  <div class="job-card application-card" data-status="accepted">
-    <div class="job-top">
-      <h4>House Cleaner Needed</h4>
-      <img src="./Assets/Heart@2x.png" class="heart-icon">
-    </div>
-
-    <p class="job-time">Weekday mornings (8am - 10am)</p>
-
-    <p class="apply-location">
-      <img src="./Assets/location_on.png" class="location-icon">
-      Espoo • €15/hour
-    </p>
-
-    <p class="job-desc">
-      We need a responsible house cleaner to take care of our home and help with cleaning.
-    </p>
-
-    <div class="job-bottom">
-      <span class="status accepted">Accepted</span>
-    </div>
-  </div>
-
-  <div class="job-card application-card" data-status="rejected">
-    <div class="job-top">
-      <h4>Office Cleaner</h4>
-      <img src="./Assets/Heart@2x.png" class="heart-icon">
-    </div>
-
-    <p class="job-time">Weekday mornings (8am - 10am)</p>
-
-    <p class="apply-location">
-      <img src="./Assets/location_on.png" class="location-icon">
-      Vantaa • €15/hour
-    </p>
-
-    <p class="job-desc">
-      We are looking for a responsible cleaner to maintain office spaces, including desks, floors, and common areas.
-    </p>
-
-    <div class="job-bottom">
-      <span class="status rejected">Rejected</span>
-    </div>
-  </div>
-
+  <div id="application-list"></div>
+  
   <div class="tips-box">
     <h4>💬 Tips for your applications</h4>
     <p>✔ Apply quickly to new jobs</p>
@@ -159,7 +94,7 @@
   </script>
 
   <script>
-    const buttons = document.querySelectorAll(".filter-btn");
+    /*const buttons = document.querySelectorAll(".filter-btn");
     const cards = document.querySelectorAll(".application-card");
 
     buttons.forEach(btn => {
@@ -181,7 +116,7 @@
         });
 
       });
-    });
+    });*/
   </script>
 
   <script>
@@ -193,6 +128,6 @@
       document.getElementById("menuOverlay").style.display = "none";
     }
   </script>
-
+<script src="js/jobseeker.js" defer type="module"></script>
 </body>
 </html>

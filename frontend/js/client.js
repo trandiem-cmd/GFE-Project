@@ -235,7 +235,7 @@ async function loadDashboard() {
 
     if (!userData || !userData.id) {
         alert("Not logged in");
-        window.location.href = "/login.html";
+        window.location.href = "login.html";
         return;
     }
 
