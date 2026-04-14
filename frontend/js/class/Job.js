@@ -98,6 +98,7 @@ class Job {
         headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`},
+            cache: "no-store"
        })
        if (response.ok === true) {
         const json = await response.json();

@@ -20,7 +20,7 @@ jobRouter.post("/post",auth,async(req,res) => {
 jobRouter.get("/dashboard",auth,async(req,res)=>{
     try{
         const client_id = req.user.id;
-        const sql = "SELECT service_type, service_title, service_description, service_schedule, service_frequency, service_location, service_pay_rate FROM jobposts WHERE client_id = $1"
+        const sql = "SELECT * FROM jobposts WHERE client_id = $1"
         const result = await query(sql,[client_id])
         res.status(200).json(result.rows) 
     } catch (error) {

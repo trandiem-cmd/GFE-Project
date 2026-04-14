@@ -67,5 +67,35 @@ applyRouter.get("/search", auth, async (req, res) => {
     }
 });
 
+// GET APPLICANTS BY JOB POST
+applyRouter.get("/:postId", async (req, res) => {
+  const { postId } = req.params;
 
+  try {
+    const sql=
+      `SELECT applications.id,applications.job_id,applications.status,users.fullname,users.experience,users.skills
+       FROM applications
+       JOIN users ON applications.jobseeker_id = users.id
+       WHERE applications.job_id = $1`
+    const result = await query(sql,[postId]);
+    res.json(result.rows);
+    } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
+    }
+});
+// CHANGES STATUS OF APPLICATION
+applyRouter.put("/:id/status", async (req, res) => {
+const { id } = req.params;
+const { status } = req.body;
+
+try {
+    const sql=`UPDATE applications SET status = $1 WHERE id = $2 returning *`;
+    const result = await query(sql,[status, id]);
+    res.json(result.rows);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "Server error" });
+    }
+});
 module.exports = {applyRouter};
