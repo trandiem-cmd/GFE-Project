@@ -18,18 +18,22 @@ async function loadProfile() {
 
 // DISPLAY DATA
 function renderProfile(userData) {
-  document.getElementById("name-display").textContent = userData.fullname;
-  document.getElementById("phone-display").textContent = userData.contact_phone;
-  document.getElementById("email-display").textContent = userData.contact_email;
-  document.getElementById("location-display").textContent = userData.location;
-  document.getElementById("about-display").textContent = userData.about_you;
+  // TOP HEADER NAME
+  document.getElementById("header-name").textContent = userData.fullname || "";
 
-  // also fill inputs
-  document.getElementById("name-input").value = userData.fullname;
-  document.getElementById("phone-input").value = userData.contact_phone;
-  document.getElementById("email-input").value = userData.contact_email;
-  document.getElementById("location-input").value = userData.location;
-  document.getElementById("about-input").value = userData.about_you;
+  // FORM DISPLAY
+  document.getElementById("name-display").textContent = userData.fullname || "";
+  document.getElementById("phone-display").textContent = userData.contact_phone || "";
+  document.getElementById("email-display").textContent = userData.contact_email || "";
+  document.getElementById("location-display").textContent = userData.location || "";
+  document.getElementById("about-display").textContent = userData.about_you || "";
+
+  // INPUTS
+  document.getElementById("name-input").value = userData.fullname || "";
+  document.getElementById("phone-input").value = userData.contact_phone || "";
+  document.getElementById("email-input").value = userData.contact_email || "";
+  document.getElementById("location-input").value = userData.location || "";
+  document.getElementById("about-input").value = userData.about_you || "";
 }
 
 // SWITCH TO EDIT MODE
@@ -72,8 +76,13 @@ function toggleEdit(isEdit) {
   const fields = ["name", "phone", "email", "location", "about"];
 
   fields.forEach(f => {
-    document.getElementById(`${f}-display`).classList.toggle("d-none", isEdit);
-    document.getElementById(`${f}-input`).classList.toggle("d-none", !isEdit);
+    const display = document.getElementById(`${f}-display`);
+    const input = document.getElementById(`${f}-input`);
+
+    if (display && input) {
+      display.classList.toggle("d-none", isEdit);
+      input.classList.toggle("d-none", !isEdit);
+    }
   });
 
   document.getElementById("editBtn").classList.toggle("d-none", isEdit);
