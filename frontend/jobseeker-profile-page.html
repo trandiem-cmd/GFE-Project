@@ -21,11 +21,11 @@
   <div id="menuOverlay" class="menu-overlay" style="display: none;">
     <div class="menu-card">
       <div class="menu-top">
-        <img src="./Assets/candidate img2.png" class="menu-profile">
         <span class="close-btn" onclick="closeMenu()">✕</span>
       </div>
       <div class="menu-links">
         <a href="jobseeker-job-offers.html">Search</a>
+        <a href="jobseeker-dashboard.html">Dashboard</a>
         <a href="jobseeker-profile-page.html">My profile</a>
         <a href="jobseeker-inbox.html">Messages</a>
         <a href="jobseeker-application.html">My applications</a>
@@ -38,13 +38,23 @@
     </div>
   </div>
 
-  <div class="profile-container">
+  <div class="profile-container" style="visibility:hidden;">
 
     <div class="profile-header">
-      <img src="./Assets/candidate img2.png" class="profile-img">
+      <img src="" class="profile-img" id="profile-img">
       <div class="profile-info">
-        <h4>Alex Johnson </h4>
-        <p id="about-text">Hello! I am Alex, 20 years old. I am looking for cleaning and babysitting jobs. I have experience in cleaning, organizing, and helping with daily tasks.<br><br>I am responsible, active, and hardworking. I like to keep places clean and organized. I can work both alone and in a team and I learn new things quickly.<br><br>In my free time, I enjoy cooking, baking, and spending time with my family and friends.</p>
+        <h4 id="profile-name"></h4>
+        <p id="profile-service-text"></p>
+        <p id="profile-location-text"></p>
+      </div>
+    </div>
+
+    <div class="profile-rating"></div>
+
+    <div class="profile-section">
+      <h4>About me</h4>
+      <div class="profile-box">
+        <p id="about-text"></p>
       </div>
     </div>
 
@@ -52,40 +62,36 @@
       <div class="profile-box">
         <div class="exp-row">
           <label>👤 Name</label>
-          <div class="exp-value" id="name-text">Alex Johnson</div>
+          <div class="exp-value" id="name-text"></div>
         </div>
         <div class="exp-row">
           <label>📞 Phone</label>
-          <div class="exp-value" id="phone-text">+358 40 123 4567</div>
+          <div class="exp-value" id="phone-text"></div>
         </div>
         <div class="exp-row">
           <label>📧 Email</label>
-          <div class="exp-value" id="email-text">alex@email.com</div>
+          <div class="exp-value" id="email-text"></div>
         </div>
         <div class="exp-row">
           <label>📍 Location</label>
-          <div class="exp-value" id="location-text">Helsinki</div>
+          <div class="exp-value" id="location-text"></div>
         </div>
       </div>
     </div>
 
     <div class="profile-section">
       <h4>Available services</h4>
-      <div class="tags">
-        <span class="tag">Cleaning</span>
-        <span class="tag">Childcare</span>
-        <span class="tag">Elderly care</span>
-      </div>
+      <div class="tags" id="services-tags"></div>
     </div>
 
     <div class="profile-section">
-      <h4>Achievable tasks</h4>
-      <div class="tasks">
-        <span>Cleaning</span>
-        <span>Washing</span>
-        <span>Ironing</span>
-        <span>Cooking</span>
-      </div>
+      <h4>Skills</h4>
+      <div class="tasks" id="skills-tasks"></div>
+    </div>
+
+    <div class="profile-section">
+      <h4>Spoken languages</h4>
+      <div class="tasks" id="languages-tasks"></div>
     </div>
 
     <div class="profile-section">
@@ -94,18 +100,37 @@
       <div class="profile-box">
         <div class="exp-row">
           <label>Experience</label>
-          <div class="exp-value" id="experience-text">< 1 year experience</div>
+          <div class="exp-value" id="experience-text"></div>
         </div>
         <div class="exp-row">
           <label>Hourly rate</label>
-          <div class="exp-value" id="rate-text">€15/hour</div>
+          <div class="exp-value" id="rate-text"></div>
         </div>
+      </div>
+    </div>
+
+    <div class="profile-section">
+      <h4>Change password</h4>
+      <div class="profile-box">
+        <div class="exp-row">
+          <label>Current password</label>
+          <input type="password" id="current-password" style="border:1px solid #ccc; border-radius:8px; padding:5px; background:#e9def5; width:100%;">
+        </div>
+        <div class="exp-row">
+          <label>New password</label>
+          <input type="password" id="new-password" style="border:1px solid #ccc; border-radius:8px; padding:5px; background:#e9def5; width:100%;">
+        </div>
+        <div class="exp-row">
+          <label>Confirm password</label>
+          <input type="password" id="confirm-password" style="border:1px solid #ccc; border-radius:8px; padding:5px; background:#e9def5; width:100%;">
+        </div>
+        <button id="change-password-btn" style="background: linear-gradient(to right, #7b3fe4, #3B1664); color:white; border:none; padding:8px 16px; border-radius:10px; margin-top:10px;">Change password</button>
       </div>
     </div>
 
     <div class="profile-actions">
       <button class="edit-btn" id="editBtn">Edit your profile</button>
-      <button class="pause-btn">Pause your application</button>
+      <button class="pause-btn" style="background:#e4dbe6;">Pause your application</button>
       <button class="delete-btn">Delete account</button>
     </div>
 
@@ -122,7 +147,66 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
   <script>
+  const currentUser = JSON.parse(sessionStorage.getItem('user'));
+
+  if (currentUser) {
+    fetch(`http://localhost:3001/user/${currentUser.id}`)
+      .then(res => res.json())
+      .then(user => {
+        document.getElementById('profile-name').textContent = user.fullname ? user.fullname.split(' ')[0] : '';
+        document.getElementById('profile-service-text').textContent = user.services || '';
+        document.getElementById('profile-location-text').textContent = user.location || '';
+
+        if (user.photo) {
+          document.getElementById('profile-img').src = `http://localhost:3001/uploads/${user.photo}`;
+        } else {
+          document.getElementById('profile-img').src = './Assets/candidate img2.png';
+        }
+
+        document.getElementById('about-text').textContent = user.about_you || 'No description added yet';
+        document.getElementById('name-text').textContent = user.fullname || '';
+        document.getElementById('phone-text').textContent = user.contact_phone || '';
+        document.getElementById('email-text').textContent = user.contact_email || '';
+        document.getElementById('location-text').textContent = user.location || '';
+        document.getElementById('experience-text').textContent = user.experience || '';
+        document.getElementById('rate-text').textContent = user.hourly_rate || '';
+
+        const pauseBtn = document.querySelector('.pause-btn');
+        if (user.is_paused) {
+          pauseBtn.textContent = 'Resume application';
+          pauseBtn.style.background = '#ccc';
+        }
+
+        if (user.services) {
+          document.getElementById('services-tags').innerHTML = `<span class="tag">${user.services}</span>`;
+        }
+
+        if (user.skills) {
+          const tasksDiv = document.getElementById('skills-tasks');
+          tasksDiv.innerHTML = '';
+          user.skills.split(',').forEach(skill => {
+            const span = document.createElement('span');
+            span.textContent = skill.trim();
+            tasksDiv.appendChild(span);
+          });
+        }
+
+        if (user.languages) {
+          const langsDiv = document.getElementById('languages-tasks');
+          langsDiv.innerHTML = '';
+          user.languages.split(',').forEach(lang => {
+            const span = document.createElement('span');
+            span.textContent = lang.trim();
+            langsDiv.appendChild(span);
+          });
+        }
+
+        document.querySelector('.profile-container').style.visibility = 'visible';
+      });
+  }
+
   let isEditing = false;
 
   const districts = {
@@ -139,23 +223,18 @@
       isEditing = true;
       this.textContent = 'Save profile';
 
-      // about me
       const about = document.getElementById('about-text');
       about.innerHTML = `<textarea id="edit-about" style="width:100%; border:none; border-radius:8px; padding:8px; background:#e9def5; min-height:120px;">${about.innerText}</textarea>`;
 
-      // name
       const name = document.getElementById('name-text');
       name.innerHTML = `<input id="edit-name" type="text" value="${name.innerText}" style="border:1px solid #ccc; border-radius:8px; padding:5px; background:#e9def5; width:100%;">`;
 
-      // phone
       const phone = document.getElementById('phone-text');
       phone.innerHTML = `<input id="edit-phone" type="text" value="${phone.innerText}" style="border:1px solid #ccc; border-radius:8px; padding:5px; background:#e9def5; width:100%;">`;
 
-      // email
       const email = document.getElementById('email-text');
       email.innerHTML = `<input id="edit-email" type="email" value="${email.innerText}" style="border:1px solid #ccc; border-radius:8px; padding:5px; background:#e9def5; width:100%;">`;
 
-      // location - city + district
       const loc = document.getElementById('location-text');
       loc.innerHTML = `
         <select id="edit-city" class="form-select mb-2" style="background:#e9def5;">
@@ -185,7 +264,6 @@
         }
       });
 
-      // experience
       const exp = document.getElementById('experience-text');
       exp.innerHTML = `<select id="edit-experience" style="border:1px solid #ccc; border-radius:8px; padding:5px; background:#e9def5;">
         <option>0-1 years</option>
@@ -194,7 +272,6 @@
         <option>5+ years</option>
       </select>`;
 
-      // rate
       const rate = document.getElementById('rate-text');
       rate.innerHTML = `<select id="edit-rate" style="border:1px solid #ccc; border-radius:8px; padding:5px; background:#e9def5;">
         <option>€10 - €15/hour</option>
@@ -207,37 +284,115 @@
       isEditing = false;
       this.textContent = 'Edit your profile';
 
-      document.getElementById('about-text').innerHTML = document.getElementById('edit-about').value;
-      document.getElementById('name-text').textContent = document.getElementById('edit-name').value;
-      document.getElementById('phone-text').textContent = document.getElementById('edit-phone').value;
-      document.getElementById('email-text').textContent = document.getElementById('edit-email').value;
-      document.getElementById('experience-text').textContent = document.getElementById('edit-experience').value;
-      document.getElementById('rate-text').textContent = document.getElementById('edit-rate').value;
-
+      const aboutVal = document.getElementById('edit-about').value;
+      const nameVal = document.getElementById('edit-name').value;
+      const phoneVal = document.getElementById('edit-phone').value;
+      const emailVal = document.getElementById('edit-email').value;
+      const expVal = document.getElementById('edit-experience').value;
+      const rateVal = document.getElementById('edit-rate').value;
       const city = document.getElementById('edit-city').value;
       const district = document.getElementById('edit-district').value;
       const locVal = district ? `${city} - ${district}` : city;
+
+      document.getElementById('about-text').innerHTML = aboutVal;
+      document.getElementById('name-text').textContent = nameVal;
+      document.getElementById('phone-text').textContent = phoneVal;
+      document.getElementById('email-text').textContent = emailVal;
+      document.getElementById('experience-text').textContent = expVal;
+      document.getElementById('rate-text').textContent = rateVal;
       document.getElementById('location-text').textContent = locVal;
       document.getElementById('profile-location-text').textContent = city;
 
-      alert('Profile saved! ✅');
+      fetch('http://localhost:3001/user/profile', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${currentUser.token}`
+        },
+        body: JSON.stringify({
+          fullname: nameVal,
+          contact_phone: phoneVal,
+          contact_email: emailVal,
+          location: locVal,
+          about_you: aboutVal,
+          experience: expVal,
+          hourly_rate: rateVal
+        })
+      })
+      .then(res => res.json())
+      .then(() => alert('Profile saved! ✅'))
+      .catch(err => console.error(err));
     }
   });
 
   document.querySelector(".pause-btn").addEventListener("click", function() {
-    if (this.innerText === "Pause your application") {
-      this.innerText = "Resume application";
-      this.style.background = "#ccc";
-    } else {
-      this.innerText = "Pause your application";
-      this.style.background = "#e4dbe6";
-    }
+    fetch('http://localhost:3001/user/pause', {
+      method: 'PUT',
+      headers: { 'Authorization': `Bearer ${currentUser.token}` }
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.is_paused) {
+        this.textContent = 'Resume application';
+        this.style.background = '#ccc';
+      } else {
+        this.textContent = 'Pause your application';
+        this.style.background = '#e4dbe6';
+      }
+    });
   });
 
   document.querySelector(".delete-btn").addEventListener("click", () => {
-    if (confirm("Are you sure you want to delete your account?")) {
-      alert("Account deleted");
+    if (confirm("Are you sure you want to delete your account? This cannot be undone!")) {
+      fetch(`http://localhost:3001/user/${currentUser.id}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${currentUser.token}` }
+      })
+      .then(res => res.json())
+      .then(() => {
+        alert('Account deleted!');
+        sessionStorage.clear();
+        window.location.href = 'index.html';
+      })
+      .catch(err => console.error(err));
     }
+  });
+
+  document.getElementById('change-password-btn').addEventListener('click', () => {
+    const currentPassword = document.getElementById('current-password').value;
+    const newPassword = document.getElementById('new-password').value;
+    const confirmPassword = document.getElementById('confirm-password').value;
+
+    if (!currentPassword || !newPassword || !confirmPassword) {
+      alert('Please fill in all password fields!');
+      return;
+    }
+
+    if (newPassword !== confirmPassword) {
+      alert('New passwords do not match!');
+      return;
+    }
+
+    fetch('http://localhost:3001/user/change-password', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${currentUser.token}`
+      },
+      body: JSON.stringify({ currentPassword, newPassword })
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.error) {
+        alert('Error: ' + data.error);
+      } else {
+        alert('Password changed successfully! ✅');
+        document.getElementById('current-password').value = '';
+        document.getElementById('new-password').value = '';
+        document.getElementById('confirm-password').value = '';
+      }
+    })
+    .catch(err => console.error(err));
   });
 
   document.querySelectorAll('.tag, .tasks span').forEach(tag => {

@@ -64,10 +64,9 @@
           </div>
       </div>
         <div class="form-actions mb-3">
-          <button type="button" class="back-btn">Back</button>
+          <button type="button" class="back-btn" id="back-btn">Back</button>
           <button type="submit" class="next-btn" id="submit-profile-btn2">Create profile</button>
         </div>
-
 
     <p class="add-logo">
       <img src="./Assets/GFE logo.png" alt="GFE logo" class="logo">
@@ -83,8 +82,25 @@
       </div>
     </div>
   </div>
- 
+
+  <script>
+  document.getElementById('back-btn').addEventListener('click', () => {
+    window.location.href = 'jobseeker-profile3.html';
+  });
+  </script>
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
   <script src="js/jobseeker.js" type="module"></script>
+  <script>
+document.addEventListener("DOMContentLoaded", () => {
+  const profile = JSON.parse(sessionStorage.getItem("PROFILE_DATA")) || {};
+  
+  // restore photo in review
+  if (profile.photo) {
+    const photoBox = document.querySelector('.photo-box');
+    photoBox.innerHTML = `<img src="${profile.photo}" style="width:100%; height:100%; object-fit:cover; border-radius:8px;">`;
+  }
+});
+</script>
 </body>
 </html>
