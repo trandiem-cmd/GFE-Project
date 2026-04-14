@@ -226,7 +226,7 @@ class User {
     this.#token = undefined
     sessionStorage.clear();
   }
-  
+         
 }
 
 

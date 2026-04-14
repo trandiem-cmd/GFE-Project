@@ -2968,3 +2968,49 @@ label{
 .client-dashboard-page .footer {
   margin-top: auto;
 }
+
+.client-jobdetails-page .jobs-card {
+  background: #dbd1e9;
+  padding: 14px;
+  border-radius: 14px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+.client-jobdetails-page h3 {
+  color: #572290;
+  font-size: 20px;
+  margin-bottom: 5px;
+  padding: 20px 0px;
+  font-family: 'ADLaM Display', sans-serif;
+}
+.applicant-status {
+  display: flex;
+  justify-content: space-between;
+  
+  height: 50px;
+}
+.pending {
+  background: orange;
+  border-radius: 12px;
+  padding: 10px;
+  display: flex;
+  align-items: center;  
+  justify-content: center;
+}
+
+.accepted {
+  background: #4CAF50;
+  border-radius: 12px;
+  padding: 10px;
+  display: flex;
+  align-items: center;  
+  justify-content: center;
+}
+
+.rejected {
+  background: gray;
+  border-radius: 12px;
+  padding: 10px;
+  display: flex;
+  align-items: center;  
+  justify-content: center;
+}
