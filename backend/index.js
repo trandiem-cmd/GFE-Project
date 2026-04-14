@@ -8,6 +8,7 @@ const { inboxRouter } = require('./routes/inbox');
 const { jobRouter } = require('./routes/job.js');
 const { applyRouter } = require('./routes/apply.js');
 const app = express();
+const profileRoutes = require("./routes/Profile");
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
@@ -18,6 +19,7 @@ app.use('/contact', contactRouter);
 app.use('/inbox', inboxRouter);
 app.use('/job', jobRouter);
 app.use('/application', applyRouter);
+app.use("/profile", profileRoutes);
 app.get('/', (req, res) => {
   res.json({ message: "Hello world" });
 });
