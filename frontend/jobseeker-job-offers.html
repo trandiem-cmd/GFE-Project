@@ -15,33 +15,40 @@
     <img src="./Assets/GFE logo.png" class="logo">
     <div class="right-side">
       <a href="index.html" class="logout-btn">log out</a>
-          <img src="./Assets/menu-icon.png" class="menu-icon" onclick="openMenu()">
-      </a>
+      <img src="./Assets/menu-icon.png" class="menu-icon" onclick="openMenu()">
     </div>
   </div>
-<div id="menuOverlay" class="menu-overlay" style="display: none;">
-  <div class="menu-card">
-    <div class="menu-top">
-      <img src="./Assets/candidate img2.png" class="menu-profile">
-      <span class="close-btn" onclick="closeMenu()">✕</span>
-    </div>
-    <div class="menu-links">
-    <a href="jobseeker-job-offers.html">Search</a>
-      <a href="jobseeker-profile-page.html">My profile</a>
-      <a href="jobseeker-inbox.html">Messages</a>
-      <a href="jobseeker-application.html">My applications</a>
-      <a href="jobseeker-saved-jobs.html">❤️ Saved jobs</a>
-    </div>
-    <div class="menu-bottom">
-      <a href="contact.html" class="help-btn">Need Help?</a>
-      <a href="index.html" class="logout-small">Log out</a>
+
+  <div id="menuOverlay" class="menu-overlay" style="display: none;">
+    <div class="menu-card">
+      <div class="menu-top">
+        <img src="./Assets/candidate img2.png" class="menu-profile">
+        <span class="close-btn" onclick="closeMenu()">✕</span>
+      </div>
+      <div class="menu-links">
+        <a href="jobseeker-job-offers.html">Search</a>
+        <a href="jobseeker-profile-page.html">My profile</a>
+        <a href="jobseeker-inbox.html">Messages</a>
+        <a href="jobseeker-application.html">My applications</a>
+        <a href="jobseeker-saved-jobs.html">❤️ Saved jobs</a>
+      </div>
+      <div class="menu-bottom">
+        <a href="contact.html" class="help-btn">Need Help?</a>
+        <a href="index.html" class="logout-small">Log out</a>
+      </div>
     </div>
   </div>
-</div>
+
   <div class="purple-bar2">
     <h3>Find jobs</h3>
     <p>Browse available jobs and apply easily.</p>
   </div>
+
+  <!-- search bar -->
+  <div style="padding: 10px 15px;">
+    <input type="text" id="searchInput" placeholder="🔍 Search jobs, locations, services..." 
+    style="width:100%; padding:10px; border-radius:10px; border:1px solid #ccc; position: relative; bottom: 70px;">
+  </d
 
   <div class="service-section">
     <p class="service-title">Browse by service</p>
@@ -51,9 +58,9 @@
       <button class="service-btn" data-filter="cleaning">🧹 Cleaning</button>
     </div>
   </div>
-  <div id="job-list">
-  </div>
-  
+
+  <div id="job-list"></div>
+
   <footer class="footer">
     <div class="footer-links">
       <a href="#">About us</a>
@@ -72,7 +79,18 @@
     function closeMenu() {
       document.getElementById("menuOverlay").style.display = "none";
     }
-</script>
-<script src="js/jobseeker.js" type="module"></script>
+
+    // search filter
+   document.getElementById('searchInput').addEventListener('input', function() {
+  const search = this.value.toLowerCase();
+  document.querySelectorAll('.job-card').forEach(card => {
+    const title = card.querySelector('h4').textContent.toLowerCase();
+    const desc = card.querySelector('.job-desc') ? card.querySelector('.job-desc').textContent.toLowerCase() : '';
+    const location = card.querySelector('.apply-location') ? card.querySelector('.apply-location').textContent.toLowerCase() : '';
+    card.style.display = (title.includes(search) || desc.includes(search) || location.includes(search)) ? 'block' : 'none';
+  });
+});
+  </script>
+  <script src="js/jobseeker.js" type="module"></script>
 </body>
 </html>

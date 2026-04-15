@@ -245,16 +245,20 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     // JOBSEEKER-JOB-OFFERS PAGE
     async function loadJobs() {
-        document.querySelectorAll(".service-btn").forEach(btn => {
-            btn.addEventListener("click", async () => {
-                document.querySelectorAll(".service-btn").forEach(b => b.classList.remove("active"));
-                btn.classList.add("active");
-                const jobsByService = btn.dataset.filter;
-                let jobpostsList = await job.getJobByService(jobsByService); 
-                renderjobsByService(jobpostsList); 
-            });
+    // load ALL jobs by default
+    let allJobs = await job.getAllJob();
+    renderjobsByService(allJobs);
+
+    document.querySelectorAll(".service-btn").forEach(btn => {
+        btn.addEventListener("click", async () => {
+            document.querySelectorAll(".service-btn").forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+            const jobsByService = btn.dataset.filter;
+            let jobpostsList = await job.getJobByService(jobsByService);
+            renderjobsByService(jobpostsList);
         });
-    };
+    });
+}
     loadJobs();
     function renderjobsByService(list) {  
         const container = document.getElementById("job-list");
