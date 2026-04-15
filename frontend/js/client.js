@@ -1,8 +1,9 @@
 import { User } from "./class/User.js";
 import { Job } from "./class/Job.js";
+import { Application } from "./class/Application.js";
 const user = new User();
 const job = new Job();
-
+const application = new Application();
 
 const PROFILE_KEY = "PROFILE_DATA";
 const JOBPOST_KEY = "JOBPOST_DATA";
@@ -235,7 +236,7 @@ async function loadDashboard() {
 
     if (!userData || !userData.id) {
         alert("Not logged in");
-        window.location.href = "/login.html";
+        window.location.href = "login.html";
         return;
     }
 
@@ -272,11 +273,19 @@ function renderJobs(jobs) {
     div.innerHTML = `
       <h3>${job.service_title}</h3>
       <p>${job.service_schedule}</p>
-      <span>${job.service_location}</span><span style="padding: 20px">${job.service_pay_rate} €/hour</span>
+      <span>${job.service_location}</span><span style="padding: 20px">${job.service_pay_rate}</span>
       <p>${job.service_description}</p>
+      <button class="manage-applicants-btn">Manage applicants</button>
     `;
-
     container.appendChild(div);
+    const manageApplicantsBtn = div.querySelector(".manage-applicants-btn");
+        manageApplicantsBtn.addEventListener("click", (event) => {
+            event.preventDefault();
+
+            window.location.href = "client-jobdetails.html";
+
+            sessionStorage.setItem("selectedJob", JSON.stringify(job));
+        });
   });
 }
 
@@ -339,6 +348,88 @@ function renderJobseekersByServices(list) {
         `;
         container.appendChild(div);
     });
+}
+
+// ===== CLIENT'S JOBDETAILS ===== //
+    // == JOB DETAILS == //
+const selectedJob = JSON.parse(sessionStorage.getItem("selectedJob"));
+const container = document.querySelector(".jobpost-details")
+const div = document.createElement("div");
+    div.classList.add("jobs-card");     
+    div.innerHTML = `
+        <div class="job-top">
+            <h3>${selectedJob.service_title}</h4>
+        </div>
+        <p class="job-time">${selectedJob.service_schedule}</p>
+        <p class="apply-location">
+            <img src="./Assets/location_on.png" class="location-icon">
+            ${selectedJob.service_location} • ${selectedJob.service_pay_rate}
+        </p>
+                
+    `;
+    container.appendChild(div);
+    // APPLICANTS DETAIS == //
+async function loadApplicants() {
+    const currentPostId = selectedJob?.id;
+    if (!currentPostId) {
+    console.error("No postId");
+    return;
+    }
+    try {
+        const data = await application.getApplicants(currentPostId);
+        renderApplicants(data);
+    } catch (err) {
+        console.error(err);
+    }
+}
+loadApplicants();
+function renderApplicants(data) {
+    const container = document.querySelector(".Applicants");
+    container.innerHTML = "";
+    if(!Array.isArray(data) || data.length === 0){
+        const p = document.createElement("p");
+        p.innerHTML = "No applicants";
+        container.appendChild(p);}
+    data.forEach(app => {
+        let serviceTitle = app.services
+        if (serviceTitle == 'cleaning'){serviceTitle='🧼 Cleaning'}
+        else if (serviceTitle == 'childcare'){serviceTitle='🧸 Childcare'}
+        else {serviceTitle='👴🏻 Eldercare'};
+        const div = document.createElement("div");
+        div.classList.add("jobs-card");
+        div.innerHTML = `
+            <div class="applicant-status">
+                <h3>${app.fullname}</h3>
+                <p class="status ${app.status}">${app.status}</p>
+                </div>
+            <p>${app.experience}</p>
+            <p>${serviceTitle}</p>
+            <p>${app.skills}</p>
+            <button class="accept-btn" data-id="${app.id}">Accept</button>
+            <button class="reject-btn" data-id="${app.id}">Reject</button>
+            
+        `;
+        div.querySelector(".accept-btn").addEventListener("click", async() => {
+            console.log("ACCEPT CLICK", app.id);
+            await updateStatus(app.id, "accepted");
+            await loadApplicants();
+        });
+
+        div.querySelector(".reject-btn").addEventListener("click", async() => {
+            await updateStatus(app.id, "rejected");
+            await loadApplicants();
+        });
+        container.appendChild(div);
+    });
+}
+
+async function updateStatus(appId,status) {
+  try {
+    const response = await application.updateStatus(appId,status); 
+    return response;
+  } catch (err) {
+    console.error(err);
+  }
 }
 
 });

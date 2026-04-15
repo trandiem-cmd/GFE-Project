@@ -20,7 +20,7 @@ jobRouter.post("/post",auth,async(req,res) => {
 jobRouter.get("/dashboard",auth,async(req,res)=>{
     try{
         const client_id = req.user.id;
-        const sql = "SELECT service_type, service_title, service_description, service_schedule, service_frequency, service_location, service_pay_rate FROM jobposts WHERE client_id = $1"
+        const sql = "SELECT * FROM jobposts WHERE client_id = $1"
         const result = await query(sql,[client_id])
         res.status(200).json(result.rows) 
     } catch (error) {
@@ -30,7 +30,7 @@ jobRouter.get("/dashboard",auth,async(req,res)=>{
 })
 
 // JOBSEEKER SEARCH ALL JOBS
-jobRouter.get("/find",auth,async(req,res)=>{
+jobRouter.get("/search",auth,async(req,res)=>{
     try{
         const sql = "SELECT * FROM jobposts"
         const result = await query(sql,[])
@@ -41,7 +41,7 @@ jobRouter.get("/find",auth,async(req,res)=>{
     }
 })
 // JOBSEEKER SEARCH JOBS BY SERVICE
-jobRouter.get("/find/:service",auth,async(req,res)=>{
+jobRouter.get("/search/:service",auth,async(req,res)=>{
     try{
         const service = req.params.service;
         const sql = "SELECT * FROM jobposts WHERE service_type = $1"

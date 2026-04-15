@@ -98,6 +98,7 @@ class Job {
         headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`},
+            cache: "no-store"
        })
        if (response.ok === true) {
         const json = await response.json();
@@ -110,7 +111,7 @@ class Job {
     async getAllJob (){
         const user = JSON.parse(sessionStorage.getItem('user'));   
         const token = user.token;
-        const response = await fetch(BACKEND_URL + '/job/find', {
+        const response = await fetch(BACKEND_URL + '/job/search', {
         method: 'get',
         headers: {
             'Content-Type': 'application/json',
@@ -127,7 +128,7 @@ class Job {
     async getJobByService (service){
         const user = JSON.parse(sessionStorage.getItem('user'));   
         const token = user.token;
-        const response = await fetch(BACKEND_URL + `/job/find/${service}`, {
+        const response = await fetch(BACKEND_URL + `/job/search/${service}`, {
         method: 'get',
         headers: {
             'Content-Type': 'application/json',
