@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Profile</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body class="bg-light">
@@ -39,7 +39,7 @@
           <span class="dot"></span>
           <span class="dot"></span>
       </div>
-    <h4 class="fw-bold mt-4">Choose a service</h4>
+      <h4 class="fw-bold mt-4">Choose a service</h4>
       <form id="profileForm">
         <div class="service-item active" data-value="childcare">
           <div>
@@ -61,10 +61,10 @@
             <small>Daily help, companionship, support...</small>
           </div>
           <div class="radio-circle"></div>
-        </div>  
+        </div>
         <div>
           <label class="mb-2">About you</label>
-          <textarea rows="4" type="text" class="form-control" id="about-you" style="background-color: #f0e9f0"
+          <textarea rows="4" class="form-control" id="about-you" style="background-color: #f0e9f0"
           placeholder="Tell clients about yourself, your experience, and the type of work you offer."></textarea>
         </div>
         <div class="form-actions">
@@ -73,55 +73,21 @@
         </div>
       </form>
 
-    <p class="add-logo">
-      <img src="./Assets/GFE logo.png" alt="GFE logo" class="logo">
-    </p>
-    <footer class="footer">
-      <div class="footer-links">
-        <a href="./about.html">About us</a>
-        <a href="./contact.html">Contact us</a>
-        <a href="./faq.html">FAQ</a>
-      </div>
-      <div class="footer-line"></div>
-      <p>© 2026 GFE — All rights reserved</p>
-    </footer>
-  </div>
+      <p class="add-logo">
+        <img src="./Assets/GFE logo.png" alt="GFE logo" class="logo">
+      </p>
+      <footer class="footer">
+        <div class="footer-links">
+          <a href="./about.html">About us</a>
+          <a href="./contact.html">Contact us</a>
+          <a href="./faq.html">FAQ</a>
+        </div>
+        <div class="footer-line"></div>
+        <p>© 2026 GFE — All rights reserved</p>
+      </footer>
+    </div>
 
-  <script>
-  const items = document.querySelectorAll(".service-item");
-  let selectedService = "childcare";
-
-  items.forEach(item => {
-    item.addEventListener("click", () => {
-      items.forEach(i => i.classList.remove("active"));
-      item.classList.add("active");
-      selectedService = item.dataset.value;
-    });
-  });
-
-  document.getElementById('back-btn').addEventListener('click', () => {
-    window.location.href = 'jobseeker-profile1.html';
-  });
-  </script>
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
   <script src="js/jobseeker.js" type="module" defer></script>
-  <script>
-document.addEventListener("DOMContentLoaded", () => {
-  const profile = JSON.parse(sessionStorage.getItem("PROFILE_DATA")) || {};
-
-  // restore about you
-  if (profile.aboutYou) document.getElementById("about-you").value = profile.aboutYou;
-
-  // restore selected service
-  if (profile.selectedService) {
-    document.querySelectorAll(".service-item").forEach(item => {
-      if (item.dataset.value === profile.selectedService.type) {
-        item.classList.add("active");
-      }
-    });
-  }
-});
-</script>
 </body>
 </html>

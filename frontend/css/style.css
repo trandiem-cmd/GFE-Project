@@ -1344,15 +1344,17 @@ label{
 
 
 .jobseeker-job-offers-page .service-section {
-  margin: 15px;
-  position: relative;
-  bottom: 60px;
+ margin-bottom: -20px;
+  padding: 0 15px;
 }
 
 .jobseeker-job-offers-page .service-title {
   color: #572290;
-  margin-bottom: 8px;
+  position: relative;
+  bottom: 90px;
+  right: 10px;
   font-weight: bold;
+  font-size: 17px;
   
 }
 
@@ -1360,6 +1362,9 @@ label{
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
+  position: relative;
+  bottom: 90px;
+  right: 10px;
 }
 
 .jobseeker-job-offers-page .service-btn {
