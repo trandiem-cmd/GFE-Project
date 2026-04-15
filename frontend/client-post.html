@@ -8,22 +8,33 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body class="bg-light">
-    <nav class="navbar bg-body-tertiary fixed-top">
-        <div class="container-fluid">
-        <img src="./Assets/GFE logo.png" alt="GFE logo" class="logo">
-        <div class="login-dropdown ms-auto">
-            <button class="btn btn-secondary dropdown-toggle login-btn" type="button" data-bs-toggle="dropdown">
-            <img src="./Assets/menu-icon.png" class="menu-icon" alt="Menu">
-            </button>
-            <ul class="dropdown-menu dropdown-menu-end">
-            <li><a class="dropdown-item" href="./index.html">Home</a></li>
-            <li><a class="dropdown-item" href="./about.html">About Us</a></li>
-            <li><a class="dropdown-item" href="./contact.html">Contact Us</a></li>
-            <li><a class="dropdown-item" href="./faq.html">FAQ</a></li>
-            </ul>
-        </div>
-        </div>
-    </nav>
+    <div class="top-bar">
+    <img src="./Assets/GFE logo.png" class="logo">
+    <div class="right-side">
+      <a href="index.html" class="logout-btn">Log out</a>
+      <img src="./Assets/menu-icon.png" class="menu-icon" onclick="openMenu()">
+    </div>
+  </div>
+
+  <div id="menuOverlay" class="menu-overlay" style="display: none;">
+    <div class="menu-card">
+      <div class="menu-top">
+        <span class="close-btn" onclick="closeMenu()">✕</span>
+      </div>
+      <div class="menu-links">
+        <a href="client-candidate.html">Search</a>
+        <a href="client-dashboard.html">My dashboard</a>
+        <a href="client-inbox.html">Messages</a>
+        <a href="client-jobdetails.html">My job ads</a>
+        <a href="client-post.html">Post a new job</a>
+        <a href="client-profile.html">My profile</a>
+      </div>
+      <div class="menu-bottom">
+        <a href="contact.html" class="help-btn">Need Help?</a>
+        <a href="index.html" class="logout-small">Log out</a>
+      </div>
+    </div>
+  </div>
     <div class="content">
    
     <h1 class="fw-bold mt-4">Post a job</h1>
@@ -126,5 +137,9 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
   <script src="js/client.js" type="module"></script>
+   <script>
+  function openMenu() { document.getElementById("menuOverlay").style.display = "flex"; }
+  function closeMenu() { document.getElementById("menuOverlay").style.display = "none"; }
+  </script>
 </body>
 </html>
