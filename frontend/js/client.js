@@ -256,8 +256,9 @@ async function loadDashboard() {
     const jobseekers = JSON.parse(sessionStorage.getItem('jobSeekerList')) || [];
     renderJobseekers(jobseekers);
 }
-loadDashboard();
-
+if (document.getElementById("job-list")) {
+    loadDashboard();
+}
 function renderJobs(jobs) {
   const container = document.getElementById("job-list");
   container.innerHTML = "";
@@ -327,7 +328,9 @@ async function loadServices() {
     });
 };
 
-loadServices();
+if (document.querySelector(".find-by-service-btn")) {
+    loadServices();
+}
 
 function renderJobseekersByServices(list) {
     const container = document.getElementById("jobseeker-by-service-list");
@@ -382,7 +385,9 @@ async function loadApplicants() {
         console.error(err);
     }
 }
-loadApplicants();
+if (document.querySelector(".Applicants")) {
+    loadApplicants();
+}
 function renderApplicants(data) {
     const container = document.querySelector(".Applicants");
     container.innerHTML = "";

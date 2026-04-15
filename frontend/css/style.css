@@ -1384,9 +1384,10 @@ label{
 .jobseeker-job-offers-page .service-title {
   color: #572290;
   position: relative;
-  bottom: 50px;
+  bottom: 90px;
+  right: 10px;
   font-weight: bold;
-  font-size: 20px;
+  font-size: 17px;
   
 }
 
@@ -1395,7 +1396,8 @@ label{
   gap: 8px;
   flex-wrap: wrap;
   position: relative;
-  bottom: 47px;
+  bottom: 90px;
+  right: 10px;
 }
 
 .jobseeker-job-offers-page .service-btn {

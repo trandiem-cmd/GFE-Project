@@ -15,7 +15,7 @@
     <img src="./Assets/GFE logo.png" class="logo">
     <div class="right-side">
       <a href="index.html" class="logout-btn">log out</a>
-      <img src="./Assets/menu-icon.png" class="menu-icon" onclick="openMenu()">
+      <img src="./Assets/menu-icon.png" class="menu-icon" id="menuBtn">
     </div>
   </div>
 
@@ -23,7 +23,7 @@
     <div class="menu-card">
       <div class="menu-top">
         <img src="./Assets/candidate img2.png" class="menu-profile">
-        <span class="close-btn" onclick="closeMenu()">✕</span>
+        <span class="close-btn" id="closeBtn">✕</span>
       </div>
       <div class="menu-links">
         <a href="jobseeker-job-offers.html">Search</a>
@@ -44,11 +44,10 @@
     <p>Browse available jobs and apply easily.</p>
   </div>
 
-  <!-- search bar -->
   <div style="padding: 10px 15px;">
     <input type="text" id="searchInput" placeholder="🔍 Search jobs, locations, services..." 
-    style="width:100%; padding:10px; border-radius:10px; border:1px solid #ccc; position: relative; bottom: 70px;">
-  </d
+    style="width:100%; padding:10px; border-radius:10px; border:1px solid #ccc; position:relative; bottom: 80px;">
+  </div>
 
   <div class="service-section">
     <p class="service-title">Browse by service</p>
@@ -72,25 +71,6 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
-  <script>
-    function openMenu() {
-      document.getElementById("menuOverlay").style.display = "flex";
-    }
-    function closeMenu() {
-      document.getElementById("menuOverlay").style.display = "none";
-    }
-
-    // search filter
-   document.getElementById('searchInput').addEventListener('input', function() {
-  const search = this.value.toLowerCase();
-  document.querySelectorAll('.job-card').forEach(card => {
-    const title = card.querySelector('h4').textContent.toLowerCase();
-    const desc = card.querySelector('.job-desc') ? card.querySelector('.job-desc').textContent.toLowerCase() : '';
-    const location = card.querySelector('.apply-location') ? card.querySelector('.apply-location').textContent.toLowerCase() : '';
-    card.style.display = (title.includes(search) || desc.includes(search) || location.includes(search)) ? 'block' : 'none';
-  });
-});
-  </script>
   <script src="js/jobseeker.js" type="module"></script>
 </body>
 </html>

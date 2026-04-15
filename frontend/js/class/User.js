@@ -220,11 +220,104 @@ class User {
     throw response.statusText
     } 
   }
+
+
+  async getMessages(userId) {
+    const response = await fetch(`${BACKEND_URL}/inbox/${userId}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${this.#token}`
+        }
+    });
+    if (response.ok === true) {
+        return await response.json();
+    } else {
+        throw response.statusText;
+    }
+}
+
+async sendMessage(sender_id, receiver_id, message_text) {
+    const response = await fetch(`${BACKEND_URL}/inbox`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${this.#token}`
+        },
+        body: JSON.stringify({ sender_id, receiver_id, message_text })
+    });
+    if (response.ok === true) {
+        return await response.json();
+    } else {
+        throw response.statusText;
+    }
+}
+
+
+async getProfile(userId) {
+    const response = await fetch(`${BACKEND_URL}/user/${userId}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${this.#token}`
+        }
+    });
+    if (response.ok === true) {
+        return await response.json();
+    } else {
+        throw response.statusText;
+    }
+}
+
+async pauseProfile() {
+    const response = await fetch(`${BACKEND_URL}/user/pause`, {
+        method: 'PUT',
+        headers: {
+            'Authorization': `Bearer ${this.#token}`
+        }
+    });
+    if (response.ok === true) {
+        return await response.json();
+    } else {
+        throw response.statusText;
+    }
+}
+
+async deleteAccount(userId) {
+    const response = await fetch(`${BACKEND_URL}/user/${userId}`, {
+        method: 'DELETE',
+        headers: {
+            'Authorization': `Bearer ${this.#token}`
+        }
+    });
+    if (response.ok === true) {
+        return await response.json();
+    } else {
+        throw response.statusText;
+    }
+}
+
+async changePassword(currentPassword, newPassword) {
+    const response = await fetch(`${BACKEND_URL}/user/change-password`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${this.#token}`
+        },
+        body: JSON.stringify({ currentPassword, newPassword })
+    });
+    if (response.ok === true) {
+        return await response.json();
+    } else {
+        throw response.statusText;
+    }
+}
   async logout() {
     this.#id = undefined
     this.#email = undefined
     this.#token = undefined
     sessionStorage.clear();
+    localStorage.removeItem('savedJobs');
   }
          
 }
