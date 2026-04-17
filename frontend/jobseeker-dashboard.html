@@ -12,25 +12,31 @@
 <body class="dashboard-page">
 
   <div class="top-bar">
-    <a href="jobseeker-profile-page.html">
-      <img id="profilePic" src="./Assets/GFE logo.png" class="profile-icon">
-    </a>
+    <img src="./Assets/GFE logo.png" class="logo">
     <div class="right-side">
-      <a href="index.html" class="logout-btn">Log out</a>
-      <img src="./Assets/menu-icon.png" class="menu-icon" id="menuBtn">
+        <a href="index.html" class="logout-btn">Log out</a>
+        <img src="./Assets/menu-icon.png" class="menu-icon" id="menuBtn">
     </div>
-  </div>
+</div>
+
+<!-- MASHAIR - profile pic moved below top bar -->
+
+    <a href="jobseeker-profile-page.html">
+        <img id="profilePic" src="./Assets/GFE logo.png" class="profile-icon">
+    </a>
+</div>
 
   <div id="menuOverlay" class="menu-overlay" style="display: none;">
     <div class="menu-card">
       <div class="menu-top">
-        <img id="menuPic" src="./Assets/GFE logo.png" class="menu-profile">
+        <!-- MASHAIR - removed menu profile picture -->
         <span class="close-btn" id="closeBtn">✕</span>
       </div>
       <div class="menu-links">
         <a href="jobseeker-job-offers.html">Search</a>
         <a href="jobseeker-profile-page.html">My profile</a>
         <a href="jobseeker-inbox.html">Messages</a>
+        <a href="jobseeker-dashboard.html">Dashboard</a>
         <a href="jobseeker-application.html">My applications</a>
         <a href="jobseeker-saved-jobs.html">❤️ Saved jobs</a>
       </div>
@@ -53,54 +59,21 @@
 
   <section class="jobs">
     <h3>⭐ Recommended Jobs</h3>
-    <div class="job-card">
-      <div class="job-top">
-        <h4>Apartment Cleaner</h4>
-        <img src="./Assets/Heart@2x.png" class="heart-icon">
-      </div>
-      <p class="job-time">Occasional cleaning (weekends)</p>
-      <p class="apply-location">
-        <img src="./Assets/location_on.png" class="location-icon">
-        Oulu • €15/hour
-      </p>
-      <p class="job-desc">
-        I need a detail-oriented cleaner for occasional apartment cleaning including bathrooms, floors, and general tidying.
-      </p>
-      <div class="job-bottom">
-      <button class="apply-btn">Apply Now</button>
-      </div>
-    </div>
-
-    <div class="job-card">
-      <div class="job-top">
-        <h4>House Cleaner Needed</h4>
-        <img src="./Assets/Heart@2x.png" class="heart-icon">
-      </div>
-      <p class="job-time">Weekday mornings (8am - 10am)</p>
-      <p class="apply-location">
-        <img src="./Assets/location_on.png" class="location-icon">
-        Helsinki • €15/hour
-      </p>
-      <p class="job-desc">
-        We need a responsible house cleaner to take care of our house and help with cleaning.
-      </p>
-      <div class="job-bottom">
-        <button class="apply-btn">Apply Now</button>
-      </div>
-    </div>
+    <!-- MASHAIR - removed hardcoded job cards, real jobs load from DB -->
+    <div id="recommended-jobs"></div>
   </section>
 
   <section class="activity">
     <h3>Your Activity</h3>
     <div class="stats">
       <div id="applicationsBtn">
-        <div>4<br>Applications</div>
+        <div>0<br>Applications</div>
       </div>
       <div id="messagesBtn">
-        <div>7<br>Messages</div>
+        <div>0<br>Messages</div>
       </div>
       <div id="acceptedBtn">
-        <div>1<br>Accepted</div>
+        <div>0<br>Accepted</div>
       </div>
     </div>
   </section>

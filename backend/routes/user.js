@@ -67,15 +67,16 @@ userRouter.get("/jobseeker",auth,async(req,res)=>{
     }
 })
 // CLIENT SEARCH ALL JOBSEEKERS BY SERVICE
-userRouter.get("/jobseeker/:service",auth,async(req,res)=>{
-    try{
+userRouter.get("/jobseeker/:service", auth, async (req, res) => {
+    try {
         const service = req.params.service;
-        const sql = "SELECT * FROM users WHERE role=$1 AND services=$2"
-        const result = await query(sql,['jobseeker',service])
-        res.status(200).json(result.rows) 
+        // MASHAIR FIX - hide deactivated jobseekers
+        const sql = "SELECT * FROM users WHERE role=$1 AND services=$2 AND is_paused=false"
+        const result = await query(sql, ['jobseeker', service])
+        res.status(200).json(result.rows)
     } catch (error) {
         res.statusMessage = error
-        res.status(500).json({error: error})
+        res.status(500).json({ error: error })
     }
 })
 

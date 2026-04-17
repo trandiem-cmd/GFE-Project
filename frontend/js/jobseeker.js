@@ -17,7 +17,7 @@ function saveProfileData(newData) {
     sessionStorage.setItem(PROFILE_KEY, JSON.stringify(updated));
 }
 
-// ===== MENU - works on all pages =====
+// MASHAIR - menu works on all pages (new feature)
 const menuBtn = document.getElementById("menuBtn");
 const closeBtn = document.getElementById("closeBtn");
 if (menuBtn) menuBtn.addEventListener("click", () => {
@@ -27,7 +27,8 @@ if (closeBtn) closeBtn.addEventListener("click", () => {
     document.getElementById("menuOverlay").style.display = "none";
 });
 
-// ===== DASHBOARD PAGE =====
+// MASHAIR - dashboard page: hello name, photo, activity buttons (new feature)
+// // MASHAIR FIX - fetch photo directly using token from sessionStorage
 const welcomeName = document.getElementById('welcomeName');
 if (welcomeName) {
     const currentUser = JSON.parse(sessionStorage.getItem('user'));
@@ -35,16 +36,83 @@ if (welcomeName) {
         const name = currentUser.fullname ? currentUser.fullname.split(' ')[0] : currentUser.email.split('@')[0];
         welcomeName.textContent = `Hello, ${name} 👋`;
 
-        // fetch photo using User class
-        user.getProfile(currentUser.id).then(data => {
+        fetch(`http://localhost:3001/user/${currentUser.id}`, {
+            headers: { 'Authorization': `Bearer ${currentUser.token}` }
+        })
+        .then(res => res.json())
+        .then(data => {
             if (data.photo) {
                 const profilePic = document.getElementById('profilePic');
-                const menuPic = document.getElementById('menuPic');
                 if (profilePic) profilePic.src = `http://localhost:3001/uploads/${data.photo}`;
-                if (menuPic) menuPic.src = `http://localhost:3001/uploads/${data.photo}`;
             }
         });
     }
+    // MASHAIR - load real activity numbers from DB
+if (document.getElementById('applicationsBtn')) {
+    // get applications count
+    application.getApplications('all').then(apps => {
+        const appDiv = document.getElementById('applicationsBtn').querySelector('div');
+        appDiv.innerHTML = `${apps.length}<br>Applications`;
+    }).catch(err => console.error(err));
+
+    // get accepted count
+    application.getApplications('accepted').then(apps => {
+        const acceptedDiv = document.getElementById('acceptedBtn').querySelector('div');
+        acceptedDiv.innerHTML = `${apps.length}<br>Accepted`;
+    }).catch(err => console.error(err));
+
+    // get messages count
+    user.getMessages(currentUser.id).then(messages => {
+        const msgDiv = document.getElementById('messagesBtn').querySelector('div');
+        msgDiv.innerHTML = `${messages.length}<br>Messages`;
+    }).catch(err => console.error(err));
+}
+// MASHAIR - load recommended jobs matching jobseeker's service
+if (document.getElementById('recommended-jobs')) {
+    const currentUser = JSON.parse(sessionStorage.getItem('user'));
+    // get jobseeker profile to find their service
+    fetch(`http://localhost:3001/user/${currentUser.id}`, {
+        headers: { 'Authorization': `Bearer ${currentUser.token}` }
+    })
+    .then(res => res.json())
+    .then(userData => {
+        if (userData.services) {
+            // load jobs matching their service
+            job.getJobByService(userData.services).then(jobs => {
+                const container = document.getElementById('recommended-jobs');
+                container.innerHTML = '';
+                if (jobs.length === 0) {
+                    container.innerHTML = '<p style="padding:10px; color:#572290;">No recommended jobs yet!</p>';
+                    return;
+                }
+                // show only first 2
+                jobs.slice(0, 2).forEach(j => {
+                    const div = document.createElement('div');
+                    div.className = 'job-card';
+                    div.innerHTML = `
+                        <div class="job-top">
+                            <h4>${j.service_title}</h4>
+                        </div>
+                        <p class="job-time">${j.service_schedule}</p>
+                        <p class="apply-location">
+                            <img src="./Assets/location_on.png" class="location-icon">
+                            ${j.service_location} • ${j.service_pay_rate}
+                        </p>
+                        <p class="job-desc">${j.service_description}</p>
+                        <div class="job-bottom">
+                            <button class="apply-btn">Apply Now</button>
+                        </div>
+                    `;
+                    div.querySelector('.apply-btn').addEventListener('click', () => {
+                        sessionStorage.setItem('selectedJob', JSON.stringify(j));
+                        window.location.href = 'jobseeker-apply-page.html';
+                    });
+                    container.appendChild(div);
+                });
+            });
+        }
+    });
+}
 
     const applicationsBtn = document.getElementById('applicationsBtn');
     const messagesBtn = document.getElementById('messagesBtn');
@@ -64,7 +132,7 @@ if (welcomeName) {
     });
 }
 
-// ===== SEARCH BAR =====
+// MASHAIR - search bar on job offers page (new feature)
 const searchInput = document.getElementById('searchInput');
 if (searchInput) {
     searchInput.addEventListener('input', function() {
@@ -78,11 +146,14 @@ if (searchInput) {
     });
 }
 
-// ===== SAVED JOBS PAGE =====
+// MASHAIR - saved jobs page
 const savedContainer = document.getElementById('savedContainer');
 if (savedContainer) {
     function loadSavedJobs() {
-        const savedJobs = JSON.parse(localStorage.getItem("savedJobs")) || [];
+        // MASHAIR FIX - use user-specific key so saved jobs don't mix between users
+        const currentUser = JSON.parse(sessionStorage.getItem('user'));
+        const savedJobsKey = `savedJobs_${currentUser.id}`;
+        const savedJobs = JSON.parse(localStorage.getItem(savedJobsKey)) || [];
         savedContainer.innerHTML = "";
         if (savedJobs.length === 0) {
             savedContainer.innerHTML = "<p style='text-align:center; color:#572290; margin-top:20px;'>No saved jobs yet!</p>";
@@ -108,9 +179,10 @@ if (savedContainer) {
                 </div>
             `;
             card.querySelector(".remove-btn").addEventListener("click", () => {
-                let savedJobs = JSON.parse(localStorage.getItem("savedJobs")) || [];
+                // MASHAIR FIX - use user-specific key
+                let savedJobs = JSON.parse(localStorage.getItem(savedJobsKey)) || [];
                 savedJobs = savedJobs.filter(j => j.title !== job.title);
-                localStorage.setItem("savedJobs", JSON.stringify(savedJobs));
+                localStorage.setItem(savedJobsKey, JSON.stringify(savedJobs));
                 card.remove();
             });
             savedContainer.appendChild(card);
@@ -119,9 +191,10 @@ if (savedContainer) {
     loadSavedJobs();
 }
 
-// ===== INBOX PAGE =====
+// MASHAIR - inbox page WhatsApp style (new feature)
 const messageList = document.getElementById('messageList');
 if (messageList) {
+    const currentUser = JSON.parse(sessionStorage.getItem('user')); // MASHAIR FIX - get logged in user
     let selectedReceiverId = null;
     let allMessages = [];
 
@@ -137,9 +210,9 @@ if (messageList) {
     }
 
     async function loadClients() {
-        allMessages = await user.getMessages(user.id);
+        allMessages = await user.getMessages(currentUser.id); // MASHAIR FIX - was user.id
         const userIds = [...new Set(allMessages.map(m =>
-            m.sender_id === user.id ? m.receiver_id : m.sender_id
+            m.sender_id === currentUser.id ? m.receiver_id : m.sender_id // MASHAIR FIX
         ))];
 
         messageList.innerHTML = '';
@@ -148,15 +221,14 @@ if (messageList) {
             return;
         }
 
-        // using User class method
         const clients = await user.getClients();
         const filtered = clients.filter(c => userIds.includes(c.id));
 
         filtered.forEach(client => {
             const unread = allMessages.filter(m => m.sender_id === client.id && m.read === false);
             const lastMsg = allMessages.filter(m =>
-                (m.sender_id === client.id && m.receiver_id === user.id) ||
-                (m.receiver_id === client.id && m.sender_id === user.id)
+                (m.sender_id === client.id && m.receiver_id === currentUser.id) || // MASHAIR FIX
+                (m.receiver_id === client.id && m.sender_id === currentUser.id)    // MASHAIR FIX
             ).slice(-1)[0];
 
             const item = document.createElement('div');
@@ -181,18 +253,18 @@ if (messageList) {
     }
 
     async function loadMessages(receiverId) {
-        const messages = await user.getMessages(user.id);
+        const messages = await user.getMessages(currentUser.id); // MASHAIR FIX - was user.id
         const chatBox = document.getElementById('chatBox');
         chatBox.innerHTML = '';
 
         const filtered = messages.filter(msg =>
-            (msg.sender_id === user.id && msg.receiver_id === receiverId) ||
-            (msg.receiver_id === user.id && msg.sender_id === receiverId)
+            (msg.sender_id === currentUser.id && msg.receiver_id === receiverId) || // MASHAIR FIX
+            (msg.receiver_id === currentUser.id && msg.sender_id === receiverId)    // MASHAIR FIX
         );
 
         filtered.forEach(msg => {
             const div = document.createElement('div');
-            div.className = msg.sender_id === user.id ? 'chat-message right' : 'chat-message left';
+            div.className = msg.sender_id === currentUser.id ? 'chat-message right' : 'chat-message left'; // MASHAIR FIX
             div.textContent = msg.message_text;
             chatBox.appendChild(div);
         });
@@ -208,7 +280,7 @@ if (messageList) {
         sendBtn.addEventListener('click', async () => {
             const message = chatInput.value.trim();
             if (message !== '' && selectedReceiverId) {
-                await user.sendMessage(user.id, selectedReceiverId, message);
+                await user.sendMessage(currentUser.id, selectedReceiverId, message); // MASHAIR FIX - was user.id
                 chatInput.value = '';
                 loadMessages(selectedReceiverId);
             }
@@ -225,8 +297,7 @@ if (messageList) {
 
     loadClients();
 }
-
-// ===== PROFILE PAGE =====
+// MASHAIR - profile page: edit, pause, delete, change password (new feature)
 const profileContainer = document.querySelector('.profile-container');
 if (profileContainer) {
     const currentUser = JSON.parse(sessionStorage.getItem('user'));
@@ -257,8 +328,7 @@ if (profileContainer) {
         }
 
         if (userData.is_paused) {
-            document.getElementById('pauseBtn').textContent = 'Resume application';
-            document.getElementById('pauseBtn').style.background = '#ccc';
+        document.getElementById('pauseBtn').textContent = 'Activate account';
         }
 
         if (userData.services) {
@@ -343,6 +413,32 @@ if (profileContainer) {
                 <option>€25+ /hour</option>
             </select>`;
 
+            // MASHAIR FIX - service edit shows all 3 options
+const servicesTag = document.getElementById('services-tags');
+const currentService = document.getElementById('profile-service-text').textContent;
+servicesTag.innerHTML = `
+    <select id="edit-service" style="border:1px solid #ccc; border-radius:8px; padding:5px; background:#e9def5; width:100%;">
+        <option value="childcare">Childcare</option>
+        <option value="eldercare">Eldercare</option>
+        <option value="cleaning">Cleaning</option>
+    </select>
+`;
+document.getElementById('edit-service').value = currentService;
+
+// MASHAIR FIX - skills edit shows all skills
+const skillsDiv = document.getElementById('skills-tasks');
+const currentSkills = skillsDiv.innerText.split(',').map(s => s.trim());
+const allSkills = ['Babysitting', 'Child supervision', 'Meal preparation for kids', 'Homework assistance', 'Playtime activities', 'Personal care assistance', 'Medication management', 'Mobility assistance', 'Meal preparation', 'Elder companionship', 'House Cleaning', 'Surface Cleaning', 'Deep Cleaning', 'Laundry'];
+skillsDiv.innerHTML = '';
+allSkills.forEach(skill => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.textContent = skill;
+    btn.className = currentSkills.includes(skill) ? 'skills active' : 'skills';
+    btn.addEventListener('click', () => btn.classList.toggle('active'));
+    skillsDiv.appendChild(btn);
+});
+
         } else {
             isEditing = false;
             this.textContent = 'Edit your profile';
@@ -366,21 +462,25 @@ if (profileContainer) {
             document.getElementById('location-text').textContent = locVal;
             document.getElementById('profile-location-text').textContent = city;
 
-            await user.updateProfile(nameVal, emailVal, phoneVal, locVal, null, aboutVal, expVal, rateVal, null, null);
+           // MASHAIR FIX - save service and skills too
+const serviceVal = document.getElementById('edit-service').value;
+const selectedSkills = [...document.getElementById('skills-tasks').querySelectorAll('button.active')]
+    .map(btn => btn.textContent).join(', ');
+await user.updateProfile(nameVal, emailVal, phoneVal, locVal, serviceVal, aboutVal, expVal, rateVal, null, selectedSkills);
             alert('Profile saved! ✅');
         }
     });
 
-    document.getElementById('pauseBtn').addEventListener('click', async function() {
-        const data = await user.pauseProfile();
-        if (data.is_paused) {
-            this.textContent = 'Resume application';
-            this.style.background = '#ccc';
-        } else {
-            this.textContent = 'Pause your application';
-            this.style.background = '#e4dbe6';
-        }
-    });
+   document.getElementById('pauseBtn').addEventListener('click', async function() {
+    const data = await user.pauseProfile();
+    if (data.is_paused) {
+        this.textContent = 'Activate account';
+        this.style.background = '#ccc';
+    } else {
+        this.textContent = 'Deactivate account';
+        this.style.background = '#e4dbe6';
+    }
+});
 
     document.getElementById('deleteBtn').addEventListener('click', async () => {
         if (confirm("Are you sure you want to delete your account? This cannot be undone!")) {
@@ -390,8 +490,7 @@ if (profileContainer) {
             window.location.href = 'index.html';
         }
     });
-
-    document.getElementById('change-password-btn').addEventListener('click', async () => {
+document.getElementById('change-password-btn').addEventListener('click', async () => {
         const currentPassword = document.getElementById('current-password').value;
         const newPassword = document.getElementById('new-password').value;
         const confirmPassword = document.getElementById('confirm-password').value;
@@ -414,8 +513,26 @@ if (profileContainer) {
             document.getElementById('new-password').value = '';
             document.getElementById('confirm-password').value = '';
         }
+    }); // ← close change-password-btn here
+
+    // MASHAIR - eye icon toggle for profile page password fields
+    document.querySelectorAll('.toggle-pw').forEach(span => {
+        span.addEventListener('click', function() {
+            // MASHAIR FIX - get input from parent div
+            const input = this.parentElement.querySelector('input');
+            if (input.type === 'password') {
+                input.type = 'text';
+                this.classList.remove('fa-eye-slash');
+                this.classList.add('fa-eye');
+            } else {
+                input.type = 'password';
+                this.classList.remove('fa-eye');
+                this.classList.add('fa-eye-slash');
+            }
+        });
     });
 
+    // DIEM - toggle tags
     document.querySelectorAll('.tag, .tasks span').forEach(tag => {
         tag.addEventListener('click', () => {
             tag.classList.toggle('active');
@@ -425,7 +542,7 @@ if (profileContainer) {
 
 document.addEventListener("DOMContentLoaded", () => {
     const profile = getProfileData();
-    const currentUser = JSON.parse(sessionStorage.getItem("user")) || {};
+    const currentUser = JSON.parse(sessionStorage.getItem("user")) || {}; // MASHAIR - added currentUser
 
     // ===== JOBSEEKER PROFILE STEP 1 =====
     const dropdown = document.getElementById("locationDropdown");
@@ -437,11 +554,12 @@ document.addEventListener("DOMContentLoaded", () => {
         Vantaa: ["Tikkurila", "Myyrmäki", "Korso", "Hakunila", "Aviapolis", "Martinlaakso", "Koivukylä", "Pakkala", "Ylästö", "Rekola"],
         Tampere: ["Keskusta", "Hervanta", "Tammela", "Kaleva", "Lielahti", "Tesoma", "Pyynikki", "Nekala", "Rahola", "Messukylä"],
         Turku: ["Keskusta", "Varissuo", "Runosmäki", "Skanssi", "Nummi", "Kupittaa", "Pansio", "Hirvensalo", "Raunistula", "Halinen"],
-        Oulu: ["Keskusta", "Kaakkuri", "Linnanmaa", "Tuira", "Rajakylä", "Pateniemi", "Hiukkavaara", "Maikkula", "Haukipudas", "Oulunsalo"]
+        Oulu: ["Keskusta", "Kaakkuri", "Linnanmaa", "Tuira", "Rajakylä", "Pateniemi", "Hiukkavaara", "Maikkula", "Haukipudas", "Oulunsalu"]
     };
 
     const location = document.getElementById("location");
     if (location) {
+        // MASHAIR - restore saved data when going back to step 1
         if (profile.name) document.getElementById("name").value = profile.name;
         if (profile.email) {
             document.getElementById("contact-email").value = profile.email;
@@ -451,6 +569,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (profile.phone) document.getElementById("contact-phone").value = profile.phone;
         if (profile.location) document.getElementById("location").value = profile.location;
 
+        // DIEM - location dropdown logic
         location.addEventListener("click", () => {
             dropdown.classList.toggle("d-none");
         });
@@ -479,7 +598,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // photo upload
+    // MASHAIR - photo upload in step 1 (new feature)
     const photoBox = document.getElementById('photoBox');
     if (photoBox) {
         if (profile.photo) {
@@ -511,7 +630,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 const formData = new FormData();
                 formData.append('photo', file);
-                // using User class method
                 user.uploadPhoto(formData).then(data => {
                     const profile = JSON.parse(sessionStorage.getItem("PROFILE_DATA")) || {};
                     profile.photoPath = data.photo;
@@ -521,6 +639,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    // DIEM - next button step 1
     const next1Btn2 = document.querySelector("#next1-btn2");
     if (next1Btn2) {
         const name = document.querySelector("#name");
@@ -543,6 +662,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let selectedService = profile.selectedService || "";
 
     if (items.length) {
+        // MASHAIR - restore about you text and save as typing
         const aboutYouField = document.querySelector("#about-you");
         if (aboutYouField) {
             if (profile.aboutYou) aboutYouField.value = profile.aboutYou;
@@ -551,10 +671,13 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         }
 
+        // DIEM - service selection + MASHAIR added restore selected service
         items.forEach(item => {
+            // MASHAIR - restore selected service when going back
             if (profile.selectedService && item.dataset.value === profile.selectedService.type) {
                 item.classList.add("active");
             }
+            // DIEM - original click handler
             item.addEventListener("click", () => {
                 items.forEach(i => i.classList.remove("active"));
                 item.classList.add("active");
@@ -565,6 +688,7 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         });
 
+        // MASHAIR - back button step 2 (new)
         const backBtn2 = document.getElementById('back-btn');
         if (backBtn2) {
             backBtn2.addEventListener('click', () => {
@@ -572,6 +696,7 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         }
 
+        // DIEM - next button step 2
         const next2Btn2 = document.querySelector("#next2-btn2");
         if (next2Btn2) {
             next2Btn2.addEventListener("click", (e) => {
@@ -587,62 +712,69 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-   // ===== JOBSEEKER PROFILE STEP 3 =====
-const experienceSelect = document.querySelector("#experience-years");
-const hourlyRateSelect = document.querySelector("#hourly-rate");
-const aboutExperienceTextarea = document.querySelector("#about-experience");
-
-if (experienceSelect) {
-    if (profile.experience) experienceSelect.value = profile.experience;
-    if (profile.hourlyRate) hourlyRateSelect.value = profile.hourlyRate;
-    if (profile.aboutExperience) aboutExperienceTextarea.value = profile.aboutExperience;
-
-    experienceSelect.addEventListener("change", () => saveProfileData({ experience: experienceSelect.value }));
-    hourlyRateSelect.addEventListener("change", () => saveProfileData({ hourlyRate: hourlyRateSelect.value }));
-    aboutExperienceTextarea.addEventListener("input", () => saveProfileData({ aboutExperience: aboutExperienceTextarea.value }));
-
-    const skillButtons = document.querySelectorAll(".skills");
+    // ===== JOBSEEKER PROFILE STEP 3 =====
+    // DIEM - original step 3 code
+    const experienceSelect = document.querySelector("#experience-years");
+    const hourlyRateSelect = document.querySelector("#hourly-rate");
+    const aboutExperienceTextarea = document.querySelector("#about-experience");
     let selectedSkills = profile.selectedSkills || [];
-    
-    skillButtons.forEach(btn => {
-        const skill = btn.textContent.trim();
-        if (selectedSkills.includes(skill)) btn.classList.add("active");
-        btn.addEventListener("click", () => {
-            btn.classList.toggle("active");
-            if (selectedSkills.includes(skill)) {
-                selectedSkills = selectedSkills.filter(s => s !== skill);
-            } else {
-                selectedSkills.push(skill);
-            }
-            saveProfileData({ selectedSkills });
-        });
-    });
 
-    const backBtn3 = document.getElementById('back-btn');
-    if (backBtn3) {
-        backBtn3.addEventListener('click', () => {
-            window.location.href = 'jobseeker-profile2.html';
+    if (experienceSelect) {
+        // MASHAIR - restore saved data when going back to step 3
+        if (profile.experience) experienceSelect.value = profile.experience;
+        if (profile.hourlyRate) hourlyRateSelect.value = profile.hourlyRate;
+        if (profile.aboutExperience) aboutExperienceTextarea.value = profile.aboutExperience;
+
+        // DIEM - save on change
+        experienceSelect.addEventListener("change", () => saveProfileData({ experience: experienceSelect.value }));
+        hourlyRateSelect.addEventListener("change", () => saveProfileData({ hourlyRate: hourlyRateSelect.value }));
+        aboutExperienceTextarea.addEventListener("input", () => saveProfileData({ aboutExperience: aboutExperienceTextarea.value }));
+
+        // DIEM - skills buttons
+        const skillButtons = document.querySelectorAll(".skills");
+        skillButtons.forEach(btn => {
+            const skill = btn.textContent.trim();
+            if (selectedSkills.includes(skill)) btn.classList.add("active");
+            btn.addEventListener("click", () => {
+                btn.classList.toggle("active");
+                if (selectedSkills.includes(skill)) {
+                    selectedSkills = selectedSkills.filter(s => s !== skill);
+                } else {
+                    selectedSkills.push(skill);
+                }
+                saveProfileData({ selectedSkills });
+            });
         });
+
+        // MASHAIR - back button step 3 (new)
+        const backBtn3 = document.getElementById('back-btn');
+        if (backBtn3) {
+            backBtn3.addEventListener('click', () => {
+                window.location.href = 'jobseeker-profile2.html';
+            });
+        }
+
+        // DIEM - next button step 3
+        const next3Btn2 = document.querySelector("#next3-btn2");
+        if (next3Btn2) {
+            next3Btn2.addEventListener("click", (e) => {
+                e.preventDefault();
+                const experience = experienceSelect.value;
+                const hourlyRate = hourlyRateSelect.value;
+                const aboutExperience = aboutExperienceTextarea.value;
+                if (!experience || !hourlyRate || !aboutExperience || selectedSkills.length === 0) {
+                    alert("Please fill in all required fields.");
+                    return;
+                }
+                saveProfileData({ experience, hourlyRate, aboutExperience, selectedSkills });
+                window.location.href = "jobseeker-profile4.html";
+            });
+        }
     }
 
-    const next3Btn2 = document.querySelector("#next3-btn2");
-    if (next3Btn2) {
-        next3Btn2.addEventListener("click", (e) => {
-            e.preventDefault();
-            const experience = experienceSelect.value;
-            const hourlyRate = hourlyRateSelect.value;
-            const aboutExperience = aboutExperienceTextarea.value;
-            if (!experience || !hourlyRate || !aboutExperience || selectedSkills.length === 0) {
-                alert("Please fill in all required fields.");
-                return;
-            }
-            saveProfileData({ experience, hourlyRate, aboutExperience, selectedSkills });
-            window.location.href = "jobseeker-profile4.html";
-        });
-    }
-}
     // ===== JOBSEEKER PROFILE STEP 4 / REVIEW =====
     if (document.querySelector("#name-review")) {
+        // MASHAIR - restore photo in review page (new)
         if (profile.photo) {
             const photoBox = document.querySelector('.photo-box');
             if (photoBox) {
@@ -650,6 +782,7 @@ if (experienceSelect) {
             }
         }
 
+        // MASHAIR - back button step 4 (new)
         const backBtn4 = document.getElementById('back-btn');
         if (backBtn4) {
             backBtn4.addEventListener('click', () => {
@@ -657,12 +790,23 @@ if (experienceSelect) {
             });
         }
 
+        // DIEM - original review page code
         document.getElementById("name-review").textContent = profile.name || "";
         document.getElementById("location-review").innerHTML = '<i class="bi bi-geo-alt" style="color: #5A3AB0;"></i> ' + (profile.location || "");
+
+        // DIEM - original code crashes if selectedService is null:
+        // document.getElementById("service-review").textContent = profile.selectedService.title;
+        // MASHAIR FIX - added optional chaining to prevent crash
         document.getElementById("service-review").textContent = profile.selectedService?.title || "";
+
+        // DIEM - original code crashes if hourlyRate/experience is null:
+        // document.getElementById("rate-review").textContent = profile.hourlyRate;
+        // document.getElementById("experience-review").textContent = profile.experience + " experience";
+        // MASHAIR FIX - added fallback empty string to prevent crash
         document.getElementById("rate-review").textContent = profile.hourlyRate || "";
         document.getElementById("experience-review").textContent = (profile.experience || "") + " experience";
 
+        // DIEM - skills review
         const skillsContainer = document.getElementById("skills-review");
         skillsContainer.innerHTML = "";
         (profile.selectedSkills || []).forEach(skill => {
@@ -673,178 +817,234 @@ if (experienceSelect) {
             skillsContainer.appendChild(span);
         });
 
+        // DIEM - about review
         document.getElementById("about-you-review").textContent = profile.aboutYou || "";
+    }
 
-        const submitBtn2 = document.querySelector("#submit-profile-btn2");
-        if (submitBtn2) {
-            submitBtn2.addEventListener("click", (event) => {
-                event.preventDefault();
-                const fullname = profile.name;
-                const contact_email = profile.email;
-                const contact_phone = profile.phone;
-                const loc = profile.location;
-                const services = profile.selectedService?.type;
-                const about_you = profile.aboutYou;
-                const experience = profile.experience;
-                const hourly_rate = profile.hourlyRate;
-                const about_experience = profile.aboutExperience;
-                const skills = (profile.selectedSkills || []).join(", ");
-                user.updateProfile(fullname, contact_email, contact_phone, loc, services, about_you, experience, hourly_rate, about_experience, skills)
-                    .then(() => {
-                        sessionStorage.removeItem(PROFILE_KEY);
-                        alert("Profile submitted successfully!");
-                        window.location.href = "jobseeker-dashboard.html";
-                    })
-                    .catch(error => {
-                        alert("Error submitting profile: " + error);
-                    });
-            });
-        }
+    // DIEM - submit profile button
+    const submitBtn2 = document.querySelector("#submit-profile-btn2");
+    if (submitBtn2) {
+        submitBtn2.addEventListener("click", (event) => {
+            event.preventDefault();
+            const fullname = profile.name;
+            const contact_email = profile.email;
+            const contact_phone = profile.phone;
+            const location = profile.location;
+
+            // DIEM - original crashes if selectedService is null:
+            // const services = profile.selectedService.type;
+            // MASHAIR FIX - added optional chaining
+            const services = profile.selectedService?.type;
+
+            const about_you = profile.aboutYou;
+            const experience = profile.experience;
+            const hourly_rate = profile.hourlyRate;
+            const about_experience = profile.aboutExperience;
+
+            // DIEM - original crashes if selectedSkills is null:
+            // const skills = profile.selectedSkills.join(", ");
+            // MASHAIR FIX - added fallback empty array
+            const skills = (profile.selectedSkills || []).join(", ");
+
+            // DIEM - original order was redirect first then alert (alert never shows)
+            // user.updateProfile(...).then(updatedUser => {
+            //     window.location.href = "jobseeker-dashboard.html";
+            //     sessionStorage.removeItem(PROFILE_KEY);
+            //     alert("Profile submitted successfully!");
+            // })
+            // MASHAIR FIX - fixed order: alert first then redirect
+            user.updateProfile(fullname, contact_email, contact_phone, location, services, about_you, experience, hourly_rate, about_experience, skills)
+                .then(() => {
+                    sessionStorage.removeItem(PROFILE_KEY);
+                    alert("Profile submitted successfully!");
+                    window.location.href = "jobseeker-dashboard.html";
+                })
+                .catch(error => {
+                    alert("Error submitting profile: " + error);
+                });
+        });
     }
 
     // ===== JOB OFFERS PAGE =====
-    const jobList = document.getElementById("job-list");
-    if (jobList) {
-        async function loadJobs() {
-            let allJobs = await job.getAllJob();
-            renderjobsByService(allJobs);
+    // DIEM - original only loads jobs when service button is clicked:
+    // async function loadJobs() {
+    //     document.querySelectorAll(".service-btn").forEach(btn => {
+    //         btn.addEventListener("click", async () => {
+    //             ...
+    //         });
+    //     });
+    // };
+    // MASHAIR FIX - added getAllJob() so all jobs load by default on page open
+    async function loadJobs() {
+        let allJobs = await job.getAllJob();
+        renderjobsByService(allJobs);
 
-            document.querySelectorAll(".service-btn").forEach(btn => {
-                btn.addEventListener("click", async () => {
-                    document.querySelectorAll(".service-btn").forEach(b => b.classList.remove("active"));
-                    btn.classList.add("active");
-                    const jobsByService = btn.dataset.filter;
-                    let jobpostsList = await job.getJobByService(jobsByService);
-                    renderjobsByService(jobpostsList);
-                });
+        document.querySelectorAll(".service-btn").forEach(btn => {
+            btn.addEventListener("click", async () => {
+                document.querySelectorAll(".service-btn").forEach(b => b.classList.remove("active"));
+                btn.classList.add("active");
+                const jobsByService = btn.dataset.filter;
+                let jobpostsList = await job.getJobByService(jobsByService);
+                renderjobsByService(jobpostsList);
             });
-        }
+        });
+    }
 
-        function renderjobsByService(list) {
-            jobList.innerHTML = "";
-            list.forEach(j => {
-                const div = document.createElement("div");
-                div.classList.add("job-card");
-                div.innerHTML = `
-                    <div class="job-top">
-                        <h4>${j.service_title}</h4>
-                        <img src="./Assets/Heart@2x.png" class="heart-icon">
-                    </div>
-                    <p class="job-time">${j.service_schedule}</p>
-                    <p class="apply-location">
-                        <img src="./Assets/location_on.png" class="location-icon">
-                        ${j.service_location} • ${j.service_pay_rate}
-                    </p>
-                    <p class="job-desc">${j.service_description}</p>
-                    <div class="job-bottom">
-                        <button class="apply-btn">Apply Now</button>
-                    </div>
-                `;
-                jobList.appendChild(div);
-
-                div.querySelector(".apply-btn").addEventListener("click", () => {
-                    sessionStorage.setItem("selectedJob", JSON.stringify(j));
-                    window.location.href = "jobseeker-apply-page.html";
-                });
-
-                const icon = div.querySelector('.heart-icon');
-                const jobTitle = j.service_title;
-                const jobTime = j.service_schedule;
-                const jobLocation = j.service_location;
-                const jobDesc = j.service_description;
-
-                let savedJobs = JSON.parse(localStorage.getItem("savedJobs")) || [];
-                if (savedJobs.find(s => s.title === jobTitle)) {
-                    icon.src = "./Assets/filled-heart.png";
-                }
-
-                icon.addEventListener("click", () => {
-                    let savedJobs = JSON.parse(localStorage.getItem("savedJobs")) || [];
-                    if (icon.src.includes("Heart@2x")) {
-                        icon.src = "./Assets/filled-heart.png";
-                        savedJobs.push({ title: jobTitle, time: jobTime, location: jobLocation, desc: jobDesc });
-                    } else {
-                        icon.src = "./Assets/Heart@2x.png";
-                        savedJobs = savedJobs.filter(s => s.title !== jobTitle);
-                    }
-                    localStorage.setItem("savedJobs", JSON.stringify(savedJobs));
-                });
-            });
-        }
-
+    if (document.getElementById("job-list")) {
         loadJobs();
     }
 
+   // DIEM - render jobs function
+    function renderjobsByService(list) {
+        const container = document.getElementById("job-list");
+        container.innerHTML = "";
+        // MASHAIR FIX - use user-specific key so saved jobs don't mix between users
+        const currentUser = JSON.parse(sessionStorage.getItem('user'));
+        const savedJobsKey = `savedJobs_${currentUser.id}`;
+        list.forEach(job => {
+            const div = document.createElement("div");
+            div.classList.add("job-card");
+            div.innerHTML = `
+                <div class="job-top">
+                    <h4>${job.service_title}</h4>
+                    <img src="./Assets/Heart@2x.png" class="heart-icon">
+                </div>
+                <p class="job-time">${job.service_schedule}</p>
+                <p class="apply-location">
+                    <img src="./Assets/location_on.png" class="location-icon">
+                    ${job.service_location} • ${job.service_pay_rate}
+                </p>
+                <p class="job-desc">${job.service_description}</p>
+                <div class="job-bottom">
+                    <button class="apply-btn">Apply Now</button>
+                </div>
+            `;
+            container.appendChild(div);
+
+            const applyBtn = div.querySelector(".apply-btn");
+            applyBtn.addEventListener("click", (event) => {
+                event.preventDefault();
+                sessionStorage.setItem("selectedJob", JSON.stringify(job));
+                window.location.href = "jobseeker-apply-page.html";
+            });
+
+            // MASHAIR FIX - select icon from current card only
+            const icon = div.querySelector('.heart-icon');
+            const jobTitle = job.service_title;
+            const jobTime = job.service_schedule;
+            const jobLocation = job.service_location;
+            const jobDesc = job.service_description;
+
+            let savedJobs = JSON.parse(localStorage.getItem(savedJobsKey)) || [];
+            if (savedJobs.find(j => j.title === jobTitle)) {
+                icon.src = "./Assets/filled-heart.png";
+            }
+
+            icon.addEventListener("click", () => {
+                let savedJobs = JSON.parse(localStorage.getItem(savedJobsKey)) || [];
+                if (icon.src.includes("Heart@2x")) {
+                    icon.src = "./Assets/filled-heart.png";
+                    savedJobs.push({ title: jobTitle, time: jobTime, location: jobLocation, desc: jobDesc });
+                } else {
+                    icon.src = "./Assets/Heart@2x.png";
+                    savedJobs = savedJobs.filter(j => j.title !== jobTitle);
+                }
+                localStorage.setItem(savedJobsKey, JSON.stringify(savedJobs));
+            });
+        });
+    }
     // ===== APPLY PAGE =====
+    // DIEM - original code crashes on every page because no null check:
+    // const selectedJob = JSON.parse(sessionStorage.getItem("selectedJob"));
+    // const userData = JSON.parse(sessionStorage.getItem("user"));
+    // document.querySelector(".apply-name").value = userData.fullname;  ← crashes if not on apply page
+    // MASHAIR FIX - wrapped in null checks so it only runs on apply page
     const applyForm = document.querySelector(".apply-form");
     if (applyForm) {
         const selectedJob = JSON.parse(sessionStorage.getItem("selectedJob"));
-        if (selectedJob) {
-            if (currentUser.fullname) document.querySelector(".apply-name").value = currentUser.fullname;
-            if (currentUser.email) document.querySelector(".apply-email").value = currentUser.email;
-            document.querySelector(".apply-title").innerHTML = selectedJob.service_title;
+        const userData = JSON.parse(sessionStorage.getItem("user"));
+
+        if (selectedJob && userData) {
+            if (userData.fullname) document.querySelector(".apply-name").value = userData.fullname;
+            if (userData.email) document.querySelector(".apply-email").value = userData.email;
+            if (document.querySelector(".apply-title")) document.querySelector(".apply-title").innerHTML = selectedJob.service_title;
             if (document.querySelector(".apply-schedule")) document.querySelector(".apply-schedule").innerHTML = selectedJob.service_schedule;
             if (document.querySelector(".apply-location")) document.querySelector(".apply-location").innerHTML = `
                 <img src="./Assets/location_on.png" class="location-icon">
                 ${selectedJob.service_location} • ${selectedJob.service_pay_rate}`;
+        }
 
-            applyForm.addEventListener("submit", async (event) => {
-                event.preventDefault();
-                const formData = new FormData(applyForm);
-                formData.append("job_id", selectedJob.id);
-                formData.append("jobseeker_id", user.id);
-                await application.applyJob(formData);
-                alert("✅ You have successfully applied!");
-                window.location.href = "jobseeker-application.html";
-            });
+        // DIEM - submit application
+        applyForm.addEventListener("submit", async (event) => {
+            event.preventDefault();
+            const formData = new FormData(applyForm);
+            formData.append("job_id", selectedJob.id);
+            formData.append("jobseeker_id", user.id);
+            await application.applyJob(formData);
+            window.location.href = "jobseeker-application.html";
+            alert("✅ You have successfully applied!");
+        });
+    }
+});
+
+// ===== APPLICATION PAGE =====
+// DIEM - original application page code
+document.addEventListener("DOMContentLoaded", () => {
+    async function loadApplications(status) {
+        try {
+            const data = await application.getApplications(status);
+            renderApplications(data);
+        } catch (err) {
+            console.error(err);
         }
     }
 
-    // ===== APPLICATION PAGE =====
-    const applicationList = document.getElementById("application-list");
-    if (applicationList) {
-        async function loadApplications(status = "all") {
-            try {
-                const data = await application.getApplications(status);
-                renderApplications(data);
-            } catch (err) {
-                console.error(err);
-            }
-        }
-
-        document.querySelectorAll(".filter-btn").forEach(btn => {
-            btn.addEventListener("click", async () => {
-                document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
-                btn.classList.add("active");
-                const status = btn.dataset.filter;
-                loadApplications(status);
-            });
+    document.querySelectorAll(".filter-btn").forEach(btn => {
+        btn.addEventListener("click", async () => {
+            console.log("CLICKED");
+            document.querySelectorAll(".filter-btn")
+                .forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+            const status = btn.dataset.filter;
+            console.log("STATUS:", status);
+            loadApplications(status);
         });
+    });
 
-        function renderApplications(data) {
-            applicationList.innerHTML = "";
-            data.forEach(app => {
-                const div = document.createElement("div");
-                div.classList.add("job-card", "application-card");
-                div.innerHTML = `
-                    <div class="job-top">
-                        <h4>${app.service_title}</h4>
-                    </div>
-                    <p class="job-time">${app.service_schedule}</p>
-                    <p class="apply-location">
-                        <img src="./Assets/location_on.png" class="location-icon">
-                        ${app.service_location} • ${app.service_pay_rate}
-                    </p>
-                    <p class="job-desc">${app.service_description}</p>
-                    <div class="job-bottom">
-                        <span class="status ${app.status}">${app.status}</span>
-                    </div>
-                `;
-                applicationList.appendChild(div);
-            });
-        }
+    // DIEM - render applications
+    function renderApplications(data) {
+        const container = document.getElementById("application-list");
+        // MASHAIR FIX - added null check so it doesn't crash on other pages
+        if (!container) return;
+        container.innerHTML = "";
+        data.forEach(app => {
+            const div = document.createElement("div");
+            div.classList.add("job-card");
+            div.classList.add("application-card");
+            div.innerHTML = `
+                <div class="job-top">
+                <h4>${app.service_title}</h4>
+                <img src="./Assets/Heart@2x.png" class="heart-icon">
+                </div>
+                <p class="job-time">${app.service_schedule}</p>
+                <p class="apply-location">
+                <img src="./Assets/location_on.png" class="location-icon">
+                ${app.service_location} • ${app.service_pay_rate}
+                </p>
+                <p class="job-desc">
+                ${app.service_description}
+                </p>
+                <div class="job-bottom">
+                <span class="status ${app.status}">${app.status}</span>
+                </div>
+            `;
+            // toggle details
+            container.appendChild(div);
+        });
+    }
 
-        // load all applications on page open
-        loadApplications();
+    // MASHAIR - auto load all applications when page opens (new)
+    if (document.getElementById("application-list")) {
+        loadApplications("all");
     }
 });

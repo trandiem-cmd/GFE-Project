@@ -1061,14 +1061,19 @@ label{
   padding: 15px 11px;
  
 }
-
-.dashboard-page .profile-icon {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  margin-left: 20px;
+.dashboard-page .logo {
+  width: 110px;
+  position: relative;
+  bottom: 80px;
 }
-
+.dashboard-page .profile-icon {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  position: relative;
+  bottom: 210px;
+  left: 30px;
+}
 
 .menu-icon {
   width: 25px;
@@ -1093,7 +1098,7 @@ label{
   border: none;
   cursor: pointer;
   transition: 0.2s ease;
-  margin-bottom: 20px;
+  margin-bottom: 170px;
 }
 
 .dashboard-page .logout-btn:hover {
@@ -1105,7 +1110,7 @@ label{
   height: 24px;
   cursor: pointer;
   position: relative;
-  bottom: 8px;
+  bottom: 80px;
 }
 
 
@@ -1119,7 +1124,7 @@ label{
   margin-bottom: 5px;
   font-family: 'ADLaM Display', sans-serif;
   position: relative;
-  bottom: 60px;
+  bottom: 190px;
 }
 
 
@@ -1128,7 +1133,7 @@ label{
   color: #555;
   font-family: 'ADLaM Display', sans-serif;
    position: relative;
-  bottom: 40px;
+  bottom: 160px;
 }
 
 
@@ -1139,7 +1144,8 @@ label{
   gap: 30px;
   margin: 1px 15px;
   position: relative;
-  bottom:30px;
+  bottom:180px;
+
 }
 
 .dashboard-page .actions button {
@@ -1151,7 +1157,7 @@ label{
   color: #572290;
   font-weight: bold;
   cursor: pointer;
- 
+
 }
 
 .dashboard-page .actions button:hover {
@@ -1170,6 +1176,8 @@ label{
   margin: 10px 15px;
   font-size: 24px;
    font-family: 'ADLaM Display', sans-serif;
+   position: relative;
+  bottom: 160px;
 }
 
 
@@ -1179,6 +1187,8 @@ label{
   border-radius: 14px;
   margin: 12px 15px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  position: relative;
+  bottom: 140px;
 }
 
 

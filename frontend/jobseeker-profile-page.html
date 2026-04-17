@@ -6,6 +6,8 @@
   <title>GFE - My Profile</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
+  <!-- MASHAIR - font awesome for eye icon -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
 <body class="jobseeker-profile-page">
@@ -105,27 +107,43 @@
     </div>
 
     <div class="profile-section">
-      <h4>Change password</h4>
-      <div class="profile-box">
-        <div class="exp-row">
-          <label>Current password</label>
-          <input type="password" id="current-password" style="border:1px solid #ccc; border-radius:8px; padding:5px; background:#e9def5; width:100%;">
-        </div>
-        <div class="exp-row">
-          <label>New password</label>
-          <input type="password" id="new-password" style="border:1px solid #ccc; border-radius:8px; padding:5px; background:#e9def5; width:100%;">
-        </div>
-        <div class="exp-row">
-          <label>Confirm password</label>
-          <input type="password" id="confirm-password" style="border:1px solid #ccc; border-radius:8px; padding:5px; background:#e9def5; width:100%;">
-        </div>
-        <button id="change-password-btn" style="background: linear-gradient(to right, #7b3fe4, #3B1664); color:white; border:none; padding:8px 16px; border-radius:10px; margin-top:10px;">Change password</button>
+  <h4>Change password</h4>
+  <div class="profile-box">
+
+    <!-- MASHAIR - added eye icon to current password -->
+    <div class="exp-row">
+      <label>Current password</label>
+      <div style="position:relative;">
+        <input type="password" id="current-password" style="border:1px solid #ccc; border-radius:8px; padding:5px; background:#e9def5; width:100%;">
+        <span class="fa fa-eye-slash toggle-pw" style="position:absolute; right:8px; top:50%; transform:translateY(-50%); cursor:pointer; color:#572290;"></span>
       </div>
     </div>
 
+    <!-- MASHAIR - added eye icon to new password -->
+    <div class="exp-row">
+      <label>New password</label>
+      <div style="position:relative;">
+        <input type="password" id="new-password" style="border:1px solid #ccc; border-radius:8px; padding:5px; background:#e9def5; width:100%;">
+        <span class="fa fa-eye-slash toggle-pw" style="position:absolute; right:8px; top:50%; transform:translateY(-50%); cursor:pointer; color:#572290;"></span>
+      </div>
+    </div>
+
+    <!-- MASHAIR - added eye icon to confirm password -->
+    <div class="exp-row">
+      <label>Confirm password</label>
+      <div style="position:relative;">
+        <input type="password" id="confirm-password" style="border:1px solid #ccc; border-radius:8px; padding:5px; background:#e9def5; width:100%;">
+        <span class="fa fa-eye-slash toggle-pw" style="position:absolute; right:8px; top:50%; transform:translateY(-50%); cursor:pointer; color:#572290;"></span>
+      </div>
+    </div>
+
+    <button id="change-password-btn" style="background: linear-gradient(to right, #7b3fe4, #3B1664); color:white; border:none; padding:8px 16px; border-radius:10px; margin-top:10px;">Change password</button>
+  </div>
+</div>
+
     <div class="profile-actions">
       <button class="edit-btn" id="editBtn">Edit your profile</button>
-      <button class="pause-btn" id="pauseBtn" style="background:#e4dbe6;">Pause your application</button>
+      <button class="pause-btn" id="pauseBtn" style="background:#e4dbe6;">Deactivate account</button>
       <button class="delete-btn" id="deleteBtn">Delete account</button>
     </div>
 
