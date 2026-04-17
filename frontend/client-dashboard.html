@@ -13,22 +13,23 @@
   <div class="top-bar">
     <img src="./Assets/GFE logo.png" class="logo">
     <div class="right-side">
-      <a href="index.html" class="logout-btn" id="logout-btn">log out</a>
-          <img src="./Assets/menu-icon.png" class="menu-icon" onclick="openMenu()">
-      </a>
+      <a href="index.html" class="logout-btn">Log out</a>
+      <img src="./Assets/menu-icon.png" class="menu-icon" onclick="openMenu()">
     </div>
   </div>
+
   <div id="menuOverlay" class="menu-overlay" style="display: none;">
     <div class="menu-card">
       <div class="menu-top">
-        <img src="./Assets/candidate img2.png" class="menu-profile">
         <span class="close-btn" onclick="closeMenu()">✕</span>
       </div>
       <div class="menu-links">
-      <a href="client-jobdetails.html">Search</a>
-        <a href="client-profile.html">My profile</a>
+        <a href="client-candidate.html">Search</a>
+        <a href="client-dashboard.html">My dashboard</a>
         <a href="client-inbox.html">Messages</a>
+        <a href="client-jobdetails.html">My job ads</a>
         <a href="client-post.html">Post a new job</a>
+        <a href="client-profile.html">My profile</a>
       </div>
       <div class="menu-bottom">
         <a href="contact.html" class="help-btn">Need Help?</a>
@@ -39,7 +40,7 @@
 
   <section class="welcome">
     <h2 id="welcomeName">Hello 👋</h2>
-    <p>Welcome back! Find jobs and manage your applications.</p>
+    <p>Welcome back! Manage your jobs and find the right people.</p>
   </section>
 
   <section class="job-post" style="margin-left: 20px;">
@@ -110,5 +111,3 @@
 </script>
 </body>
 </html>
-
-

@@ -21,13 +21,15 @@
   <div id="menuOverlay" class="menu-overlay" style="display: none;">
     <div class="menu-card">
       <div class="menu-top">
-        <img src="./Assets/candidate img2.png" class="menu-profile">
         <span class="close-btn" onclick="closeMenu()">✕</span>
       </div>
       <div class="menu-links">
+        <a href="client-candidate.html">Search</a>
+        <a href="client-dashboard.html">My dashboard</a>
+        <a href="client-inbox.html">Messages</a>
+        <a href="client-jobdetails.html">My job ads</a>
         <a href="client-post.html">Post a new job</a>
         <a href="client-profile.html">My profile</a>
-        <a href="client-inbox.html">Messages</a>
       </div>
       <div class="menu-bottom">
         <a href="contact.html" class="help-btn">Need Help?</a>
@@ -39,11 +41,9 @@
   <div class="profile-container">
 
     <div class="profile-header">
-      <img src="./Assets/candidate img2.png" class="profile-img">
+      <img src="" class="profile-img" id="profile-img">
       <div class="profile-info">
         <h4 id="header-name">Alex Johnson</h4>
-        <p id="about-display"></p>
-        <textarea id="about-input" class="form-control d-none"></textarea>
       </div>
     </div>
 
@@ -65,19 +65,44 @@
 <input type="text" id="email-input" class="form-control d-none">
         </div>
         <div class="exp-row">
-          <label>📍 Location</label>
-          <div class="exp-value" id="location-display"></div>
-<input type="text" id="location-input" class="form-control d-none">
-        </div>
-      </div>
-    </div>
+  <label>📍 Location</label>
 
-    <div class="profile-section">
-      <h4>Available services</h4>
-      <div class="tags">
-        <span class="tag">Cleaning</span>
-        <span class="tag">Childcare</span>
-        <span class="tag">Elderly care</span>
+  <!-- DISPLAY MODE -->
+  <div class="exp-value" id="location-display"></div>
+
+  <!-- EDIT MODE -->
+  <div id="location-input-wrapper" class="d-none">
+    <input type="text" id="location-input" class="form-control mb-2" readonly>
+
+    <select id="edit-city" class="form-select mb-2">
+      <option value="">Select city</option>
+      <option value="Helsinki">Helsinki</option>
+      <option value="Espoo">Espoo</option>
+      <option value="Vantaa">Vantaa</option>
+      <option value="Tampere">Tampere</option>
+      <option value="Turku">Turku</option>
+      <option value="Oulu">Oulu</option>
+    </select>
+
+    <select id="edit-district" class="form-select">
+      <option value="">Select district</option>
+    </select>
+  </div>
+</div>
+<div class="exp-row">
+  <label>🔒 Password</label>
+
+  <!-- display -->
+  <div id="password-display">********</div>
+
+  <!-- edit -->
+  <div id="password-input-wrapper" class="d-none">
+    <input type="password" id="current-password" class="form-control mb-2" placeholder="Current password">
+    <input type="password" id="new-password" class="form-control mb-2" placeholder="New password">
+    <input type="password" id="confirm-password" class="form-control" placeholder="Confirm new password">
+  </div>
+</div>
+        </div>
       </div>
     </div>
 
@@ -87,7 +112,7 @@
       <button class="edit-btn" id="editBtn">Edit your profile</button>
       <button class="edit-btn d-none" id="saveBtn">Save changes</button>
       <button class="pause-btn" id="cancelBtn" style="display:none;">Cancel</button>
-      <button class="delete-btn">Delete account</button>
+      <button class="delete-btn" id="deleteBtn">Delete account</button>
     </div>
 
   </div>
