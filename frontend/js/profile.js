@@ -49,7 +49,7 @@ function renderProfile(userData) {
   document.getElementById("location-input").value = userData.location || "";
   
 
-  // 🔥 OPTIONAL: auto-select dropdown based on saved location
+  //auto-select dropdown based on saved location
   if (userData.location) {
     const [savedCity, savedDistrict] = userData.location.split(" - ");
 
