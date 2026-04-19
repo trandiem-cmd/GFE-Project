@@ -32,12 +32,15 @@
       <h1>Hire Trusted Help.</h1>
       <p>Small jobs, verified workers, simple process.</p>
   </div>
-  <div class="option-btns">
-  <a href="./client-search.html" class="option-btn">I need a worker</a>
-  <a href="./jobseeker-search.html" class="option-btn">I need a job</a>
+  <!-- MASHAIR - replaced basic links with toggle button style like Yoopies -->
+<div class="hero-toggle">
+  <button class="toggle-btn active" id="workerBtn">I need a worker</button>
+  <button class="toggle-btn" id="jobBtn">I need a job</button>
+  <div class="toggle-slider"></div>
 </div>
   
-<div id="carouselExampleIndicators" class="carousel slide">
+<!-- MASHAIR - added auto-slide every 3 seconds -->
+<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2000">
   <div class="carousel-indicators">
     <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
     <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
@@ -109,6 +112,8 @@
       document.getElementById("menuOverlay").style.display = "none";
     }
   </script>
+  <!-- MASHAIR - toggle button script -->
+<script src="js/index.js"></script>
   </div>
 </body>
 </html>

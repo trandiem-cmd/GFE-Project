@@ -141,6 +141,64 @@ p,li,input,span,small,textarea,select,option{
     padding: 60px 20px;
 }
 
+/* MASHAIR - CTA toggle button style like Yoopies */
+.hero-toggle {
+  position: relative;
+  width: 400px;
+  max-width: 90%;
+  height: 62px;
+  margin: 30px auto;
+  background: #ece6fa;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  padding: 6px;
+  box-shadow: 0 10px 25px rgba(123, 58, 237, 0.12);
+  overflow: hidden;
+}
+
+/* MASHAIR - sliding purple background */
+.toggle-slider {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  width: calc(50% - 6px);
+  height: calc(100% - 12px);
+  background: linear-gradient(135deg, #7c3aed, #5b21b6);
+  border-radius: 40px;
+  transition: all 0.35s ease;
+  z-index: 1;
+}
+
+/* MASHAIR - toggle buttons */
+.toggle-btn {
+  flex: 1;
+  height: 100%;
+  border: none;
+  background: transparent;
+  font-size: 16px;
+  font-weight: 700;
+  color: #6d28d9;
+  cursor: pointer;
+  z-index: 2;
+  border-radius: 40px;
+  transition: color 0.3s ease;
+  margin-top:20px;
+ margin-bottom:20px;
+ height:64px;
+}
+
+.toggle-btn.active {
+  color: white;
+}
+.toggle-btn:active{
+transform:scale(.97);
+}
+
+.toggle-btn:hover {
+  transform: scale(1.02);
+}
+
 .option-btns{
     background-color: #782CCA; /* Purple color */
     color: white;
@@ -177,6 +235,8 @@ p,li,input,span,small,textarea,select,option{
     display: flex;
     justify-content: center;
     align-items: center;
+    border-radius: 24px 24px 0 0;
+    overflow:hidden;
 }
 .what-is-GFE{
     border-width: 4px;
