@@ -242,11 +242,6 @@ async function loadDashboard() {
 
     const userId = userData.id; 
 
-    // show name
-    const welcome = document.getElementById("welcomeName");
-    if (welcome) {
-        welcome.innerText = `Hello  ${userData.fullname || "Client"} 👋`;
-    }
 
     await job.getJob(userId);
     const jobs = JSON.parse(sessionStorage.getItem('jobList')) || [];
@@ -276,7 +271,16 @@ function renderJobs(jobs) {
       <p>${job.service_schedule}</p>
       <span>${job.service_location}</span><span style="padding: 20px">${job.service_pay_rate}</span>
       <p>${job.service_description}</p>
-      <button class="manage-applicants-btn">Manage applicants</button>
+      <button class="manage-applicants-btn" style="background: linear-gradient(to right, #7b3fe4, #3B1664);
+  color: white;
+  padding: 4px 15px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  height: 30px;
+  margin-top: 10px;">Manage applicants</button>
     `;
     container.appendChild(div);
     const manageApplicantsBtn = div.querySelector(".manage-applicants-btn");
@@ -310,6 +314,16 @@ function renderJobseekers(jobseekers) {
       <span>📍${jobseeker.location}</span><span style="padding: 20px">${jobseeker.hourly_rate}</span>
       <p>${serviceTitle}</p>
       <p>${jobseeker.skills}</p>
+      <button class="view-details-btn" style="background: linear-gradient(to right, #7b3fe4, #3B1664);
+  color: white;
+  padding: 4px 15px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  height: 30px;
+  margin-top: 10px;">View Details</button>
     `;
     container.appendChild(div);
   });
