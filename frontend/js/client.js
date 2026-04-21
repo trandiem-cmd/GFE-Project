@@ -424,9 +424,24 @@ function renderApplicants(data) {
             <p>${app.experience}</p>
             <p>${serviceTitle}</p>
             <p>${app.skills}</p>
-            <button class="accept-btn" data-id="${app.id}">Accept</button>
-            <button class="reject-btn" data-id="${app.id}">Reject</button>
-            
+            <button class="accept-btn" data-id="${app.id}" style="background: linear-gradient(to right, #7b3fe4, #3B1664);
+  color: white;
+  padding: 4px 15px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 14px;
+  align-items: center;
+  height: 30px;
+  margin-top: 10px;">Accept</button>
+            <button class="reject-btn" data-id="${app.id}" style="background: linear-gradient(to right, #7b3fe4, #3B1664);
+  color: white;
+  padding: 4px 15px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 14px;
+  align-items: center;
+  height: 30px;
+  margin-top: 10px;">Reject</button> 
         `;
         div.querySelector(".accept-btn").addEventListener("click", async() => {
             console.log("ACCEPT CLICK", app.id);
