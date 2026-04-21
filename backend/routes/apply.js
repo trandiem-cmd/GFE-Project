@@ -72,8 +72,9 @@ applyRouter.get("/:postId", async (req, res) => {
   const { postId } = req.params;
 
   try {
-    const sql=
-      `SELECT applications.id,applications.job_id,applications.status,users.fullname,users.experience,users.skills
+    // MASHAIR FIX - added photo, location, services to applicant data
+const sql=
+      `SELECT applications.id,applications.job_id,applications.status,users.fullname,users.experience,users.skills,users.photo,users.location,users.services
        FROM applications
        JOIN users ON applications.jobseeker_id = users.id
        WHERE applications.job_id = $1`

@@ -220,6 +220,10 @@ userRouter.put('/change-password', auth, async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: error });
   }
+
 });
+
+
+
 
 module.exports = { userRouter };

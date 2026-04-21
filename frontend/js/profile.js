@@ -5,6 +5,22 @@ const user = new User();
 document.addEventListener("DOMContentLoaded", () => {
   loadProfile();
   initLocationDropdown();
+
+  // MASHAIR - eye icon toggle for password fields (same as jobseeker profile)
+  document.querySelectorAll('.toggle-pw').forEach(span => {
+    span.addEventListener('click', function() {
+      const input = this.parentElement.querySelector('input');
+      if (input.type === 'password') {
+        input.type = 'text';
+        this.classList.remove('fa-eye-slash');
+        this.classList.add('fa-eye');
+      } else {
+        input.type = 'password';
+        this.classList.remove('fa-eye');
+        this.classList.add('fa-eye-slash');
+      }
+    });
+  });
 });
 
 // ================= LOAD PROFILE =================
@@ -31,35 +47,26 @@ async function loadProfile() {
 
 // ================= RENDER PROFILE =================
 function renderProfile(userData) {
-  // HEADER NAME
   const header = document.getElementById("header-name");
   if (header) header.textContent = userData.fullname || "";
 
-  // DISPLAY FIELDS
   document.getElementById("name-display").textContent = userData.fullname || "";
   document.getElementById("phone-display").textContent = userData.contact_phone || "";
   document.getElementById("email-display").textContent = userData.contact_email || "";
   document.getElementById("location-display").textContent = userData.location || "";
-  
 
-  // INPUT FIELDS
   document.getElementById("name-input").value = userData.fullname || "";
   document.getElementById("phone-input").value = userData.contact_phone || "";
   document.getElementById("email-input").value = userData.contact_email || "";
   document.getElementById("location-input").value = userData.location || "";
-  
 
-  //auto-select dropdown based on saved location
   if (userData.location) {
     const [savedCity, savedDistrict] = userData.location.split(" - ");
-
     const city = document.getElementById("edit-city");
     const district = document.getElementById("edit-district");
-
     if (city && district) {
       city.value = savedCity;
       city.dispatchEvent(new Event("change"));
-
       setTimeout(() => {
         district.value = savedDistrict;
       }, 100);
@@ -75,14 +82,11 @@ document.getElementById("editBtn").addEventListener("click", () => {
 // ================= SAVE BUTTON =================
 document.getElementById("saveBtn").addEventListener("click", async () => {
   try {
-
-    // ================= PROFILE UPDATE =================
     const body = {
       fullname: document.getElementById("name-input").value,
       contact_email: document.getElementById("email-input").value,
       contact_phone: document.getElementById("phone-input").value,
       location: document.getElementById("location-input").value,
-      
     };
 
     await fetch("http://localhost:3001/profile/me", {
@@ -100,7 +104,6 @@ document.getElementById("saveBtn").addEventListener("click", async () => {
     const confirmPassword = document.getElementById("confirm-password").value;
 
     if (currentPassword || newPassword || confirmPassword) {
-
       if (newPassword !== confirmPassword) {
         alert("Passwords do not match");
         return;
@@ -119,7 +122,6 @@ document.getElementById("saveBtn").addEventListener("click", async () => {
       });
 
       const data = await res.json();
-
       if (!res.ok) {
         alert(data.error);
         return;
@@ -127,7 +129,6 @@ document.getElementById("saveBtn").addEventListener("click", async () => {
     }
 
     alert("Profile updated successfully!");
-
     loadProfile();
     toggleEdit(false);
 
@@ -135,6 +136,7 @@ document.getElementById("saveBtn").addEventListener("click", async () => {
     console.error("UPDATE ERROR:", err);
   }
 });
+
 // ================= CANCEL BUTTON =================
 document.getElementById("cancelBtn").addEventListener("click", () => {
   toggleEdit(false);
@@ -146,16 +148,15 @@ function toggleEdit(isEdit) {
 
   fields.forEach(f => {
     const display = document.getElementById(`${f}-display`);
-
     let input;
 
-if (f === "location") {
-  input = document.getElementById("location-input-wrapper");
-} else if (f === "password") {
-  input = document.getElementById("password-input-wrapper");
-} else {
-  input = document.getElementById(`${f}-input`);
-}
+    if (f === "location") {
+      input = document.getElementById("location-input-wrapper");
+    } else if (f === "password") {
+      input = document.getElementById("password-input-wrapper");
+    } else {
+      input = document.getElementById(`${f}-input`);
+    }
 
     if (display && input) {
       display.classList.toggle("d-none", isEdit);
@@ -187,9 +188,7 @@ function initLocationDropdown() {
 
   city.addEventListener("change", () => {
     const selectedCity = city.value;
-
     district.innerHTML = `<option value="">Select district</option>`;
-
     if (data[selectedCity]) {
       data[selectedCity].forEach(d => {
         const option = document.createElement("option");
@@ -205,32 +204,26 @@ function initLocationDropdown() {
       locationInput.value = `${city.value} - ${district.value}`;
     }
   });
+
   // ================= DELETE ACCOUNT =================
-document.getElementById("deleteBtn").addEventListener("click", async () => {
-  const confirmDelete = confirm("Are you sure you want to delete your account? This cannot be undone.");
+  document.getElementById("deleteBtn").addEventListener("click", async () => {
+    const confirmDelete = confirm("Are you sure you want to delete your account? This cannot be undone.");
+    if (!confirmDelete) return;
 
-  if (!confirmDelete) return;
+    try {
+      await fetch("http://localhost:3001/profile/me", {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${user.token}`
+        }
+      });
 
-  try {
-    const res = await fetch("http://localhost:3001/profile/me", {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${user.token}`
-      }
-    });
+      alert("Account deleted successfully");
+      user.logout();
+      window.location.href = "index.html";
 
-    const data = await res.json();
-
-    alert("Account deleted successfully");
-
-    // logout user
-    user.logout();
-
-    // redirect
-    window.location.href = "index.html";
-
-  } catch (err) {
-    console.error("DELETE ERROR:", err);
-  }
-});
+    } catch (err) {
+      console.error("DELETE ERROR:", err);
+    }
+  });
 }

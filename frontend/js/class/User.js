@@ -347,12 +347,16 @@ async changePassword(currentPassword, newPassword) {
     this.#id = undefined
     this.#email = undefined
     this.#token = undefined
+    // MASHAIR FIX - clear all session data on logout
+    localStorage.removeItem(`savedJobs_${this.#id}`);
     sessionStorage.clear();
-    localStorage.removeItem('savedJobs');
   }
-         
+                
 }
 
 
 
 export { User }
+
+
+
