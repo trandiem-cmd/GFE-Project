@@ -11,7 +11,7 @@
     <div class="top-bar">
     <img src="./Assets/GFE logo.png" class="logo">
     <div class="right-side">
-      <a href="index.html" class="logout-btn">Log out</a>
+      <a href="#" class="logout-btn logout-action">Log out</a>
       <img src="./Assets/menu-icon.png" class="menu-icon" onclick="openMenu()">
     </div>
   </div>
@@ -31,7 +31,7 @@
       </div>
       <div class="menu-bottom">
         <a href="contact.html" class="help-btn">Need Help?</a>
-        <a href="index.html" class="logout-small">Log out</a>
+        <a href="#" class="logout-small logout-action">Log out</a>
       </div>
     </div>
   </div>
@@ -141,5 +141,6 @@
   function openMenu() { document.getElementById("menuOverlay").style.display = "flex"; }
   function closeMenu() { document.getElementById("menuOverlay").style.display = "none"; }
   </script>
+  <script type="module" src="js/logout.js"></script>
 </body>
 </html>

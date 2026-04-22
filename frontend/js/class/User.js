@@ -344,14 +344,15 @@ async changePassword(currentPassword, newPassword) {
     }
 }
   async logout() {
-    this.#id = undefined
-    this.#email = undefined
-    this.#token = undefined
-    // MASHAIR FIX - clear all session data on logout
-    localStorage.removeItem(`savedJobs_${this.#id}`);
-    sessionStorage.clear();
-  }
-                
+  const userId = this.#id; // store before clearing
+
+  localStorage.removeItem(`savedJobs_${userId}`);
+  sessionStorage.clear();
+
+  this.#id = undefined;
+  this.#email = undefined;
+  this.#token = undefined;
+}
 }
 
 
