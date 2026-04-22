@@ -1,4 +1,5 @@
 import { user } from './jobseeker-shared.js';
+import { BACKEND_URL } from '../config.js';
 // MASHAIR - profile page: edit, pause, delete, change password (new feature)
 const profileContainer = document.querySelector('.profile-container');
 if (profileContainer) {
@@ -26,7 +27,7 @@ if (profileContainer) {
         document.getElementById('rate-text').textContent = userData.hourly_rate || '';
 
         if (userData.photo) {
-            document.getElementById('profile-img').src = `http://localhost:3001/uploads/${userData.photo}`;
+            document.getElementById('profile-img').src = `${BACKEND_URL}/uploads/${userData.photo}`;
         }
 
         if (userData.is_paused) {

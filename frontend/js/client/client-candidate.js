@@ -1,7 +1,6 @@
-import { User } from "./class/User.js";
-
+import { User } from "../class/User.js";
+import { BACKEND_URL } from '../config.js';
 const user = new User();
-const BACKEND_URL = "http://localhost:3001";
 const currentUser = JSON.parse(sessionStorage.getItem('user'));
 
 // MASHAIR - menu

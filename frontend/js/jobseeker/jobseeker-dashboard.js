@@ -1,4 +1,5 @@
 import { user, job, application } from './jobseeker-shared.js';
+import { BACKEND_URL } from '../config.js';
 // MASHAIR - dashboard page: hello name, photo, activity buttons (new feature)
 // // MASHAIR FIX - fetch photo directly using token from sessionStorage
 const welcomeName = document.getElementById('welcomeName');
@@ -8,14 +9,14 @@ if (welcomeName) {
         const name = currentUser.fullname ? currentUser.fullname.split(' ')[0] : currentUser.email.split('@')[0];
         welcomeName.textContent = `Hello, ${name} 👋`;
 
-        fetch(`http://localhost:3001/user/${currentUser.id}`, {
+        fetch(`${BACKEND_URL}/user/${currentUser.id}`, {
             headers: { 'Authorization': `Bearer ${currentUser.token}` }
         })
         .then(res => res.json())
         .then(data => {
             if (data.photo) {
                 const profilePic = document.getElementById('profilePic');
-                if (profilePic) profilePic.src = `http://localhost:3001/uploads/${data.photo}`;
+                if (profilePic) profilePic.src = `${BACKEND_URL}/uploads/${data.photo}`;
             }
         });
     }
@@ -98,7 +99,7 @@ async function loadJobs() {
         await loadJobs();
         const currentUser = JSON.parse(sessionStorage.getItem('user'));
         // get jobseeker profile to find their service
-        fetch(`http://localhost:3001/user/${currentUser.id}`, {
+        fetch(`${BACKEND_URL}/user/${currentUser.id}`, {
             headers: { 'Authorization': `Bearer ${currentUser.token}` }
         })
         .then(res => res.json())

@@ -1,5 +1,5 @@
-import { User } from "./class/User.js";
-
+import { User } from "../class/User.js";
+import { BACKEND_URL } from '../config.js';
 const user = new User();
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -31,7 +31,7 @@ async function loadProfile() {
       return;
     }
 
-    const res = await fetch("http://localhost:3001/profile/me", {
+    const res = await fetch(`${BACKEND_URL}/profile/me`, {
       headers: {
         Authorization: `Bearer ${user.token}`
       }
@@ -89,7 +89,7 @@ document.getElementById("saveBtn").addEventListener("click", async () => {
       location: document.getElementById("location-input").value,
     };
 
-    await fetch("http://localhost:3001/profile/me", {
+    await fetch(`${BACKEND_URL}/profile/me`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -109,7 +109,7 @@ document.getElementById("saveBtn").addEventListener("click", async () => {
         return;
       }
 
-      const res = await fetch("http://localhost:3001/profile/change-password", {
+      const res = await fetch(`${BACKEND_URL}/profile/change-password`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -211,7 +211,7 @@ function initLocationDropdown() {
     if (!confirmDelete) return;
 
     try {
-      await fetch("http://localhost:3001/profile/me", {
+      await fetch(`${BACKEND_URL}/profile/me`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${user.token}`

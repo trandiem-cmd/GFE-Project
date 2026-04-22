@@ -43,6 +43,7 @@ p,li,input,span,small,textarea,select,option{
   align-items: center;
   height: 30px;
   margin-top: 10px;
+  border:none;
 }
 .logout-btn:hover {
   opacity: 0.9;

@@ -1,5 +1,5 @@
-import { User } from "./class/User.js";
-
+import { User } from "../class/User.js";
+import { BACKEND_URL } from '../config.js';
 const user = new User();
 
 
@@ -64,10 +64,10 @@ if (document.body.classList.contains("client-view-candidate-details")) {
             document.getElementById("about-text").textContent = data.about_you || '';
             document.getElementById("skills-container").textContent = data.skills || '';
             document.getElementById("experience-text").textContent = data.experience || '';
-            document.getElementById("rate-text").textContent = (data.hourly_rate || '') + " €/h";
+            document.getElementById("rate-text").textContent = (data.hourly_rate || '');
 
             if (data.photo) {
-                document.getElementById("profile-img").src = `http://localhost:3001/uploads/${data.photo}`;
+                document.getElementById("profile-img").src = `${BACKEND_URL}/uploads/${data.photo}`;
             }
         }).catch(err => {
             console.error(err);
