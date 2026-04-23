@@ -110,3 +110,8 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJlbW1hLnZpcnRhbmVuQGhlbHNpbmtpLmZpIiwicm9sZSI6ImNsaWVudCIsImlhdCI6MTc3NjExNTQxOH0.AfAFWwA-2xdXzNU-4qpupjZTtTUbqgKHF2WVHo5qh94
 
 {"status":"rejected"}
+
+### Download CV
+GET http://localhost:3001/application/download-cv/29
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTEsImVtYWlsIjoidmlsbGUuaGFtYWxhaW5lbkBvdWx1LmZpIiwicm9sZSI6ImpvYnNlZWtlciIsImlhdCI6MTc3Njk3NDQzN30.eE1FCEUk4caqQtkIUeaeMT57108o199hwcCFrMj9ubg

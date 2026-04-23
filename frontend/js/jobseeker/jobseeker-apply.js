@@ -20,8 +20,13 @@ const applyForm = document.querySelector(".apply-form");
             const formData = new FormData(applyForm);
             formData.append("job_id", selectedJob.id);
             formData.append("jobseeker_id", user.id);
-            await application.applyJob(formData);
+            try {await application.applyJob(formData);
+            
             window.location.href = "jobseeker-application.html";
             alert("✅ You have successfully applied!");
+            } catch (err) {
+                console.error(err);
+                alert("❌ You have alredy applied for this job");
+            }
         });
     }

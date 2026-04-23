@@ -31,7 +31,7 @@ p,li,input,span,small,textarea,select,option{
     gap: 10px;
 }
 
-.logout-btn { /* This button class common for signup, login and logout buttons.*/
+.logout-btn,.download-CV { /* This button class common for signup, login and logout buttons.*/
   display: inline-block;
   background: linear-gradient(to right, #7b3fe4, #3B1664);
   color: white;

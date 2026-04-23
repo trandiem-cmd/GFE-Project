@@ -99,6 +99,9 @@ div.innerHTML = `
     <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px;">
         <span class="status ${app.status}">${app.status}</span>
         <div>
+            ${app.cv ? `<button class="download-CV">
+                📄 View Applicant CV
+                </button>` : ""}
             <button class="accept-btn" data-id="${app.id}">Accept</button>
             <button class="reject-btn" data-id="${app.id}">Reject</button>
         </div>
@@ -114,6 +117,12 @@ div.innerHTML = `
             await loadApplicants();
         });
         container.appendChild(div);
+        const downloadBtn = div.querySelector(".download-CV");
+        if(downloadBtn){
+        downloadBtn.addEventListener("click", () => {
+            application.downloadCV(app.id);
+            });
+        };
     });
 }
 

@@ -5,7 +5,8 @@ const { auth } = require("../helpers/auth.js");
 const multer = require('multer');
 const applyRouter = express.Router();
 const upload = multer({ dest: "uploads/" });
-
+const fs = require('fs');
+const path = require('path');
 applyRouter.post("/apply",auth,upload.single("cv"),async(req,res) => {
     try{
         const { job_id, applyCoverLetter} = req.body;
@@ -18,8 +19,8 @@ applyRouter.post("/apply",auth,upload.single("cv"),async(req,res) => {
         const result = await query(sql,[job_id, jobseeker_id, applyCoverLetter, cvPath])
         res.status(200).json(result.rows[0]) 
     } catch (error) {
-        res.statusMessage = error
-        res.status(500).json({error: error})
+        console.error(error);
+        res.status(500).json({ error: "Internal server error" });
     }
 });
 // GET applications by user + filter status
@@ -67,6 +68,36 @@ applyRouter.get("/search", auth, async (req, res) => {
     }
 });
 
+// DOWNLOAD CV
+applyRouter.get("/download-cv/:id", auth, async (req, res) => {
+    try {
+        const applicationId = req.params.id;
+        const userId = req.user.id;
+        const role = req.user.role; // jobseeker / client
+        const sql = `
+            SELECT a.cv, a.jobseeker_id, j.client_id
+            FROM applications a
+            JOIN jobposts j ON a.job_id = j.id
+            WHERE a.id = $1
+        `;
+        const result = await query(sql, [applicationId]);
+        if (result.rows.length === 0) {
+            return res.status(404).json({ error: "Not found" });
+        }
+        const app = result.rows[0];
+        // RULE 1: jobseeker view her own CV
+        if (role === "jobseeker" && app.jobseeker_id !== userId) {
+            return res.status(403).json({ error: "Forbidden" });
+        }
+        // RULE 2: client view CVs on her own job
+        if (role === "client" && app.client_id !== userId) {
+            return res.status(403).json({ error: "Forbidden" });
+        }
+        res.download(app.cv);
+    } catch (error) {
+        res.status(500).json({ error: "Server error" });
+    }
+});
 // GET APPLICANTS BY JOB POST
 applyRouter.get("/:postId", async (req, res) => {
   const { postId } = req.params;
@@ -74,7 +105,7 @@ applyRouter.get("/:postId", async (req, res) => {
   try {
     // MASHAIR FIX - added photo, location, services to applicant data
 const sql=
-      `SELECT applications.id,applications.job_id,applications.status,users.fullname,users.experience,users.skills,users.photo,users.location,users.services
+      `SELECT applications.id,applications.job_id,applications.cv,applications.status,users.fullname,users.experience,users.skills,users.photo,users.location,users.services
        FROM applications
        JOIN users ON applications.jobseeker_id = users.id
        WHERE applications.job_id = $1`

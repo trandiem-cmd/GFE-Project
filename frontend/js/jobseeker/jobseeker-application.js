@@ -1,4 +1,5 @@
 import { application } from './jobseeker-shared.js';
+import { BACKEND_URL } from '../config.js';
 // ===== APPLICATION PAGE =====
 // DIEM - original application page code
 document.addEventListener("DOMContentLoaded", () => {
@@ -46,12 +47,21 @@ document.addEventListener("DOMContentLoaded", () => {
                 <p class="job-desc">
                 ${app.service_description}
                 </p>
+                ${app.cv ? `<button class="download-CV">
+                📄 Download CV
+                </button>` : ""}
                 <div class="job-bottom">
                 <span class="status ${app.status}">${app.status}</span>
                 </div>
             `;
             // toggle details
             container.appendChild(div);
+            const downloadBtn = div.querySelector(".download-CV");
+            if(downloadBtn){
+            downloadBtn.addEventListener("click", () => {
+                application.downloadCV(app.id);
+                });
+            };
         });
     }
 
