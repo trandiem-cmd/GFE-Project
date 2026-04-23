@@ -34,11 +34,14 @@ if (document.getElementById('applicationsBtn')) {
         acceptedDiv.innerHTML = `${apps.length}<br>Accepted`;
     }).catch(err => console.error(err));
 
-    // get messages count
-    user.getMessages(currentUser.id).then(messages => {
-        const msgDiv = document.getElementById('messagesBtn').querySelector('div');
-        msgDiv.innerHTML = `${messages.length}<br>Messages`;
-    }).catch(err => console.error(err));
+   // MASHAIR FIX - count only unread messages not total
+user.getMessages(currentUser.id).then(messages => {
+    const unreadCount = messages.filter(m => 
+        m.receiver_id === currentUser.id && m.read === false
+    ).length;
+    const msgDiv = document.getElementById('messagesBtn').querySelector('div');
+    msgDiv.innerHTML = `${unreadCount}<br>Messages`;
+}).catch(err => console.error(err));
 }
 /*
 // MASHAIR - load recommended jobs matching jobseeker's service

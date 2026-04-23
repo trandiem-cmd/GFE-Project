@@ -1,4 +1,5 @@
 import { user } from './jobseeker-shared.js';
+import { BACKEND_URL } from '../config.js'; 
 // MASHAIR - inbox page WhatsApp style (new feature)
 const messageList = document.getElementById('messageList');
 if (messageList) {
@@ -60,7 +61,13 @@ if (messageList) {
         });
     }
 
-    async function loadMessages(receiverId) {
+        async function loadMessages(receiverId) {
+    // MASHAIR FIX - mark messages as read when opening chat
+    await fetch(`${BACKEND_URL}/inbox/read/${receiverId}/${currentUser.id}`, {
+        method: 'PUT',
+        headers: { 'Authorization': `Bearer ${currentUser.token}` }
+    });
+
         const messages = await user.getMessages(currentUser.id); // MASHAIR FIX - was user.id
         const chatBox = document.getElementById('chatBox');
         chatBox.innerHTML = '';

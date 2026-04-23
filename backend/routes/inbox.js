@@ -29,5 +29,18 @@ inboxRouter.post('/', async (req, res) => {
     res.status(500).json({ error: 'Failed to send message' });
   }
 });
+// MASHAIR - mark messages as read
+inboxRouter.put('/read/:senderId/:receiverId', async (req, res) => {
+  const { senderId, receiverId } = req.params;
+  try {
+    await query(
+      'UPDATE inbox SET read = true WHERE sender_id = $1 AND receiver_id = $2',
+      [senderId, receiverId]
+    );
+    res.json({ message: 'Messages marked as read' });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to mark as read' });
+  }
+});
 
 module.exports = { inboxRouter };
