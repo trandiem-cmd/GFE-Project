@@ -59,7 +59,7 @@ function renderCandidates(candidates) {
         div.className = 'job-card';
         div.innerHTML = `
             <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
-                <img src="${candidate.photo ? `${BACKEND_URL}/uploads/${candidate.photo}` : './Assets/GFE logo.png'}"
+                <img src="${candidate.photo ? `${BACKEND_URL}/uploads/${candidate.photo}` : ''}"
                      style="width:50px; height:50px; border-radius:50%; object-fit:cover;">
                 <div>
                     <h4 style="margin:0;">${candidate.fullname}</h4>

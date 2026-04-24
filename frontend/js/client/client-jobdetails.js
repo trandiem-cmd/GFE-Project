@@ -1,27 +1,27 @@
 // ===== CLIENT'S JOBDETAILS ===== //
-    // == JOB DETAILS == //
-// const selectedJob = JSON.parse(sessionStorage.getItem("selectedJob"));
-// const container = document.querySelector(".jobpost-details")
-// const div = document.createElement("div");
-//     div.classList.add("jobs-card");     
-//     div.innerHTML = `
-//         <div class="job-top">
-//             <h3>${selectedJob.service_title}</h4>    ← crashes here if selectedJob is null so
-//  i fixed it wrap it in a null check 
-//         </div>
-//         <p class="job-time">${selectedJob.service_schedule}</p>
-//         <p class="apply-location">
-//             <img src="./Assets/location_on.png" class="location-icon">
-//             ${selectedJob.service_location} • ${selectedJob.service_pay_rate}
-//         </p>
-                
-//     `;
+
 
 // MASHAIR FIX - added null check so it doesn't crash on dashboard
 import { user, job, application } from './client-shared.js';
 import { BACKEND_URL } from '../config.js';
-const selectedJob = JSON.parse(sessionStorage.getItem("selectedJob"));
+
+(async () => {
+    // MASHAIR FIX - if no selectedJob load most recent job post automatically
+let selectedJob = JSON.parse(sessionStorage.getItem("selectedJob"));
 const container = document.querySelector(".jobpost-details");
+
+if (!selectedJob) {
+    const currentUser = JSON.parse(sessionStorage.getItem('user'));
+    const response = await fetch(`${BACKEND_URL}/job/dashboard`, {
+        headers: { 'Authorization': `Bearer ${currentUser.token}` }
+    });
+    const jobs = await response.json();
+    if (jobs.length > 0) {
+        selectedJob = jobs[0]; // load most recent job
+        sessionStorage.setItem('selectedJob', JSON.stringify(selectedJob));
+    }
+}
+
 if (selectedJob && container) {
     const div = document.createElement("div");
     div.classList.add("jobs-card");
@@ -70,31 +70,29 @@ function renderApplicants(data) {
         else {serviceTitle='👴🏻 Eldercare'};
         const div = document.createElement("div");
         div.classList.add("jobs-card");
-
-     // MASHAIR FIX - added photo, location, status in right place
+// MASHAIR FIX - fixed order: photo/name, service, location, experience, skills, cv, status/buttons
 div.innerHTML = `
     <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
-        <img src="${app.photo ? `${BACKEND_URL}/uploads/${app.photo}` : './Assets/GFE logo.png'}"
+        <img src="${app.photo ? `${BACKEND_URL}/uploads/${app.photo}` : ''}"
              style="width:50px; height:50px; border-radius:50%; object-fit:cover;">
         <div>
             <h3 style="margin:0;">${app.fullname}</h3>
-            <p style="margin:0; color:#572290;">${serviceTitle}</p>
+            <p style="margin-top:-16px; color:#572290;">${serviceTitle}</p>
         </div>
     </div>
     <p>📍 ${app.location || ''}</p>
     <p>⭐ ${app.experience || ''}</p>
     <p>${app.skills || ''}</p>
+    ${app.cv ? `<button class="download-CV">📄 View Applicant CV</button>` : ''}
     <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px;">
         <span class="status ${app.status}">${app.status}</span>
         <div>
-            ${app.cv ? `<button class="download-CV">
-                📄 View Applicant CV
-                </button>` : ""}
             <button class="accept-btn" data-id="${app.id}">Accept</button>
             <button class="reject-btn" data-id="${app.id}">Reject</button>
         </div>
     </div>
-`;     div.querySelector(".accept-btn").addEventListener("click", async() => {
+`;
+   div.querySelector(".accept-btn").addEventListener("click", async() => {
             console.log("ACCEPT CLICK", app.id);
             await updateStatus(app.id, "accepted");
             await loadApplicants();
@@ -121,3 +119,4 @@ async function updateStatus(appId,status) {
     console.error(err);
   }
 }
+})();

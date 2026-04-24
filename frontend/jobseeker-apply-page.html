@@ -13,9 +13,6 @@
   <div class="top-bar">
     <img src="./Assets/GFE logo.png" class="logo">
     <div class="right-side">
-      <a href="jobseeker-inbox.html">
-        <img src="./Assets/mark_email_unread.png" class="inbox-icon">
-      </a>
       <button class="logout-btn logout-action">Log out</button>
       <img src="./Assets/menu-icon.png" class="menu-icon" id="menuBtn">
     </div>
@@ -56,8 +53,10 @@
       <label class="file-upload">
         <img src="./Assets/File.png" class="cv-icon">
         <span>Attach CV (optional)</span>
-        <input type="file" name="cv">
+        <input type="file" name="cv" id="cvInput">
       </label>
+      <!-- MASHAIR - show selected filename -->
+<p id="cvFileName" style="color:#572290; font-size:12px; margin-top:5px;"></p>
       <button type="submit" class="submit-btn">Submit Application</button>
       <a href="jobseeker-application.html" class="view-link">
         View my past applications

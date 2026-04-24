@@ -9,6 +9,13 @@ p,li,input,span,small,textarea,select,option{
     font-family: "Adamina";
     font-size: 14px;
 }
+/* MASHAIR - global logout and sign up buttons uppercase */
+.logout-btn,
+.login-btn,
+.signup-btn {
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
 
 /* Header section for static pages*/
 
@@ -130,7 +137,45 @@ p,li,input,span,small,textarea,select,option{
 
 
 /* Home page */
+/* MASHAIR - fix homepage dropdown menu to match app style */
+.dropdown-menu {
+    background: #e9def5;
+    border: none;
+    border-radius: 16px;
+    padding: 10px;
+}
 
+.dropdown-item {
+    color: #572290;
+    font-family: "ADLaM Display";
+    border-radius: 8px;
+    padding: 8px 12px;
+}
+
+.dropdown-item:hover {
+    background: #7b3fe4;
+    color: white;
+}
+
+/* MASHAIR - remove white background from navbar dropdown */
+.navbar {
+    background-image: url('./image 14.png') !important;
+}
+/* MASHAIR - remove grey border from dropdown button */
+.btn-secondary {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.btn-secondary:focus,
+.btn-secondary:active,
+.btn-secondary:hover {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+}
 .content-poster{
     background-image: url('./purple Rectangle.png'); 
     background-size: cover;      /* makes image fill the section */
@@ -141,6 +186,7 @@ p,li,input,span,small,textarea,select,option{
     width: 100%;
     padding: 60px 20px;
 }
+
 
 /* MASHAIR - CTA toggle button style like Yoopies */
 .hero-toggle {
@@ -814,6 +860,19 @@ h3{
 
 
 /* Sign-up page */
+/* MASHAIR - fix footer position */
+.login-page .footer {
+    margin-top: 260px;
+}
+
+.signup-page .footer {
+    margin-top: 160px;
+}
+/* MASHAIR - move login and signup container down */
+.login-page .content,
+.signup-page .content {
+    margin-top: 80px;
+}
 .card {
     background-color: transparent;
     border: none;
@@ -1923,7 +1982,7 @@ label{
 .jobseeker-inbox-page .footer {
   position: relative;
   top: 0;
-  margin-top: 377px;
+  margin-top: 560px;
 }
 
 
@@ -2070,9 +2129,9 @@ label{
   text-decoration: none;
 }
 
-.footer {
-  margin-top: 20px;
-  width: 100%;
+.jobseeker-apply-page .footer {
+  margin-top: 200px;
+ 
 }
 
 /* jobseeker-job-details-page */
@@ -2341,8 +2400,8 @@ label{
 
 
 .jobseeker-saved-page .footer {
-  margin-top: 20px;
-  width: 100%;
+  margin-top: 490px;
+ 
 }
 
 /* jobseeker-menu-page*/
@@ -2801,6 +2860,13 @@ label{
   position: relative;
   bottom: 100px;
 }
+.client-inbox-page .footer{
+  margin-top: 390px;
+}
+
+
+
+
 .profile-icon {
   width: 45px;
   height: 45px;
@@ -2811,6 +2877,17 @@ label{
   font-size: 13px;
   color: #555;
 }
+
+
+.client-profile-page .footer{
+  margin-top: 200px;
+}
+
+.client-jobdetails-page .footer {
+  margin-top: 480px;
+}
+
+
 #about-you-review {
   background-color: #f0e9f0;
   margin: 0px 20px;
@@ -3051,14 +3128,7 @@ label{
 
 
 
- /* client jobdetails page */
-
-/* .client-jobdetails-page .jobs-card {
-  background: #dbd1e9;
-  padding: 14px;
-  border-radius: 14px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-} */
+/* client jobdetails page */
 .client-jobdetails-page h3 {
   color: #572290;
   font-size: 20px;
@@ -3066,142 +3136,94 @@ label{
   padding: 20px 0px;
   font-family: 'ADLaM Display', sans-serif;
 }
- .applicant-status {
+
+.client-jobdetails-page .applicant-status {
   display: flex;
   justify-content: space-between;
   height: 50px;
 }
-pending {
-  background: orange;
-  border-radius: 12px;
-  padding: 10px;
-  display: flex;
-  align-items: center;  
-  justify-content: center;
-}
 
-/*.accepted {
-  background: #4CAF50;
-  border-radius: 12px;
-  padding: 10px;
-  display: flex;
-  align-items: center;  
-  justify-content: center;
-}
-
-.rejected {
-  background: gray;
-  border-radius: 12px;
-  padding: 10px;
-  display: flex;
-  align-items: center;  
-  justify-content: center;
-} */
 .client-jobdetails-page .jobpost-details {
-    margin: 15px;
-}
-
-.client-jobdetails-page .applicants-section {
-    margin: 15px;
-}
-
-.client-jobdetails-page .purple-bar2 h3 {
-    position: relative;
-    bottom: 47px;
-    left: 13px;
-    font-size: 28px;
-}
- 
-.client-jobdetails-page .purple-bar2 p {
-    position: relative;
-    bottom: 49px;
-    left: 13px;
-    font-size: 15px;
-}
-
-.client-jobdetails-page .applicants-section h3 {
-    color: #572290;
-    font-size: 24px;
-    position: relative;
-    bottom: 4px;
-}
-
-
-.client-jobdetails-page .jobpost-details  {
+  margin: 15px;
   position: relative;
   bottom: 30px;
 }
-.client-jobdetails-page .jobs-card {
-    background: #dbd1e9;
-    padding: 12px;
-    border-radius: 14px;
-    margin-bottom: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-}
 
 .client-jobdetails-page .applicants-section {
+  margin: 15px;
   position: relative;
   bottom: 50px;
 }
 
+.client-jobdetails-page .purple-bar2 h3 {
+  position: relative;
+  bottom: 47px;
+  left: 13px;
+  font-size: 28px;
+}
+
+.client-jobdetails-page .purple-bar2 p {
+  position: relative;
+  bottom: 49px;
+  left: 13px;
+  font-size: 15px;
+}
+
+.client-jobdetails-page .applicants-section h3 {
+  color: #572290;
+  font-size: 24px;
+  position: relative;
+  bottom: 4px;
+}
+
+.client-jobdetails-page .jobs-card {
+  background: #dbd1e9;
+  padding: 12px;
+  border-radius: 14px;
+  margin-bottom: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
 .client-jobdetails-page .applicant-status {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
 }
 
 .client-jobdetails-page .accept-btn {
-    background: #56b76c;
-    color: white;
-    border: none;
-    padding: 5px 14px;
-    border-radius: 8px;
-    cursor: pointer;
-    margin-right: 8px;
+  background: #56b76c;
+  color: white;
+  border: none;
+  padding: 5px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-right: 8px;
 }
 
 .client-jobdetails-page .reject-btn {
-    background: #cf535f;
-    color: white;
-    border: none;
-    padding: 5px 14px;
-    border-radius: 8px;
-    cursor: pointer;
+  background: #cf535f;
+  color: white;
+  border: none;
+  padding: 5px 14px;
+  border-radius: 8px;
+  cursor: pointer;
 }
 
 .client-jobdetails-page .status.pending {
-    color: rgb(215, 152, 26);
-    font-weight: bold;
-    position: relative;
-    bottom: 160px;
-    left: 300px;
+  color: rgb(215, 152, 26);
+  font-weight: bold;
 }
 
 .client-jobdetails-page .status.accepted {
-    color: rgb(55, 167, 55);
-    font-weight: bold;
+  color: rgb(55, 167, 55);
+  font-weight: bold;
 }
 
 .client-jobdetails-page .status.rejected {
-    color: rgb(181, 63, 63);
-    font-weight: bold;
+  color: rgb(181, 63, 63);
+  font-weight: bold;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /* client-viewCandidate-page */
 .send-message-btn {
   background: linear-gradient(to right, #7b3fe4, #3B1664);
@@ -3259,3 +3281,19 @@ pending {
     bottom: 25px;
 }
 
+/* MASHAIR - default profile pic when no photo */
+.profile-img-default {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: #e0d0f5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    color: #572290;
+}
+/* MASHAIR - hide broken image icon */
+img[src=""] {
+    display: none;
+}

@@ -13,6 +13,17 @@ const applyForm = document.querySelector(".apply-form");
                 <img src="./Assets/location_on.png" class="location-icon">
                 ${selectedJob.service_location} • ${selectedJob.service_pay_rate}`;
         }
+        // MASHAIR - show filename when CV is selected
+const cvInput = document.getElementById('cvInput');
+if (cvInput) {
+    cvInput.addEventListener('change', function() {
+        const fileName = this.files[0]?.name;
+        const display = document.getElementById('cvFileName');
+        if (fileName && display) {
+            display.textContent = `✅ Selected: ${fileName}`;
+        }
+    });
+}
 
         // DIEM - submit application
         applyForm.addEventListener("submit", async (event) => {

@@ -96,7 +96,7 @@ function renderJobseekers(jobseekers) {
         div.classList.add("jobs-card");
         div.innerHTML = `
             <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
-                <img src="${jobseeker.photo ? `${BACKEND_URL}/uploads/${jobseeker.photo}` : './Assets/GFE logo.png'}" 
+                <img src="${jobseeker.photo ? `${BACKEND_URL}/uploads/${jobseeker.photo}` : ''}" 
                      style="width:50px; height:50px; border-radius:50%; object-fit:cover;">
                 <div>
                     <h3 style="margin:0;">${jobseeker.fullname}</h3>
