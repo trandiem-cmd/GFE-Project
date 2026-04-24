@@ -3297,3 +3297,58 @@ label{
 img[src=""] {
     display: none;
 }
+
+
+/* MASHAIR - back button style for jobseeker profile steps */
+.back-btn {
+    background: #e7d5fa;
+    color: #572290;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.back-btn::before {
+    content: '←';
+    font-size: 16px;
+}
+
+.back-btn:hover {
+    background: #ddd;
+    color: #5A3AB0;
+}
+
+.next-btn {
+    background: linear-gradient(to right, #7b3fe4, #3B1664);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* MASHAIR - contact page send message button */
+.contact-form .login-btn {
+    background: linear-gradient(to right, #7b3fe4, #3B1664);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 14px;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.client-view-candidate-details .footer {
+  margin-top: 200px;
+}

@@ -75,18 +75,21 @@ div.innerHTML = `
     <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
         <img src="${app.photo ? `${BACKEND_URL}/uploads/${app.photo}` : ''}"
              style="width:50px; height:50px; border-radius:50%; object-fit:cover;">
-        <div>
-            <h3 style="margin:0;">${app.fullname}</h3>
-            <p style="margin-top:-16px; color:#572290;">${serviceTitle}</p>
-        </div>
+       <div style="flex:1;">
+    <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+        <h3 style="margin:0;">${app.fullname}</h3>
+        <span class="status ${app.status}" style="margin-left:40px;">${app.status}</span>
+    </div>
+    <p style="margin-top:2px; color:#572290;">${serviceTitle}</p>
+</div>
     </div>
     <p>📍 ${app.location || ''}</p>
     <p>⭐ ${app.experience || ''}</p>
     <p>${app.skills || ''}</p>
     ${app.cv ? `<button class="download-CV">📄 View Applicant CV</button>` : ''}
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px;">
-        <span class="status ${app.status}">${app.status}</span>
-        <div>
+    <div style="display:flex; justify-content:flex-end; align-items:center; margin-top:8px;">
+    <div style="display:flex; gap:8px;">
+            <button class="view-profile-btn" data-id="${app.id}" style="background:#e7d5fa; color:#572290; padding:5px 14px; border-radius:8px; border:none; cursor:pointer;">View Profile</button>
             <button class="accept-btn" data-id="${app.id}">Accept</button>
             <button class="reject-btn" data-id="${app.id}">Reject</button>
         </div>
@@ -102,6 +105,11 @@ div.innerHTML = `
             await updateStatus(app.id, "rejected");
             await loadApplicants();
         });
+        // MASHAIR - view profile button
+div.querySelector(".view-profile-btn").addEventListener("click", () => {
+    sessionStorage.setItem('selectedJobseekerId', app.jobseeker_id);
+    window.location.href = 'client-viewCandidate.html';
+});
         container.appendChild(div);
         const downloadBtn = div.querySelector(".download-CV");
         if(downloadBtn){

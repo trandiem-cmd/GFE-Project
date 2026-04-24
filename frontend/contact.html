@@ -59,39 +59,7 @@
 <div class="last-line">
     <p>We aim to respond as soon as possible.</p>
 </div>
-<script>
-document.querySelector(".contact-form").addEventListener("submit", async (e) => {
-  e.preventDefault(); // stop page reload
-
-  const formData = {
-    full_name: document.querySelector("[name='full_name']").value,
-    email: document.querySelector("[name='email']").value,
-    phone: document.querySelector("[name='phone']").value,
-    subject: document.querySelector("[name='subject']").value,
-    message: document.querySelector("[name='message']").value
-  };
-
-  try {
-    const response = await fetch("http://localhost:3001/contact", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(formData)
-    });
-
-    const data = await response.json();
-
-    alert("Message sent successfully!");
-
-    document.querySelector(".contact-form").reset();
-
-  } catch (error) {
-    console.error(error);
-    alert("Error sending message");
-  }
-});
-</script>
+<script type="module" src="js/contact.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 </body>
 </html>
