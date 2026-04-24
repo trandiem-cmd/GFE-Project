@@ -13,15 +13,6 @@ if (searchInput) {
     });
 }
 // ===== JOB OFFERS PAGE =====
-    // DIEM - original only loads jobs when service button is clicked:
-    // async function loadJobs() {
-    //     document.querySelectorAll(".service-btn").forEach(btn => {
-    //         btn.addEventListener("click", async () => {
-    //             ...
-    //         });
-    //     });
-    // };
-    // MASHAIR FIX - added getAllJob() so all jobs load by default on page open
     async function loadJobs() {
         let allJobs = await job.getAllJob();
         renderjobsByService(allJobs);

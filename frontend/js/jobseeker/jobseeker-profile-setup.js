@@ -56,7 +56,6 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     }
-
     // MASHAIR - photo upload in step 1 (new feature)
     const photoBox = document.getElementById('photoBox');
     if (photoBox) {
@@ -253,15 +252,10 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("name-review").textContent = profile.name || "";
         document.getElementById("location-review").innerHTML = '<i class="bi bi-geo-alt" style="color: #5A3AB0;"></i> ' + (profile.location || "");
 
-        // DIEM - original code crashes if selectedService is null:
-        // document.getElementById("service-review").textContent = profile.selectedService.title;
         // MASHAIR FIX - added optional chaining to prevent crash
         document.getElementById("service-review").textContent = profile.selectedService?.title || "";
 
         // DIEM - original code crashes if hourlyRate/experience is null:
-        // document.getElementById("rate-review").textContent = profile.hourlyRate;
-        // document.getElementById("experience-review").textContent = profile.experience + " experience";
-        // MASHAIR FIX - added fallback empty string to prevent crash
         document.getElementById("rate-review").textContent = profile.hourlyRate || "";
         document.getElementById("experience-review").textContent = (profile.experience || "") + " experience";
 
@@ -289,29 +283,12 @@ document.addEventListener("DOMContentLoaded", () => {
             const contact_email = profile.email;
             const contact_phone = profile.phone;
             const location = profile.location;
-
-            // DIEM - original crashes if selectedService is null:
-            // const services = profile.selectedService.type;
-            // MASHAIR FIX - added optional chaining
             const services = profile.selectedService?.type;
-
             const about_you = profile.aboutYou;
             const experience = profile.experience;
             const hourly_rate = profile.hourlyRate;
             const about_experience = profile.aboutExperience;
-
-            // DIEM - original crashes if selectedSkills is null:
-            // const skills = profile.selectedSkills.join(", ");
-            // MASHAIR FIX - added fallback empty array
             const skills = (profile.selectedSkills || []).join(", ");
-
-            // DIEM - original order was redirect first then alert (alert never shows)
-            // user.updateProfile(...).then(updatedUser => {
-            //     window.location.href = "jobseeker-dashboard.html";
-            //     sessionStorage.removeItem(PROFILE_KEY);
-            //     alert("Profile submitted successfully!");
-            // })
-            // MASHAIR FIX - fixed order: alert first then redirect
             user.updateProfile(fullname, contact_email, contact_phone, location, services, about_you, experience, hourly_rate, about_experience, skills)
                 .then(() => {
                     sessionStorage.removeItem(PROFILE_KEY);

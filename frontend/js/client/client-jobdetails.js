@@ -70,18 +70,6 @@ function renderApplicants(data) {
         else {serviceTitle='👴🏻 Eldercare'};
         const div = document.createElement("div");
         div.classList.add("jobs-card");
-        // div.innerHTML = `  no photo fixed 
-        //     <div class="applicant-status">
-        //         <h3>${app.fullname}</h3>
-        //         <p class="status ${app.status}">${app.status}</p>
-        //         </div>
-        //     <p>${app.experience}</p>
-        //     <p>${serviceTitle}</p>
-        //     <p>${app.skills}</p>
-        //     <button class="accept-btn" data-id="${app.id}">Accept</button>
-        //     <button class="reject-btn" data-id="${app.id}">Reject</button>
-            
-        // `;
 
      // MASHAIR FIX - added photo, location, status in right place
 div.innerHTML = `
@@ -125,9 +113,6 @@ div.innerHTML = `
         };
     });
 }
-
-
-
 async function updateStatus(appId,status) {
   try {
     const response = await application.updateStatus(appId,status); 
