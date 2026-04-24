@@ -1,5 +1,15 @@
     // ===== CLIENT POST A JOB =====
     import { job, getJobpostData, saveJobpostData, data, bindLocationDropdown } from './client-shared.js';
+    const selectedJob = JSON.parse(sessionStorage.getItem("selectedJob"));
+
+if (selectedJob) {
+  // Pre-fill form fields with selected job data
+  document.getElementById("job-title").value = selectedJob.service_title;
+  document.getElementById("service-description").value = selectedJob.service_description;
+  document.getElementById("service-schedule").value = selectedJob.service_schedule;
+  document.getElementById("service-location").value = selectedJob.service_location;
+  document.getElementById("service-pay-rate").value = selectedJob.service_pay_rate.replace("€","").replace("/hour","");
+}
     document.addEventListener("DOMContentLoaded", () => {
     const jobpost = getJobpostData();
     const items = document.querySelectorAll(".service-item");
@@ -60,12 +70,40 @@
             return;
             }
             saveJobpostData({ selectedService, service_title, service_description, service_schedule, serviceFrequency, service_location, service_pay_rate});        
-            try{
-                await job.jobpost(service_type, service_title, service_description, service_schedule, service_frequency, service_location, service_pay_rate);   
-                alert("Job posted successfully!");
-                window.location.href = "client-dashboard.html"; 
-            } catch(error) {alert("Error posting job: " + error);
-            }
+           try {
+    if (selectedJob) {
+        // UPDATE existing job
+        await job.updateJob(
+            selectedJob.id,
+            service_type,
+            service_title,
+            service_description,
+            service_schedule,
+            service_frequency,
+            service_location,
+            service_pay_rate
+        );
+        alert("Job updated successfully!");
+        sessionStorage.removeItem("selectedJob");
+    } else {
+        // CREATE new job
+        await job.jobpost(
+            service_type,
+            service_title,
+            service_description,
+            service_schedule,
+            service_frequency,
+            service_location,
+            service_pay_rate
+        );
+        alert("Job posted successfully!");
+    }
+
+    window.location.href = "client-dashboard.html";
+
+} catch (error) {
+    alert("Error: " + error);
+}
 
         });
     };

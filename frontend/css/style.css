@@ -3032,6 +3032,22 @@ label{
   border-radius: 14px;
   margin: 12px 15px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  position: relative;
+}
+.client-dashboard-page .contain{
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+.client-dashboard-page .dropdown-menu{
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 25px;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  z-index: 100;
 }
 .postjob-btn{
   background: linear-gradient(to right, #7b3fe4, #3B1664);

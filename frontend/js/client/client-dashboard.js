@@ -47,15 +47,23 @@ function renderJobs(jobs) {
     return;
   }
 
-  jobs.forEach(job => {
+  jobs.forEach(jobItem => {
     const div = document.createElement("div");
     div.classList.add("jobs-card");
 
     div.innerHTML = `
-      <h3>${job.service_title}</h3>
-      <p>${job.service_schedule}</p>
-      <span>${job.service_location}</span><span style="padding: 20px">${job.service_pay_rate}</span>
-      <p>${job.service_description}</p>
+    <div class="contain">
+    <button class="menu-btn" style="background: none; border: none; font-size: 18px;cursor: pointer;">...</button>
+    <div class="dropdown-menu">
+      <div class="dropdown-item e-btn">Edit</div>
+      <div class="dropdown-item p-btn">Pause</div>
+      <div class="dropdown-item d-btn">Delete</div>
+    </div>
+    </div>
+      <h3>${jobItem.service_title}</h3>
+      <p>${jobItem.service_schedule}</p>
+      <span>${jobItem.service_location}</span><span style="padding: 20px">${jobItem.service_pay_rate}</span>
+      <p>${jobItem.service_description}</p>
       <button class="manage-applicants-btn" style="background: linear-gradient(to right, #7b3fe4, #3B1664);
   color: white;
   padding: 4px 15px;
@@ -68,13 +76,52 @@ function renderJobs(jobs) {
   margin-top: 10px;">Manage applicants</button>
     `;
     container.appendChild(div);
+    const menuBtn = div.querySelector(".menu-btn");
+const dropdown = div.querySelector(".dropdown-menu");
+
+menuBtn.addEventListener("click", (e) => {
+  e.stopPropagation();
+  dropdown.style.display =
+    dropdown.style.display === "block" ? "none" : "block";
+});
+
+document.addEventListener("click", () => {
+  dropdown.style.display = "none";
+});
+
+// edit Action
+div.querySelector(".e-btn").addEventListener("click", () => {
+  sessionStorage.setItem("selectedJob", JSON.stringify(jobItem));
+  window.location.href = "client-post.html"; 
+});
+
+div.querySelector(".p-btn").addEventListener("click", () => {
+  console.log("Pause", jobItem);
+});
+// delete Action
+div.querySelector(".d-btn").addEventListener("click", async () => {
+    const confirmDelete = confirm("Are you sure you want to delete this job?");
+    
+    if (!confirmDelete) return;
+
+    try {
+        await job.deleteJob(jobItem.id);
+
+        // remove from UI instantly
+        div.remove();
+
+        alert("Job deleted successfully");
+    } catch (error) {
+        alert("Delete failed: " + error.message);
+    }
+});
     const manageApplicantsBtn = div.querySelector(".manage-applicants-btn");
         manageApplicantsBtn.addEventListener("click", (event) => {
             event.preventDefault();
 
             window.location.href = "client-jobdetails.html";
 
-            sessionStorage.setItem("selectedJob", JSON.stringify(job));
+            sessionStorage.setItem("selectedJob", JSON.stringify(jobItem));
         });
   });
 }
