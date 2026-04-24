@@ -7,7 +7,7 @@ export const user = new User();
 export const job = new Job();
 export const application = new Application();
 
-const PROFILE_KEY = "PROFILE_DATA";
+export const PROFILE_KEY = "PROFILE_DATA";
 
 export function getProfileData() {
     return JSON.parse(sessionStorage.getItem(PROFILE_KEY)) || {};

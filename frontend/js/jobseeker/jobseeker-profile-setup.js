@@ -1,4 +1,4 @@
-import { user, getProfileData, saveProfileData } from './jobseeker-shared.js';
+import { user, getProfileData, saveProfileData, PROFILE_KEY } from './jobseeker-shared.js';
 document.addEventListener("DOMContentLoaded", () => {
     const profile = getProfileData();
     const currentUser = JSON.parse(sessionStorage.getItem("user")) || {}; // MASHAIR - added currentUser

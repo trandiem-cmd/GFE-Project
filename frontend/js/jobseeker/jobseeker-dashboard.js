@@ -43,82 +43,34 @@ user.getMessages(currentUser.id).then(messages => {
     msgDiv.innerHTML = `${unreadCount}<br>Messages`;
 }).catch(err => console.error(err));
 }
-/*
-// MASHAIR - load recommended jobs matching jobseeker's service
-if (document.getElementById('recommended-jobs')) {
-    const currentUser = JSON.parse(sessionStorage.getItem('user'));
-    // get jobseeker profile to find their service
-    fetch(`http://localhost:3001/user/${currentUser.id}`, {
-        headers: { 'Authorization': `Bearer ${currentUser.token}` }
-    })
-    .then(res => res.json())
-    .then(userData => {
-        if (userData.services) {
-            // load jobs matching their service
-            job.getJobByService(userData.services).then(jobs => {
-                const container = document.getElementById('recommended-jobs');
-                container.innerHTML = '';
-                if (jobs.length === 0) {
-                    container.innerHTML = '<p style="padding:10px; color:#572290;">No recommended jobs yet!</p>';
-                    return;
-                }
-                // show only first 2
-                jobs.slice(0, 2).forEach(j => {
-                    const div = document.createElement('div');
-                    div.className = 'job-card';
-                    div.innerHTML = `
-                        <div class="job-top">
-                            <h4>${j.service_title}</h4>
-                        </div>
-                        <p class="job-time">${j.service_schedule}</p>
-                        <p class="apply-location">
-                            <img src="./Assets/location_on.png" class="location-icon">
-                            ${j.service_location} • ${j.service_pay_rate}
-                        </p>
-                        <p class="job-desc">${j.service_description}</p>
-                        <div class="job-bottom">
-                            <button class="apply-btn">Apply Now</button>
-                        </div>
-                    `;
-                    div.querySelector('.apply-btn').addEventListener('click', () => {
-                        sessionStorage.setItem('selectedJob', JSON.stringify(j));
-                        window.location.href = 'jobseeker-apply-page.html';
-                    });
-                    container.appendChild(div);
-                });
-            });
-        }
-    });
-}
-*/
-        
-
-async function loadJobs() {
-        let allJobs = await job.getAllJob();
-        renderjobsByService(allJobs);
-    }
-
+    // GET RECOMMENDS JOBS
     if (document.getElementById("recommended-jobs")) {
-        await loadJobs();
-        const currentUser = JSON.parse(sessionStorage.getItem('user'));
-        // get jobseeker profile to find their service
-        fetch(`${BACKEND_URL}/user/${currentUser.id}`, {
-            headers: { 'Authorization': `Bearer ${currentUser.token}` }
-        })
+    const currentUser = JSON.parse(sessionStorage.getItem("user"));
+
+    fetch(`${BACKEND_URL}/user/${currentUser.id}`, {
+        headers: {
+            Authorization: `Bearer ${currentUser.token}`
+        }
+    })
         .then(res => res.json())
-        .then(userData => {
-            const service = userData.services.toLowerCase();
+        .then(async (userData) => {
+            const service = userData.services;
+            // Get job list by service
+            const jobList = await job.getJobByService(service);
+            renderjobsByService(jobList);
+            // Filter by location
             const location = userData.location.split("-")[0].trim().toLowerCase();
-            document.querySelectorAll('.job-card').forEach(card => {
-                card.style.display = 'none';
-                const title = card.querySelector('h4') ? card.querySelector('h4').textContent.toLowerCase() : '';
-                const loc = card.querySelector('.apply-location') ? card.querySelector('.apply-location').textContent.toLowerCase() : '';
-                const match = title.includes(service) && loc.includes(location);
-                card.style.display = match ? 'block' : 'none';
+            document.querySelectorAll(".job-card").forEach(card => {
+                const loc = card.querySelector(".apply-location")?.textContent.toLowerCase() || "";
+                card.style.display = loc.includes(location)
+                    ? "block"
+                    : "none";
             });
         })
-    }
-
+        .catch(error => {
+            console.error("Error loading recommended jobs:", error);
+        });
+}
    // DIEM - render jobs function
     function renderjobsByService(list) {
         const container = document.getElementById("recommended-jobs");
