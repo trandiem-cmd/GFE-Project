@@ -1,10 +1,19 @@
 import { User } from "../class/User.js";
-import { BACKEND_URL } from '../config.js';
+import { BACKEND_URL } from "../config.js";
+
 const user = new User();
 
+// ================= INIT =================
 document.addEventListener("DOMContentLoaded", () => {
-  loadProfile();
+  if (!user.isLoggedIn) {
+    window.location.href = "login.html";
+    return;
+  }
+
+  initEventListeners();
   initLocationDropdown();
+  loadProfile();
+
 
   // MASHAIR - eye icon toggle for password fields (same as jobseeker profile)
   document.querySelectorAll('.toggle-pw').forEach(span => {
@@ -26,70 +35,64 @@ document.addEventListener("DOMContentLoaded", () => {
 // ================= LOAD PROFILE =================
 async function loadProfile() {
   try {
-    if (!user.isLoggedIn) {
-      window.location.href = "login.html";
-      return;
-    }
-
-    const res = await fetch(`${BACKEND_URL}/profile/me`, {
+    const res = await fetch(`${BACKEND_URL}/user/${user.id}`, {
       headers: {
         Authorization: `Bearer ${user.token}`
       }
     });
+
+    if (!res.ok) throw new Error("Failed to load profile");
 
     const data = await res.json();
     renderProfile(data);
 
   } catch (err) {
     console.error("LOAD ERROR:", err);
+    alert("Failed to load profile");
   }
 }
 
 // ================= RENDER PROFILE =================
 function renderProfile(userData) {
-  const header = document.getElementById("header-name");
-  if (header) header.textContent = userData.fullname || "";
+  setText("header-name", userData.fullname);
+  setText("name-display", userData.fullname);
+  setText("phone-display", userData.contact_phone);
+  setText("email-display", userData.contact_email);
+  setText("location-display", userData.location);
 
-  document.getElementById("name-display").textContent = userData.fullname || "";
-  document.getElementById("phone-display").textContent = userData.contact_phone || "";
-  document.getElementById("email-display").textContent = userData.contact_email || "";
-  document.getElementById("location-display").textContent = userData.location || "";
+  setValue("name-input", userData.fullname);
+  setValue("phone-input", userData.contact_phone);
+  setValue("email-input", userData.contact_email);
+  setValue("location-input", userData.location);
 
-  document.getElementById("name-input").value = userData.fullname || "";
-  document.getElementById("phone-input").value = userData.contact_phone || "";
-  document.getElementById("email-input").value = userData.contact_email || "";
-  document.getElementById("location-input").value = userData.location || "";
-
+  // restore dropdown
   if (userData.location) {
-    const [savedCity, savedDistrict] = userData.location.split(" - ");
+    const [cityVal, districtVal] = userData.location.split(" - ");
     const city = document.getElementById("edit-city");
     const district = document.getElementById("edit-district");
+
     if (city && district) {
-      city.value = savedCity;
+      city.value = cityVal;
       city.dispatchEvent(new Event("change"));
+
       setTimeout(() => {
-        district.value = savedDistrict;
+        district.value = districtVal;
       }, 100);
     }
   }
 }
 
-// ================= EDIT BUTTON =================
-document.getElementById("editBtn").addEventListener("click", () => {
-  toggleEdit(true);
-});
-
-// ================= SAVE BUTTON =================
-document.getElementById("saveBtn").addEventListener("click", async () => {
+// ================= SAVE PROFILE =================
+async function saveProfile() {
   try {
     const body = {
-      fullname: document.getElementById("name-input").value,
-      contact_email: document.getElementById("email-input").value,
-      contact_phone: document.getElementById("phone-input").value,
-      location: document.getElementById("location-input").value,
+      fullname: getValue("name-input"),
+      contact_email: getValue("email-input"),
+      contact_phone: getValue("phone-input"),
+      location: getValue("location-input")
     };
 
-    await fetch(`${BACKEND_URL}/profile/me`, {
+    const res = await fetch(`${BACKEND_URL}/user/profile`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -98,65 +101,89 @@ document.getElementById("saveBtn").addEventListener("click", async () => {
       body: JSON.stringify(body)
     });
 
-    // ================= PASSWORD UPDATE =================
-    const currentPassword = document.getElementById("current-password").value;
-    const newPassword = document.getElementById("new-password").value;
-    const confirmPassword = document.getElementById("confirm-password").value;
+    if (!res.ok) throw new Error("Profile update failed");
 
-    if (currentPassword || newPassword || confirmPassword) {
-      if (newPassword !== confirmPassword) {
-        alert("Passwords do not match");
-        return;
-      }
-
-      const res = await fetch(`${BACKEND_URL}/profile/change-password`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user.token}`
-        },
-        body: JSON.stringify({
-          current_password: currentPassword,
-          new_password: newPassword
-        })
-      });
-
-      const data = await res.json();
-      if (!res.ok) {
-        alert(data.error);
-        return;
-      }
-    }
+    await handlePasswordChange();
 
     alert("Profile updated successfully!");
-    loadProfile();
     toggleEdit(false);
+    loadProfile();
 
   } catch (err) {
     console.error("UPDATE ERROR:", err);
+    alert(err.message);
   }
-});
+}
 
-// ================= CANCEL BUTTON =================
-document.getElementById("cancelBtn").addEventListener("click", () => {
-  toggleEdit(false);
-});
 
-// ================= TOGGLE EDIT MODE =================
+    // ================= PASSWORD CHANGE =================
+async function handlePasswordChange() {
+  const currentPassword = getValue("current-password");
+  const newPassword = getValue("new-password");
+  const confirmPassword = getValue("confirm-password");
+
+  if (!currentPassword && !newPassword && !confirmPassword) return;
+
+  if (newPassword !== confirmPassword) {
+    throw new Error("Passwords do not match");
+  }
+
+  const res = await fetch(`${BACKEND_URL}/user/change-password`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${user.token}`
+    },
+    body: JSON.stringify({
+      currentPassword,
+      newPassword
+    })
+  });
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    throw new Error(data.error || "Password change failed");
+  }
+}
+
+// ================= DELETE ACCOUNT =================
+async function deleteAccount() {
+  const confirmDelete = confirm("Are you sure you want to delete your account?");
+  if (!confirmDelete) return;
+
+  try {
+    const res = await fetch(`${BACKEND_URL}/user/${user.id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${user.token}`
+      }
+    });
+
+    if (!res.ok) throw new Error("Delete failed");
+
+    alert("Account deleted successfully");
+    user.logout();
+    window.location.href = "index.html";
+
+  } catch (err) {
+    console.error("DELETE ERROR:", err);
+    alert("Failed to delete account");
+  }
+}
+
+ // ================= TOGGLE EDIT =================
 function toggleEdit(isEdit) {
   const fields = ["name", "phone", "email", "location", "password"];
 
   fields.forEach(f => {
     const display = document.getElementById(`${f}-display`);
-    let input;
-
-    if (f === "location") {
-      input = document.getElementById("location-input-wrapper");
-    } else if (f === "password") {
-      input = document.getElementById("password-input-wrapper");
-    } else {
-      input = document.getElementById(`${f}-input`);
-    }
+    const input =
+      f === "location"
+        ? document.getElementById("location-input-wrapper")
+        : f === "password"
+        ? document.getElementById("password-input-wrapper")
+        : document.getElementById(`${f}-input`);
 
     if (display && input) {
       display.classList.toggle("d-none", isEdit);
@@ -164,8 +191,8 @@ function toggleEdit(isEdit) {
     }
   });
 
-  document.getElementById("editBtn").classList.toggle("d-none", isEdit);
-  document.getElementById("saveBtn").classList.toggle("d-none", !isEdit);
+  toggle("editBtn", isEdit);
+  toggle("saveBtn", !isEdit);
   document.getElementById("cancelBtn").style.display = isEdit ? "inline-block" : "none";
 }
 
@@ -187,14 +214,15 @@ function initLocationDropdown() {
   };
 
   city.addEventListener("change", () => {
-    const selectedCity = city.value;
+    const selected = city.value;
     district.innerHTML = `<option value="">Select district</option>`;
-    if (data[selectedCity]) {
-      data[selectedCity].forEach(d => {
-        const option = document.createElement("option");
-        option.value = d;
-        option.textContent = d;
-        district.appendChild(option);
+
+    if (data[selected]) {
+      data[selected].forEach(d => {
+        const opt = document.createElement("option");
+        opt.value = d;
+        opt.textContent = d;
+        district.appendChild(opt);
       });
     }
   });
@@ -204,26 +232,43 @@ function initLocationDropdown() {
       locationInput.value = `${city.value} - ${district.value}`;
     }
   });
+}
 
-  // ================= DELETE ACCOUNT =================
-  document.getElementById("deleteBtn").addEventListener("click", async () => {
-    const confirmDelete = confirm("Are you sure you want to delete your account? This cannot be undone.");
-    if (!confirmDelete) return;
+// ================= EVENTS =================
+function initEventListeners() {
+  document.getElementById("editBtn")?.addEventListener("click", () => toggleEdit(true));
+  document.getElementById("cancelBtn")?.addEventListener("click", () => toggleEdit(false));
+  document.getElementById("saveBtn")?.addEventListener("click", saveProfile);
+  document.getElementById("deleteBtn")?.addEventListener("click", deleteAccount);
 
-    try {
-      await fetch(`${BACKEND_URL}/profile/me`, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${user.token}`
-        }
-      });
+  // password toggle
+  document.querySelectorAll(".toggle-pw").forEach(icon => {
+    icon.addEventListener("click", () => {
+      const input = icon.parentElement.querySelector("input");
+      const isHidden = input.type === "password";
 
-      alert("Account deleted successfully");
-      user.logout();
-      window.location.href = "index.html";
-
-    } catch (err) {
-      console.error("DELETE ERROR:", err);
-    }
+      input.type = isHidden ? "text" : "password";
+      icon.classList.toggle("fa-eye", isHidden);
+      icon.classList.toggle("fa-eye-slash", !isHidden);
+    });
   });
+}
+
+// ================= HELPERS =================
+function getValue(id) {
+  return document.getElementById(id)?.value.trim() || "";
+}
+
+function setValue(id, value) {
+  const el = document.getElementById(id);
+  if (el) el.value = value || "";
+}
+
+function setText(id, value) {
+  const el = document.getElementById(id);
+  if (el) el.textContent = value || "";
+}
+
+function toggle(id, hide) {
+  document.getElementById(id)?.classList.toggle("d-none", hide);
 }
