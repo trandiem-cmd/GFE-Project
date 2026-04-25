@@ -88,11 +88,11 @@ CREATE TABLE contact_us (
 
 -- TABLE INBOX --
 
-DROP TABLE IF EXISTS inbox;
+DROP TABLE IF EXISTS inbox CASCADE;
 CREATE TABLE inbox (
   id SERIAL PRIMARY KEY,
-  sender_id INT REFERENCES users(id),
-  receiver_id INT REFERENCES users(id),
+  sender_id INT REFERENCES users(id) ON DELETE CASCADE,
+  receiver_id INT REFERENCES users(id) ON DELETE CASCADE,
   message_text TEXT NOT NULL,
   read BOOLEAN DEFAULT FALSE,
   created_at TIMESTAMP DEFAULT NOW()
