@@ -1,8 +1,11 @@
     // ===== CLIENT POST A JOB =====
     import { job, getJobpostData, saveJobpostData, data, bindLocationDropdown } from './client-shared.js';
-    const selectedJob = JSON.parse(sessionStorage.getItem("selectedJob"));
+    
 
-if (selectedJob) {
+
+    document.addEventListener("DOMContentLoaded", () => {
+    const selectedJob = JSON.parse(sessionStorage.getItem("selectedJob"));
+    if (selectedJob) {
   // Pre-fill form fields with selected job data
   document.getElementById("job-title").value = selectedJob.service_title;
   document.getElementById("service-description").value = selectedJob.service_description;
@@ -10,7 +13,6 @@ if (selectedJob) {
   document.getElementById("service-location").value = selectedJob.service_location;
   document.getElementById("service-pay-rate").value = selectedJob.service_pay_rate.replace("€","").replace("/hour","");
 }
-    document.addEventListener("DOMContentLoaded", () => {
     const jobpost = getJobpostData();
     const items = document.querySelectorAll(".service-item");
     let selectedService = jobpost.selectedService || null;
@@ -65,24 +67,27 @@ if (selectedJob) {
             const service_frequency = serviceFrequency?.type;
             const service_location = document.getElementById("service-location").value;
             const service_pay_rate = `€${document.getElementById("service-pay-rate").value}/hour`;
-            if (!service_type || !service_title || !service_description || !service_schedule|| !service_frequency|| !service_location|| !service_pay_rate) {
-            alert("Please fill in all required fields.");
-            return;
-            }
+            if (!selectedJob) {
+    // Only validate when creating new job
+    if (!service_type || !service_title || !service_description || !service_schedule || !service_frequency || !service_location || !service_pay_rate) {
+        alert("Please fill in all required fields.");
+        return;
+    }
+}
             saveJobpostData({ selectedService, service_title, service_description, service_schedule, serviceFrequency, service_location, service_pay_rate});        
            try {
     if (selectedJob) {
         // UPDATE existing job
         await job.updateJob(
-            selectedJob.id,
-            service_type,
-            service_title,
-            service_description,
-            service_schedule,
-            service_frequency,
-            service_location,
-            service_pay_rate
-        );
+    selectedJob.id,
+    service_type || selectedJob.service_type,
+    service_title || selectedJob.service_title,
+    service_description || selectedJob.service_description,
+    service_schedule || selectedJob.service_schedule,
+    service_frequency || selectedJob.service_frequency,
+    service_location || selectedJob.service_location,
+    service_pay_rate || selectedJob.service_pay_rate
+);
         alert("Job updated successfully!");
         sessionStorage.removeItem("selectedJob");
     } else {
@@ -108,3 +113,7 @@ if (selectedJob) {
         });
     };
     });
+
+    document.getElementById('back1-btn1')?.addEventListener('click', () => {
+    window.location.href = 'client-dashboard.html';
+});

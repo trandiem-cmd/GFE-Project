@@ -143,6 +143,28 @@ async deleteJob(id) {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`
         }
+        
+    });
+    
+
+    if (response.ok === true) {
+        return await response.json();
+    } else {
+        throw new Error(await response.text());
+    }
+}
+
+//  pause/unpause job post
+async pauseJob(id) {
+    const user = JSON.parse(sessionStorage.getItem('user'));
+    const token = user.token;
+
+    const response = await fetch(`${BACKEND_URL}/job/pause/${id}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        }
     });
 
     if (response.ok === true) {

@@ -96,6 +96,21 @@ jobRouter.put("/:id", auth, async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 });
+// Client pause/unpause job post
+jobRouter.put("/pause/:id", auth, async (req, res) => {
+    try {
+        const jobId = req.params.id;
+        const client_id = req.user.id;
+        const sql = `UPDATE jobposts SET is_paused = NOT is_paused WHERE id = $1 AND client_id = $2 RETURNING *`;
+        const result = await query(sql, [jobId, client_id]);
+        if (result.rows.length === 0) {
+            return res.status(404).json({ error: "Job not found or not yours" });
+        }
+        res.status(200).json(result.rows[0]);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
 // CLIENT DELETE A JOB POST
 jobRouter.delete("/:id", auth, async (req, res) => {
     try {

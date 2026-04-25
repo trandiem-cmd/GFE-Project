@@ -53,10 +53,10 @@ function renderJobs(jobs) {
 
     div.innerHTML = `
     <div class="contain">
-    <button class="menu-btn" style="background: none; border: none; font-size: 18px;cursor: pointer;">...</button>
+    <button class="menu-btn" style="background: none; border: none; font-size: 22px; cursor: pointer; color: #3B1664; font-weight: bold; letter-spacing: 3px;">...</button>
     <div class="dropdown-menu">
       <div class="dropdown-item e-btn">Edit</div>
-      <div class="dropdown-item p-btn">Pause</div>
+      <div class="dropdown-item p-btn">${jobItem.is_paused ? 'Unpause' : 'Pause'}</div>
       <div class="dropdown-item d-btn">Delete</div>
     </div>
     </div>
@@ -95,8 +95,19 @@ div.querySelector(".e-btn").addEventListener("click", () => {
   window.location.href = "client-post.html"; 
 });
 
-div.querySelector(".p-btn").addEventListener("click", () => {
-  console.log("Pause", jobItem);
+// pause job connected to backend
+div.querySelector(".p-btn").addEventListener("click", async () => {
+    try {
+const result = await job.pauseJob(jobItem.id);
+if (result.is_paused) {
+    alert("Job paused successfully!");
+} else {
+    alert("Job unpaused successfully!");
+}
+loadDashboard();
+    } catch (error) {
+        alert("Pause failed: " + error.message);
+    }
 });
 // delete Action
 div.querySelector(".d-btn").addEventListener("click", async () => {
@@ -177,3 +188,30 @@ function renderJobseekers(jobseekers) {
         container.appendChild(div);
     });
 }
+// Clear edit data when clicking "Post a new job"
+const postJobBtn = document.querySelector(".postjob-btn");
+
+if (postJobBtn) {
+  postJobBtn.addEventListener("click", () => {
+    sessionStorage.removeItem("selectedJob");
+    sessionStorage.removeItem("JOBPOST_DATA");
+  });
+}
+
+// Also fix menu link
+const menuLinks = document.querySelectorAll('a[href="client-post.html"]');
+
+menuLinks.forEach(link => {
+  link.addEventListener("click", () => {
+    sessionStorage.removeItem("selectedJob");
+    sessionStorage.removeItem("JOBPOST_DATA");
+  });
+});
+document.querySelector(".postjob-btn").addEventListener("click", () => {
+    sessionStorage.removeItem("selectedJob");
+});
+document.querySelectorAll('a[href="client-post.html"]').forEach(link => {
+    link.addEventListener("click", () => {
+        sessionStorage.removeItem("selectedJob");
+    });
+});

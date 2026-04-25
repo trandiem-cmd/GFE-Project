@@ -15,21 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
   loadProfile();
 
 
-  // MASHAIR - eye icon toggle for password fields (same as jobseeker profile)
-  document.querySelectorAll('.toggle-pw').forEach(span => {
-    span.addEventListener('click', function() {
-      const input = this.parentElement.querySelector('input');
-      if (input.type === 'password') {
-        input.type = 'text';
-        this.classList.remove('fa-eye-slash');
-        this.classList.add('fa-eye');
-      } else {
-        input.type = 'password';
-        this.classList.remove('fa-eye');
-        this.classList.add('fa-eye-slash');
-      }
-    });
-  });
+  
 });
 
 // ================= LOAD PROFILE =================

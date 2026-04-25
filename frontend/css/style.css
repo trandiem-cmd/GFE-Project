@@ -3368,3 +3368,54 @@ img[src=""] {
 .client-view-candidate-details .footer {
   margin-top: 200px;
 }
+/*client-jobads-page*/
+.client-jobads-page .jobs {
+  margin-top: 10px;
+}
+
+.client-jobads-page .jobs-card {
+  background: #dbd1e9;
+  padding: 14px;
+  border-radius: 14px;
+  margin: 12px 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  position: relative;
+}
+.client-jobads-page .contain{
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+.client-jobads-page .dropdown-menu{
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 25px;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  z-index: 100;
+}
+
+
+
+
+.client-dashboard-page .dropdown-menu {
+    background: #e9def5;
+    border: none;
+    border-radius: 12px;
+    padding: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.client-dashboard-page .dropdown-item {
+    color: #572290;
+    border-radius: 8px;
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+.client-dashboard-page .dropdown-item:hover {
+    background: #7b3fe4;
+    color: white;
+}

@@ -44,6 +44,7 @@ CREATE TABLE jobposts (
     service_frequency VARCHAR(20) NOT NULL CHECK (service_frequency IN ('regular', 'occasional')),
     service_location VARCHAR(255) NOT NULL,
     service_pay_rate VARCHAR(20) NOT NULL,
+    is_paused BOOLEAN DEFAULT false,
     created_at TIMESTAMP DEFAULT NOW(),
     updated_at TIMESTAMP DEFAULT NOW()
 );
