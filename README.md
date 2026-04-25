@@ -1,4 +1,4 @@
-# GFE-Project-
+# GFE-Project
 
 # GFE — Gig For Everyone
 
@@ -11,80 +11,51 @@ A web platform connecting people who need small local jobs done with trusted, ve
 
 ## Tech Stack
 - **Frontend:** HTML, CSS, JavaScript
-- **Backend:** Node.js, Express
+- **Backend:** Node.js, Express.js
 - **Database:** PostgreSQL
-- **Deployment:** Azure/render 
+- **Deployment:** Render 
+
+## Features
+- User Authentication (Register, Login, Logout)
+- Gig Browsing and Searching
+- Gig Posting and Management
+- Job Seeker Profile and Dashboard
+- Client Profile and Dashboard
+- Candidate Search and Applicant Management
+- Job Application Tracking
+- Messaging System
+- About Us and FAQ
 
 ## Pages
-- Landing page
+- Landing Page
 - Login / Register
-- Browse gigs
-- Post a gig
-- Job seeker profile
-- Client profile
-- Client page
-- Job seeker page
-- About us
+- Browse Gigs
+- Post a Gig
+- Job Seeker Profile
+- Job Seeker Dashboard
+- Client Profile
+- Client Dashboard
+- Candidate Search
+- Inbox
+- About Us
 - FAQ
 
 ## Project Structure
 ```
 gfe-project/
 ├── frontend/
-│   ├── index.html
-│   ├── signup.html
-│   ├── login.html
-│   ├── client-profile.html
-│   ├── client-dashboard.html
-│   ├── client-search.html
-│   ├── client-candidate.html
-│   ├── client-inbox.html
-│   ├── client-post.html
-│   ├── jobseeker-profile.html
-│   ├── jobseeker-dashboard.html
-│   ├── jobseeker-search.html
-│   ├── jobseeker-inbox.html
-│   ├── jobseeker-application.html
-│   ├── about.html
-│   ├── contact.html
-│   ├── faq.html
+│   ├── Assets/
 │   ├── css/
-│   │    └── style.css
-│   ├── assets/
-│   │    ├── images/
 │   ├── js/
-│   │    ├── class/
-│   │    │   ├── User.js
-│   │    │   ├── Job.js
-│   │    │   ├── Application.js
-│   │    ├── register.js
-│   │    ├── login.js
-│   │    ├── logout.js
-│   │    ├── client.js
-│   │    ├── jobseeker.js
-│   │    ├── apply.js
-│   │    ├── index.js
+│   └── *.html
 ├── backend/
-│   ├── models/
-│   │    ├── User.js
-│   │    ├── Profile.js
-│   │    ├── Job.js
-│   │    ├── Application.js
-│   ├── routes/
-│   │    ├── user.js
-│   │    ├── job.js
-│   │    ├── contact.js
-│   │    ├── inbox.js
-│   │    ├── apply.js
 │   ├── helpers/
-│   │    ├── db.js
-│   │    ├── auth.js
-│   │    ├── hash.js
+│   ├── routes/
+│   ├── uploads/
+│   ├── client.rest
 │   ├── index.js
-│   ├── er-diagram.png
-│   ├── gfe.sql            
-│   ├── package.json
-│   └── .env
+│   ├── gfe.sql
+│   └── package.json
 └── README.md
 ```
 ## Database ER Diagram
@@ -95,3 +66,6 @@ Web Programming Project — ID00DW07-3003
 Oulu University of Applied Sciences (Oamk)  
 Sprint period: 16.3 – 24.4.2026  
 Final presentation: 29.4.2026
+
+## Project Purpose
+This project was developed as part of the Web Programming course at Oamk. The goal was to design and implement a full-stack web application that solves a real-world problem while applying modern web development practices.
