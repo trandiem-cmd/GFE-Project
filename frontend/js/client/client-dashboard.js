@@ -177,3 +177,30 @@ function renderJobseekers(jobseekers) {
         container.appendChild(div);
     });
 }
+// Clear edit data when clicking "Post a new job"
+const postJobBtn = document.querySelector(".postjob-btn");
+
+if (postJobBtn) {
+  postJobBtn.addEventListener("click", () => {
+    sessionStorage.removeItem("selectedJob");
+    sessionStorage.removeItem("JOBPOST_DATA");
+  });
+}
+
+// Also fix menu link
+const menuLinks = document.querySelectorAll('a[href="client-post.html"]');
+
+menuLinks.forEach(link => {
+  link.addEventListener("click", () => {
+    sessionStorage.removeItem("selectedJob");
+    sessionStorage.removeItem("JOBPOST_DATA");
+  });
+});
+document.querySelector(".postjob-btn").addEventListener("click", () => {
+    sessionStorage.removeItem("selectedJob");
+});
+document.querySelectorAll('a[href="client-post.html"]').forEach(link => {
+    link.addEventListener("click", () => {
+        sessionStorage.removeItem("selectedJob");
+    });
+});
