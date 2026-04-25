@@ -15,7 +15,10 @@ if (searchInput) {
 // ===== JOB OFFERS PAGE =====
     async function loadJobs() {
         let allJobs = await job.getAllJob();
-        renderjobsByService(allJobs);
+         const appliedJobs = await application.getApplications('all');
+    const appliedJobIds = appliedJobs.map(a => a.job_id);
+    renderjobsByService(allJobs, appliedJobIds);
+        
 
         document.querySelectorAll(".service-btn").forEach(btn => {
             btn.addEventListener("click", async () => {
@@ -23,7 +26,7 @@ if (searchInput) {
                 btn.classList.add("active");
                 const jobsByService = btn.dataset.filter;
                 let jobpostsList = await job.getJobByService(jobsByService);
-                renderjobsByService(jobpostsList);
+               renderjobsByService(jobpostsList, appliedJobIds);
             });
         });
     }
@@ -33,7 +36,7 @@ if (searchInput) {
     }
 
    // DIEM - render jobs function
-    function renderjobsByService(list) {
+    function renderjobsByService(list, appliedJobIds = []) {
         const container = document.getElementById("job-list");
         container.innerHTML = "";
         // MASHAIR FIX - use user-specific key so saved jobs don't mix between users
@@ -60,12 +63,18 @@ if (searchInput) {
             container.appendChild(div);
 
             const applyBtn = div.querySelector(".apply-btn");
+            if (appliedJobIds.includes(job.id)) {
+    applyBtn.textContent = 'Already Applied';
+    applyBtn.disabled = true;
+    applyBtn.style.background = '#ccc';
+    applyBtn.style.cursor = 'not-allowed';
+} else {
             applyBtn.addEventListener("click", (event) => {
                 event.preventDefault();
                 sessionStorage.setItem("selectedJob", JSON.stringify(job));
                 window.location.href = "jobseeker-apply-page.html";
             });
-
+        }  
             // MASHAIR FIX - select icon from current card only
             const icon = div.querySelector('.heart-icon');
             const jobTitle = job.service_title;
