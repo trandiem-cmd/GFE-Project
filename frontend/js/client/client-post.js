@@ -113,3 +113,7 @@
         });
     };
     });
+
+    document.getElementById('back1-btn1')?.addEventListener('click', () => {
+    window.location.href = 'client-dashboard.html';
+});

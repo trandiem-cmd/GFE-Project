@@ -3396,3 +3396,26 @@ img[src=""] {
   border-radius: 6px;
   z-index: 100;
 }
+
+
+
+
+.client-dashboard-page .dropdown-menu {
+    background: #e9def5;
+    border: none;
+    border-radius: 12px;
+    padding: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.client-dashboard-page .dropdown-item {
+    color: #572290;
+    border-radius: 8px;
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+.client-dashboard-page .dropdown-item:hover {
+    background: #7b3fe4;
+    color: white;
+}
