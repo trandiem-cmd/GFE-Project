@@ -32,7 +32,7 @@ jobRouter.get("/dashboard",auth,async(req,res)=>{
 // JOBSEEKER SEARCH ALL JOBS
 jobRouter.get("/search",auth,async(req,res)=>{
     try{
-        const sql = "SELECT * FROM jobposts"
+        const sql = "SELECT * FROM jobposts WHERE is_paused = false"
         const result = await query(sql,[])
         res.status(200).json(result.rows) 
     } catch (error) {
@@ -44,7 +44,7 @@ jobRouter.get("/search",auth,async(req,res)=>{
 jobRouter.get("/search/:service",auth,async(req,res)=>{
     try{
         const service = req.params.service;
-        const sql = "SELECT * FROM jobposts WHERE service_type = $1"
+        const sql = "SELECT * FROM jobposts WHERE service_type = $1 AND is_paused = false"
         const result = await query(sql,[service])
         res.status(200).json(result.rows) 
     } catch (error) {
