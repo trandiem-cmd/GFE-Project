@@ -27,3 +27,20 @@ document.querySelector('#signup-btn').addEventListener('click',(event) => {
       alert(error)
     })
 })
+
+// MASHAIR - eye icon toggle for password field
+const togglePassword = document.getElementById('togglePassword');
+if (togglePassword) {
+    togglePassword.addEventListener('click', function() {
+        const password = document.getElementById('password');
+        if (password.type === 'password') {
+            password.type = 'text';
+            this.classList.remove('fa-eye-slash');
+            this.classList.add('fa-eye');
+        } else {
+            password.type = 'password';
+            this.classList.remove('fa-eye');
+            this.classList.add('fa-eye-slash');
+        }
+    });
+}

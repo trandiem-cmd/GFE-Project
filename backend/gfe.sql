@@ -44,6 +44,7 @@ CREATE TABLE jobposts (
     service_frequency VARCHAR(20) NOT NULL CHECK (service_frequency IN ('regular', 'occasional')),
     service_location VARCHAR(255) NOT NULL,
     service_pay_rate VARCHAR(20) NOT NULL,
+    is_paused BOOLEAN DEFAULT false,
     created_at TIMESTAMP DEFAULT NOW(),
     updated_at TIMESTAMP DEFAULT NOW()
 );
@@ -87,11 +88,11 @@ CREATE TABLE contact_us (
 
 -- TABLE INBOX --
 
-DROP TABLE IF EXISTS inbox;
+DROP TABLE IF EXISTS inbox CASCADE;
 CREATE TABLE inbox (
   id SERIAL PRIMARY KEY,
-  sender_id INT REFERENCES users(id),
-  receiver_id INT REFERENCES users(id),
+  sender_id INT REFERENCES users(id) ON DELETE CASCADE,
+  receiver_id INT REFERENCES users(id) ON DELETE CASCADE,
   message_text TEXT NOT NULL,
   read BOOLEAN DEFAULT FALSE,
   created_at TIMESTAMP DEFAULT NOW()

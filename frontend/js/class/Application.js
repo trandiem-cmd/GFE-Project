@@ -93,6 +93,7 @@ class Application {
             throw new Error(err.error);
         }
     }
+
     // get applicants by jobpost id
     async getApplicants(postId){
         const user = JSON.parse(sessionStorage.getItem('user'));
@@ -128,6 +129,29 @@ class Application {
        }else {
         throw response.statusText
        }
+    }
+    // == DOWNLOAD CV == //
+    async downloadCV(applicationId) {
+        const user = JSON.parse(sessionStorage.getItem('user'));
+        const res = await fetch(`${BACKEND_URL}/application/download-cv/${applicationId}`,
+            {
+                headers: {
+                Authorization: `Bearer ${user.token}`
+                }
+            }
+        );
+        if (!res.ok) {
+            const err = await res.json();
+            alert(err.error || "Download failed");
+            return;
+        }
+        const blob = await res.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "cv.pdf";
+        a.click();
+        window.URL.revokeObjectURL(url);
     }   
 }
 

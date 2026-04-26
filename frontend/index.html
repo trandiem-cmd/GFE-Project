@@ -12,28 +12,17 @@
     <div class="container-fluid">
       <img src="./Assets/GFE logo.png" alt="GFE logo" class="logo">
     <div class="login-dropdown ms-auto">
-      <div class="right-side">
-      <a href="signup.html" class="logout-btn">sign up</a>
-      <a href="login.html" class="logout-btn">log in</a>
-      <img src="./Assets/menu-icon.png" class="menu-icon" onclick="openMenu()">
-    </div>
-  </div>
-
-  <div id="menuOverlay" class="menu-overlay-home">
-    <div class="menu-card-home">
-      <div class="menu-top-home">
-        <img src="./Assets/GFE logo.png" class="logo">
-        <span class="close-btn" onclick="closeMenu()">✕</span>
-      </div>
-      <div class="menu-content">
-       <a href="index.html">Home</a>
-        <a href="about.html">About us</a>
-        <a href="contact.html">Contact us</a>
-        <a href="faq.html">FAQ</a>
-      </div>
-    </div>
-
-  </div>
+      <a href="signup.html" class="logout-btn">Sign up</a>
+      <a href="login.html" class="logout-btn">Log in</a>
+      <button class="btn btn-secondary" type="button" data-bs-toggle="dropdown">
+          <img src="./Assets/menu-icon.png" class="menu-icon" alt="Menu">
+      </button>
+        <ul class="dropdown-menu dropdown-menu-end">
+            <li><a class="dropdown-item" href="./index.html">Home</a></li>
+            <li><a class="dropdown-item" href="./about.html">About Us</a></li>
+            <li><a class="dropdown-item" href="./contact.html">Contact Us</a></li>
+            <li><a class="dropdown-item" href="./faq.html">FAQ</a></li>
+        </ul>
       </div>
     </div>
   </nav>
@@ -43,12 +32,15 @@
       <h1>Hire Trusted Help.</h1>
       <p>Small jobs, verified workers, simple process.</p>
   </div>
-  <div class="option-btns">
-  <a href="./client-search.html" class="option-btn">I need a worker</a>
-  <a href="./jobseeker-search.html" class="option-btn">I need a job</a>
+  <!-- MASHAIR - replaced basic links with toggle button style like Yoopies -->
+<div class="hero-toggle">
+  <button class="toggle-btn active" id="workerBtn">I need a worker</button>
+  <button class="toggle-btn" id="jobBtn">I need a job</button>
+  <div class="toggle-slider"></div>
 </div>
   
-<div id="carouselExampleIndicators" class="carousel slide">
+<!-- MASHAIR - added auto-slide every 3 seconds -->
+<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2000">
   <div class="carousel-indicators">
     <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
     <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
@@ -120,6 +112,8 @@
       document.getElementById("menuOverlay").style.display = "none";
     }
   </script>
+  <!-- MASHAIR - toggle button script -->
+<script src="js/index.js"></script>
   </div>
 </body>
 </html>

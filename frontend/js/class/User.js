@@ -254,6 +254,37 @@ async sendMessage(sender_id, receiver_id, message_text) {
 }
 
 
+      // MASHAIR - get all clients for inbox
+async getClients() {
+    const response = await fetch(`${BACKEND_URL}/user/clients`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${this.#token}`
+        }
+    });
+    if (response.ok === true) {
+        return await response.json();
+    } else {
+        throw response.statusText;
+    }
+}
+
+// MASHAIR - upload photo
+async uploadPhoto(formData) {
+    const response = await fetch(`${BACKEND_URL}/user/upload-photo`, {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${this.#token}`
+        },
+        body: formData
+    });
+    if (response.ok === true) {
+        return await response.json();
+    } else {
+        throw response.statusText;
+    }
+}
 async getProfile(userId) {
     const response = await fetch(`${BACKEND_URL}/user/${userId}`, {
         method: 'GET',
@@ -313,15 +344,20 @@ async changePassword(currentPassword, newPassword) {
     }
 }
   async logout() {
-    this.#id = undefined
-    this.#email = undefined
-    this.#token = undefined
-    sessionStorage.clear();
-    localStorage.removeItem('savedJobs');
-  }
-         
+  const userId = this.#id; // store before clearing
+
+  localStorage.removeItem(`savedJobs_${userId}`);
+  sessionStorage.clear();
+
+  this.#id = undefined;
+  this.#email = undefined;
+  this.#token = undefined;
+}
 }
 
 
 
 export { User }
+
+
+

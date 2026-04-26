@@ -90,6 +90,89 @@ class Job {
         throw response.statusText
        }
     }
+    // update job post
+    async updateJob(
+    id,
+    service_type,
+    service_title,
+    service_description,
+    service_schedule,
+    service_frequency,
+    service_location,
+    service_pay_rate
+) {
+    const user = JSON.parse(sessionStorage.getItem('user'));
+    const token = user.token;
+
+    const response = await fetch(`${BACKEND_URL}/job/${id}`, {
+        method: 'PUT', // or PATCH depending on backend
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+            service_type,
+            service_title,
+            service_description,
+            service_schedule,
+            service_frequency,
+            service_location,
+            service_pay_rate
+        })
+    });
+
+    if (response.ok === true) {
+        const json = await response.json();
+
+        // update session storage
+        sessionStorage.setItem('jobpost', JSON.stringify(json));
+
+        return json;
+    } else {
+        throw new Error(await response.text());
+    }
+}
+// delete job post
+async deleteJob(id) {
+    const user = JSON.parse(sessionStorage.getItem('user'));
+    const token = user.token;
+
+    const response = await fetch(`${BACKEND_URL}/job/${id}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        }
+        
+    });
+    
+
+    if (response.ok === true) {
+        return await response.json();
+    } else {
+        throw new Error(await response.text());
+    }
+}
+
+//  pause/unpause job post
+async pauseJob(id) {
+    const user = JSON.parse(sessionStorage.getItem('user'));
+    const token = user.token;
+
+    const response = await fetch(`${BACKEND_URL}/job/pause/${id}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        }
+    });
+
+    if (response.ok === true) {
+        return await response.json();
+    } else {
+        throw new Error(await response.text());
+    }
+}
     async getJob (){
         const user = JSON.parse(sessionStorage.getItem('user'));   
         const token = user.token;
@@ -141,6 +224,6 @@ class Job {
        }else {
         throw response.statusText
        }
-    }        
+    }      
 };
 export { Job };

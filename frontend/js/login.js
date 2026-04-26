@@ -12,7 +12,6 @@ document.querySelectorAll(".role-btn").forEach(btn => {
         document.getElementById("role").value = selectedRole;
     });
 });
-
 // LOGIN AS CLIENT
 document.querySelector('#login-btn1').addEventListener('click', async (event) => {
   event.preventDefault()
@@ -28,8 +27,9 @@ document.querySelector('#login-btn1').addEventListener('click', async (event) =>
       window.location.href = "client-profile1.html"
     }
   } catch(error) {
-    alert(error)
-  }
+    // MASHAIR FIX - show friendly error with sign up link
+    document.getElementById('errorMsg').style.display = 'block';
+}
 })
 
 // LOGIN AS JOBSEEKER
@@ -47,6 +47,25 @@ document.querySelector('#login-btn2').addEventListener('click', async (event) =>
       window.location.href = "jobseeker-profile1.html"
     }
   } catch(error) {
-    alert(error)
-  }
+    // MASHAIR FIX - show friendly error with sign up link
+    document.getElementById('errorMsg').style.display = 'block';
+}
 })
+
+// MASHAIR - eye icon toggle for password field
+const togglePassword = document.getElementById('togglePassword');
+if (togglePassword) {
+    togglePassword.addEventListener('click', function() {
+        const password = document.getElementById('password');
+        if (password.type === 'password') {
+            password.type = 'text';
+            this.classList.remove('fa-eye-slash');
+            this.classList.add('fa-eye');
+        } else {
+            password.type = 'password';
+            this.classList.remove('fa-eye');
+            this.classList.add('fa-eye-slash');
+        }
+    });
+}
+

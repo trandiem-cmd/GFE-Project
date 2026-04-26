@@ -32,7 +32,7 @@ jobRouter.get("/dashboard",auth,async(req,res)=>{
 // JOBSEEKER SEARCH ALL JOBS
 jobRouter.get("/search",auth,async(req,res)=>{
     try{
-        const sql = "SELECT * FROM jobposts"
+        const sql = "SELECT * FROM jobposts WHERE is_paused = false"
         const result = await query(sql,[])
         res.status(200).json(result.rows) 
     } catch (error) {
@@ -44,7 +44,7 @@ jobRouter.get("/search",auth,async(req,res)=>{
 jobRouter.get("/search/:service",auth,async(req,res)=>{
     try{
         const service = req.params.service;
-        const sql = "SELECT * FROM jobposts WHERE service_type = $1"
+        const sql = "SELECT * FROM jobposts WHERE service_type = $1 AND is_paused = false"
         const result = await query(sql,[service])
         res.status(200).json(result.rows) 
     } catch (error) {
@@ -52,4 +52,87 @@ jobRouter.get("/search/:service",auth,async(req,res)=>{
         res.status(500).json({error: error})
     }
 })
+// CLIENT UPDATE A JOB POST
+jobRouter.put("/:id", auth, async (req, res) => {
+    try {
+        const jobId = req.params.id;
+        const client_id = req.user.id;
+
+        const sql = `
+            UPDATE jobposts
+            SET
+                service_type = $1,
+                service_title = $2,
+                service_description = $3,
+                service_schedule = $4,
+                service_frequency = $5,
+                service_location = $6,
+                service_pay_rate = $7
+            WHERE id = $8 AND client_id = $9
+            RETURNING *
+        `;
+
+        const values = [
+            req.body.service_type,
+            req.body.service_title,
+            req.body.service_description,
+            req.body.service_schedule,
+            req.body.service_frequency,
+            req.body.service_location,
+            req.body.service_pay_rate,
+            jobId,
+            client_id
+        ];
+
+        const result = await query(sql, values);
+
+        if (result.rows.length === 0) {
+            return res.status(404).json({ error: "Job not found or not yours" });
+        }
+
+        res.status(200).json(result.rows[0]);
+
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+// Client pause/unpause job post
+jobRouter.put("/pause/:id", auth, async (req, res) => {
+    try {
+        const jobId = req.params.id;
+        const client_id = req.user.id;
+        const sql = `UPDATE jobposts SET is_paused = NOT is_paused WHERE id = $1 AND client_id = $2 RETURNING *`;
+        const result = await query(sql, [jobId, client_id]);
+        if (result.rows.length === 0) {
+            return res.status(404).json({ error: "Job not found or not yours" });
+        }
+        res.status(200).json(result.rows[0]);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+// CLIENT DELETE A JOB POST
+jobRouter.delete("/:id", auth, async (req, res) => {
+    try {
+        const jobId = req.params.id;
+        const client_id = req.user.id;
+
+        const sql = `
+            DELETE FROM jobposts
+            WHERE id = $1 AND client_id = $2
+            RETURNING *
+        `;
+
+        const result = await query(sql, [jobId, client_id]);
+
+        if (result.rows.length === 0) {
+            return res.status(404).json({ error: "Job not found or not yours" });
+        }
+
+        res.status(200).json({ message: "Job deleted successfully" });
+
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
 module.exports = {jobRouter};
