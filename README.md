@@ -9,11 +9,15 @@ A web platform connecting people who need small local jobs done with trusted, ve
 🔗 Frontend Demo:
 🔗 [Open Live Demo](https://gfe-project-frontend3.onrender.com/)
 
-## 🖼 Project Poster
-📄 [View Project Poster](docs/GFE_Poster.pdf)
-
 ## 🎤 Project Presentation
-📥 [Download Presentation](docs/GFE%20presentation%20%284%29.pdf)
+📥 [Download Presentation](docs/GFE%20presentation%20%284%29.pdf)  
+📂 Location: docs/GFE presentation (4).pdf  
+
+🌐 [View Online (Canva)](https://canva.link/nib8nf7l53idy4t)
+
+## 🖼 Project Poster
+📄 [View Poster](docs/GFE_Poster.pdf)  
+📂 Location: docs/GFE_Poster.pdf
 
 
 ## Team
