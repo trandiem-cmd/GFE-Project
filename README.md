@@ -74,7 +74,7 @@ gfe-project/
 │   └── package.json
 ├── docs/
 │   ├── GFE_Project_Poster.pdf
-│   └── GFE presentation (4).pdf
+│   └── GFE_Presentation.pdf
 └── README.md
 ```
 ## Database ER Diagram
