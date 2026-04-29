@@ -4,6 +4,19 @@
 
 A web platform connecting people who need small local jobs done with trusted, verified workers.
 
+🌐 Live Demo
+
+🔗 Frontend Demo:
+https://gfe-project-frontend3.onrender.com/
+
+## 🖼 Project Poster
+📄 [View Project Poster](docs/GFE_Project_Poster.pdf)
+
+## 🎤 Project Presentation
+📊 [View Project Presentation](docs/GFE_Project_Presentation.pdf)
+
+
+
 ## Team
 - Mashair
 - Upeksha
@@ -56,6 +69,9 @@ gfe-project/
 │   ├── index.js
 │   ├── gfe.sql
 │   └── package.json
+├── docs/
+│   ├── GFE_Project_Poster.pdf
+│   └── GFE_Project_Presentation.pdf
 └── README.md
 ```
 ## Database ER Diagram
