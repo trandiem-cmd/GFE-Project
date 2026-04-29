@@ -7,14 +7,13 @@ A web platform connecting people who need small local jobs done with trusted, ve
 🌐 Live Demo
 
 🔗 Frontend Demo:
-https://gfe-project-frontend3.onrender.com/
+🔗 [Open Live Demo](https://gfe-project-frontend3.onrender.com/)
 
 ## 🖼 Project Poster
-📄 [View Project Poster](docs/GFE_Project_Poster.pdf)
+📄 [View Project Poster](docs/GFE_Poster.pdf)
 
 ## 🎤 Project Presentation
-📊 [View Project Presentation](docs/GFE_Project_Presentation.pdf)
-
+📊 [Download Presentation](docs/GFE%20presentation%20(4).pdf)
 
 
 ## Team
@@ -71,7 +70,7 @@ gfe-project/
 │   └── package.json
 ├── docs/
 │   ├── GFE_Project_Poster.pdf
-│   └── GFE_Project_Presentation.pdf
+│   └── GFE presentation (4).pdf
 └── README.md
 ```
 ## Database ER Diagram
