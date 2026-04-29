@@ -13,7 +13,7 @@ A web platform connecting people who need small local jobs done with trusted, ve
 📄 [View Project Poster](docs/GFE_Poster.pdf)
 
 ## 🎤 Project Presentation
-📊 [Download Presentation](docs/GFE%20presentation%20(4).pdf)
+📥 [Download Presentation](docs/GFE%20presentation%20%284%29.pdf)
 
 
 ## Team
